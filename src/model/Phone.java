@@ -31,7 +31,7 @@ public class Phone
 		if (this.conversations == null) return unreadMessages;
 		
 		for (Conversation conversation: this.conversations)
-			for (Message message: conversation.getMessagesReceived())
+			for (Message message: conversation.getInbox())
 				if (message.getRead())
 					unreadMessages++;
 		return unreadMessages;
@@ -73,40 +73,23 @@ public class Phone
 	public ArrayList<Contact> getContacts() {
 		return contacts;
 	}
-	/*public void addContact(Contact contact) {
-		if (contact != null)
-			this.contacts.add(contact);
-		else
-			System.out.println("Contact points to null.");
-	}*/
 	
 	/**
 	 * Adds new contact to alphabetically sorted position in contacts
 	 * @param contacts to add
 	 */
-	public void addContact(Contact newContact)
+	public void addContact(Contact contact)
 	{
-		if (contacts == null) {
-			contacts.add(newContact);
-			return;
+		boolean caught = false;
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contact.compareTo(contacts.get(i)) < 0) {
+				contacts.add(i, contact);
+				caught = true;
+				break;
+			}
 		}
-		
-		// If newContact is first...
-		if (newContact.compareTo(contacts.get(0)) < 0) {
-			ArrayList<Contact> tempArray = new ArrayList<Contact>();
-			tempArray.add(newContact);
-			for (Contact tempContact: contacts)
-				tempArray.add(tempContact);
-			contacts = tempArray;
-		}
-		// If newContact is last...
-		else if (newContact.compareTo(contacts.get(contacts.size()-1)) > 0)
-			contacts.add(newContact);
-		// And otherwise...
-		else
-			for (int i = 1; i < contacts.size(); i++)
-				if (newContact.compareTo(contacts.get(i)) < 0 && newContact.compareTo(contacts.get(i-1)) > 0)
-					contacts.add(i, newContact);
+		if (!caught)
+			contacts.add(contact);
 	}
 	
 	/**

@@ -1,9 +1,8 @@
 package model;
 
 import java.util.Date;
-import java.util.ArrayList;
 
-public class Call 
+public class Call implements Comparable<Call>
 {
 	private Date dateTime;
 	private int duration;
@@ -57,4 +56,12 @@ public class Call
 		return contact;
 	}
 
+	@Override
+	public int compareTo(Call call) {
+		if (call == null) {
+			System.out.println("compareTo(): Call points to null.");
+			return 0;
+		}
+		return this.dateTime.compareTo(call.getDateTime());
+	}
 }

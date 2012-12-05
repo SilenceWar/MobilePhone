@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Message 
+public class Message implements Comparable<Message>
 {
 	private Date dateTime;
 	private String content;
@@ -43,5 +43,15 @@ public class Message
 	public boolean getRead() 
 	{
 		return read;
+	}
+	
+
+	@Override
+	public int compareTo(Message message) {
+		if (message == null) {
+			System.out.println("compareTo(): Message points to null.");
+			return 0;
+		}
+		return this.getDateTime().compareTo(message.getDateTime());
 	}
 }

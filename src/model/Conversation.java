@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Conversation 
+public class Conversation implements Comparable<Conversation>
 {
 	private String phoneNumber;
 	private ArrayList<Message> outbox;
@@ -79,5 +79,15 @@ public class Conversation
 	{
 		Message NewMessage = new Message(new Date(),"hej",false);
 		addMessage(sent, NewMessage);
+	}
+	
+
+	@Override
+	public int compareTo(Conversation conversation) {
+		if (conversation == null) {
+			System.out.println("compareTo(): Conversation points to null.");
+			return 0;
+		}
+		return this.getDate().compareTo(conversation.getDate());
 	}
 }
