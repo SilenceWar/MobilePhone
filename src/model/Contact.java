@@ -1,9 +1,9 @@
 package model;
 
-public class Contact 
+public class Contact implements Comparable<Contact>
 {
-	String name;
-	String phoneNumber;
+	private String name;
+	private String phoneNumber;
 	
 	public Contact (String name, String phoneNumber)
 	{
@@ -37,5 +37,15 @@ public class Contact
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@Override
+	public int compareTo(Contact contact) 
+	{
+		if (contact == null) {
+			System.out.println("compareTo(): Contact points to null.");
+			return 0;
+		}
+		return this.name.compareTo(contact.getName());
 	}
 }

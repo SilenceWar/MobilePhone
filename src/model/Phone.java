@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public class Phone
 {
-	String number;
-	ArrayList<Call> calls;
-	ArrayList<Contact> contacts;
-	ArrayList<Conversation> conversations;
-	Date systemTime;
+	private String number;
+	private ArrayList<Call> calls;
+	private ArrayList<Contact> contacts;
+	private ArrayList<Conversation> conversations;
 	
 	public Phone (String number)
 	{
@@ -16,6 +15,11 @@ public class Phone
 		this.calls = new ArrayList<Call>();
 		this.contacts = new ArrayList<Contact>();
 		this.conversations = new ArrayList<Conversation>();
+	}
+	
+	public void receiveMessage (String number, String content)
+	{
+		
 	}
 	
 	/**
@@ -27,7 +31,7 @@ public class Phone
 		if (this.conversations == null) return unreadMessages;
 		
 		for (Conversation conversation: this.conversations)
-			for (Message message: conversation)
+			for (Message message: conversation.getMessagesReceived())
 				if (message.getRead())
 					unreadMessages++;
 		return unreadMessages;
@@ -69,14 +73,40 @@ public class Phone
 	public ArrayList<Contact> getContacts() {
 		return contacts;
 	}
-	/**
-	 * @param contacts to add
-	 */
-	public void addContact(Contact contact) {
+	/*public void addContact(Contact contact) {
 		if (contact != null)
 			this.contacts.add(contact);
 		else
 			System.out.println("Contact points to null.");
+	}*/
+	
+	/**
+	 * Adds new contact to alphabetically sorted position in contacts
+	 * @param contacts to add
+	 */
+	public void addContact(Contact newContact)
+	{
+		if (contacts == null) {
+			contacts.add(newContact);
+			return;
+		}
+		
+		// If newContact is first...
+		if (newContact.compareTo(contacts.get(0)) < 0) {
+			ArrayList<Contact> tempArray = new ArrayList<Contact>();
+			tempArray.add(newContact);
+			for (Contact tempContact: contacts)
+				tempArray.add(tempContact);
+			contacts = tempArray;
+		}
+		// If newContact is last...
+		else if (newContact.compareTo(contacts.get(contacts.size()-1)) > 0)
+			contacts.add(newContact);
+		// And otherwise...
+		else
+			for (int i = 1; i < contacts.size(); i++)
+				if (newContact.compareTo(contacts.get(i)) < 0 && newContact.compareTo(contacts.get(i-1)) > 0)
+					contacts.add(i, newContact);
 	}
 	
 	/**
