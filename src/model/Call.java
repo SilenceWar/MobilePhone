@@ -2,17 +2,22 @@ package model;
 
 import java.util.Date;
 import java.util.ArrayList;
-//skal muligvis ikke bruges her ^^
 
 public class Call 
 {
-	
 	private Date dateTime;
 	private int duration;
 	private String number;
 	private Contact contact;
+	
+	public Call(Date dateTime, int duration, String number) 
+	{
+		this.dateTime = dateTime;
+		this.number = number;
+		this.duration = duration;
+	}
 
-	public void setDateTime() 
+	public void setDateTime(Date dateTime) 
 	{
 		this.dateTime = dateTime;
 	}
@@ -22,7 +27,7 @@ public class Call
 		return dateTime;
 	}
 
-	public void setDuration() 
+	public void setDuration(int duration) 
 	{
 		this.duration = duration;	
 	}
@@ -32,7 +37,7 @@ public class Call
 		return duration;
 	}
 
-	public void setNumber()	
+	public void setNumber(String number)	
 	{
 		this.number = number;
 	}
@@ -45,7 +50,6 @@ public class Call
 	public void setContact(Contact contact)
 	{
 		this.contact = contact;
-		contacts.add
 	}
 	
 	public Contact getContact()
