@@ -20,7 +20,7 @@ public class Service
 	}
 	public Contact findContact (String number)
 	{
-		// TODO
+		// TODO Binary search
 		return null;
 	}
 	public void sendMessage (String number, String content)

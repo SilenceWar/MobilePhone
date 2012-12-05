@@ -57,15 +57,25 @@ public class Phone
 	public ArrayList<Call> getCalls() {
 		return calls;
 	}
+	
 	/**
+	 * Adds new call to chronically sorted position in calls
 	 * @param call to add
 	 */
-	public void addCall(Call call) {
-		if (call != null)
-			this.calls.add(call);
-		else
-			System.out.println("Call points to null.");
+	public void addCall(Call call)
+	{
+		boolean caught = false;
+		for (int i = 0; i < calls.size(); i++) {
+			if (call.compareTo(calls.get(i)) < 0) {
+				calls.add(i, call);
+				caught = true;
+				break;
+			}
+		}
+		if (!caught)
+			calls.add(call);
 	}
+	
 	
 	/**
 	 * @return the contacts
@@ -98,13 +108,22 @@ public class Phone
 	public ArrayList<Conversation> getConversations() {
 		return conversations;
 	}
+	
 	/**
+	 * Adds new conversation to chronically sorted position in conversations
 	 * @param conversation to add
 	 */
-	public void addConversation(Conversation conversation) {
-		if (conversation != null)
-			this.conversations.add(conversation);
-		else
-			System.out.println("Conversation points to null.");
+	public void addConversation(Conversation conversation)
+	{
+		boolean caught = false;
+		for (int i = 0; i < conversations.size(); i++) {
+			if (conversation.compareTo(conversations.get(i)) < 0) {
+				conversations.add(i, conversation);
+				caught = true;
+				break;
+			}
+		}
+		if (!caught)
+			conversations.add(conversation);
 	}
 }
