@@ -1,16 +1,26 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Conversation 
 {
-
 	private String phoneNumber;
-	private ArrayList<Message> messagesSent = new ArrayList<Message>();
-	private ArrayList<Message> messagesReceived = new ArrayList<Message>();
+	private ArrayList<Message> outbox;
+	private ArrayList<Message> inbox;
 	private Contact contact;
+	private String content;
+	private Date date;
+	
+	public Conversation(String phoneNumber, Date date) 
+	{
+		this.phoneNumber = phoneNumber;
+		this.date = date;
+		this.inbox = new ArrayList<Message>();
+		this.outbox = new ArrayList<Message>();
+	}
 
-	public void setPhoneNumber() 
+	public void setPhoneNumber(String phoneNumber) 
 	{
 		this.phoneNumber = phoneNumber;
 	}
@@ -19,15 +29,25 @@ public class Conversation
 	{
 		return phoneNumber;
 	}
-
-	public ArrayList<Message> getMessagesReceived()
+	
+	public void setDate(Date date) 
 	{
-		return new ArrayList<Message>(messagesReceived);
+		this.date = date;
+	}
+	
+	public Date getDate()
+	{
+		return date;
 	}
 
-	public ArrayList<Message> getMessagesSent() 
+	public ArrayList<Message> getInbox()
 	{
-		return new ArrayList<Message>(messagesSent);	
+		return new ArrayList<Message>(inbox);
+	}
+
+	public ArrayList<Message> getOutbox() 
+	{
+		return new ArrayList<Message>(outbox);	
 	}
 	
 	public Contact getContact() 
@@ -35,16 +55,29 @@ public class Conversation
 		return contact;
 	}
 	
-	public void setContact(Contact contact)
+	public void setContent(String content)
 	{
-		this.contact = contact;
-		//ArrayList add her yaikz!
+		this.content = content;
 	}
 	
-	public void createMessage(content) 
+	public String getContent()
 	{
-		
+		return content;
 	}
-
-
+	
+	public void addMessage(boolean sent, Message theMessage) {
+		if (sent) {
+			if (!this.outbox.contains(theMessage))
+			this.outbox.add(theMessage);
+		} else {
+			if (!this.inbox.contains(theMessage))
+				this.inbox.add(theMessage);			
+		}
+	}
+			
+	public void createMessage(String content, boolean sent) 
+	{
+		Message NewMessage = new Message(new Date(),"hej",false);
+		addMessage(sent, NewMessage);
+	}
 }

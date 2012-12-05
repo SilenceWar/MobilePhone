@@ -4,12 +4,18 @@ import java.util.Date;
 
 public class Message 
 {
-	
 	private Date dateTime;
 	private String content;
 	private boolean read;
 	
-	public void setDateTime() 
+	public Message(Date dateTime, String content, boolean read) 
+	{
+		this.dateTime = dateTime;
+		this.content = content;
+		this.read = read;
+	}
+	
+	public void setDateTime(Date dateTime) 
 	{
 		this.dateTime = dateTime;
 	}
@@ -19,7 +25,7 @@ public class Message
 		return dateTime;
 	}
 	
-	public void setContent() 
+	public void setContent(String content) 
 	{
 		this.content = content;
 	}
@@ -29,7 +35,7 @@ public class Message
 		return content;
 	}
 	
-	public void setRead() 
+	public void setRead(boolean read) 
 	{
 		this.read = read;
 	}
