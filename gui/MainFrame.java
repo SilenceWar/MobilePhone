@@ -17,12 +17,18 @@ import javax.swing.JFrame;
 import javax.swing.border.Border;
 
 public class MainFrame extends JFrame {
-	private static HomePanel homePanel;
-	private static ContactsPanel contactsPanel;
+	private HomePanel homePanel;
+	private ContactsPanel contactsPanel;
+	private MessagesPanel messagesPanel;
+	private PhonePanel phonePanel;
+	private SettingsPanel settingsPanel;
 	
 	public MainFrame() {
 		homePanel = new HomePanel(this);
 		contactsPanel = new ContactsPanel(this);
+		messagesPanel = new MessagesPanel(this);
+		phonePanel = new PhonePanel(this);
+		settingsPanel = new SettingsPanel(this);
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -36,6 +42,9 @@ public class MainFrame extends JFrame {
 		homePanel.setVisible(false);
 		this.add(homePanel);
 		this.add(contactsPanel);
+		this.add(messagesPanel);
+		this.add(phonePanel);
+		this.add(settingsPanel);
 		
 		showPage("home");
 		
@@ -45,11 +54,9 @@ public class MainFrame extends JFrame {
 		
 		this.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-		        if (evt.getClickCount() == 1) {
 		        	if (evt.getX()>=148 && evt.getX()<=215 && evt.getY()>=577 && evt.getY()<=600) {
 		        	showPage("home"); // If clicked within the right coordinates of the Home-button of our phone.
 		        	}
-		        }
 		    }
 		});
 		
@@ -58,8 +65,14 @@ public class MainFrame extends JFrame {
 	public void showPage(String panel) {
 		homePanel.setVisible(false);
 		contactsPanel.setVisible(false);
+		messagesPanel.setVisible(false);
+		phonePanel.setVisible(false);
+		settingsPanel.setVisible(false);
 		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
 		if (panel.equals("contacts")) contactsPanel.setVisible(true);
+		if (panel.equals("messages")) messagesPanel.setVisible(true);
+		if (panel.equals("phone")) phonePanel.setVisible(true);
+		if (panel.equals("settings")) settingsPanel.setVisible(true);
 	}
 	 
 }

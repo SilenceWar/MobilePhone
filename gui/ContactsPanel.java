@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,12 +15,12 @@ import javax.swing.JPanel;
 
 public class ContactsPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg;
+	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, contactsTopBar;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
-	private MainFrame parent;
-	public ContactsPanel(MainFrame parent) {
-		this.parent = parent;
+	private final MainFrame parent;
+	public ContactsPanel(MainFrame theParent) {
+		this.parent = theParent;
 		buttonPress = new Controller();
 		
 		this.setLayout(null);
@@ -26,9 +28,28 @@ public class ContactsPanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
+		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0);
+		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0);
+		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
+		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
+		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
+		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
+		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
+		
+		contactsTopBar = drawJLabel("ContactsTopBar.png",1,20,262,47,true, Color.gray, 0);
+		
+		contactsTopBar.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+//		    	System.out.println(evt.getX()+"|"+evt.getY());
+		        	if (evt.getX()>=0 && evt.getX()<=65 && evt.getY()>=0 && evt.getY()<=49) {
+		        		System.out.println("clicked!");
+		        		parent.showPage("phone");
+		        	}
+		    }
+		});
+		
 		this.setVisible(true);
 	}
-	
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);

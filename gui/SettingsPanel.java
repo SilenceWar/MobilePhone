@@ -11,31 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class HomePanel extends JPanel {
+public class SettingsPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
 	private MainFrame parent;
-	
-	public HomePanel(MainFrame parent) {
+	public SettingsPanel(MainFrame parent) {
 		this.parent = parent;
 		buttonPress = new Controller();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
 		this.setLocation(43, 67);
-		this.setOpaque(false);
-		
-		contacts = drawJButtonImage("Contacts.png",15,385,46,45);
-		call = drawJButtonImage("Call.png",76,385,46,45);
-		messages = drawJButtonImage("Messages.png",139,385,46,45);
-		settings = drawJButtonImage("Settings.png",203,385,46,45);
-		
-		lblContacts = drawJLabel("Kontakter",15,425,100,25,false, Color.WHITE, 10);
-		lblCall = drawJLabel("Telefon",80,425,100,25,false, Color.WHITE, 10);
-		lblMessages = drawJLabel("Meddelelser",133,425,100,25,false, Color.WHITE, 10);
-		lblSettings = drawJLabel("Indstillinger",199,425,100,25,false, Color.WHITE, 10);
+		this.setBackground(Color.BLACK);
 		
 		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0);
 		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0);
@@ -45,11 +34,7 @@ public class HomePanel extends JPanel {
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
-		lblWeatherTime = drawJLabel("12:45",65,65,155,40,false, Color.BLACK, 50);
-		weatherImg = drawJLabel("Weather.png",3,40,255,153,true, Color.gray, 0);
-		
 		this.setVisible(true);
-		
 	}
 	
 	
@@ -90,18 +75,6 @@ public class HomePanel extends JPanel {
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == contacts) {
-				parent.showPage("contacts");
-			}
-			else if (ae.getSource() == call) {
-				parent.showPage("phone");
-			}
-			else if (ae.getSource() == messages) {
-				parent.showPage("messages");
-			}
-			else if (ae.getSource() == settings) {
-				parent.showPage("settings");
-			}
 		}
 	}
 }
