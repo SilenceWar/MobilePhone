@@ -1,9 +1,13 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Call implements Comparable<Call>
 {
+	private DateFormat timeFormat;
+	private DateFormat dateFormat;
 	private Date dateTime;
 	private int duration;
 	private String number;
@@ -11,19 +15,24 @@ public class Call implements Comparable<Call>
 	
 	public Call(Date dateTime, int duration, String number) 
 	{
+		this.timeFormat = new SimpleDateFormat("HH:mm:ss");
+		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		this.dateTime = dateTime;
 		this.number = number;
 		this.duration = duration;
 	}
 
-	public void setDateTime(Date dateTime) 
+	public String getDateString()
 	{
-		this.dateTime = dateTime;
+		return this.dateFormat.format(this.dateTime);
 	}
-
 	public Date getDateTime() 
 	{
 		return dateTime;
+	}
+	public String getTime()
+	{
+		return this.timeFormat.format(this.dateTime);
 	}
 
 	public void setDuration(int duration) 

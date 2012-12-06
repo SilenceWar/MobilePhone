@@ -13,10 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Call;
+
 public class PhonePanel extends JPanel {
 	private JButton contacts, call, messages, settings;
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, phoneTopBar;
-	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
+	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime, lblPressedNumber;
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private JButton[] numPad;
@@ -30,15 +32,17 @@ public class PhonePanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0);
-		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0);
-		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
-		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
-		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
+		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, 0);
+		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0, 0);
+		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, 0);
+		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0);
+		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, 0);
+		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, 0);
+		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, 0);
 		
-		phoneTopBar = drawJLabel("PhoneTopBar.png",1,20,262,47,true, Color.gray, 0);
+		lblPressedNumber = drawJLabel("", 0, 100, 261, 50, false, Color.white, 32, 1);
+		
+		phoneTopBar = drawJLabel("PhoneTopBar.png",1,20,262,47,true, Color.gray, 0, 0);
 		phoneTopBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 //		    	System.out.println(evt.getX()+"|"+evt.getY());
@@ -59,7 +63,7 @@ public class PhonePanel extends JPanel {
 		this.setVisible(true);
 	}
 	
-	
+//	Draws a JButton
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
 		ImageIcon newImage = new ImageIcon(newImageURL);
@@ -75,8 +79,8 @@ public class PhonePanel extends JPanel {
 	    
 		return newButton;
 	}
-	
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size) {
+//	Creates a JLabel
+	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment) {
 		JLabel newLabel;
 		if (image) { 
 			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
@@ -85,6 +89,8 @@ public class PhonePanel extends JPanel {
 		} else { 
 			newLabel = new JLabel(text);
 		}
+		if (alignment==1) newLabel.setHorizontalAlignment(JLabel.CENTER);
+		
 		newLabel.setLocation(x,y);
 		newLabel.setSize(width, height);
 		newLabel.setForeground(color);
@@ -97,21 +103,68 @@ public class PhonePanel extends JPanel {
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == numPad[0]) { System.out.println("1");}
-			else if (ae.getSource() == numPad[1]) { System.out.println("2");}
-			else if (ae.getSource() == numPad[2]) { System.out.println("3");}
-			else if (ae.getSource() == numPad[3]) { System.out.println("4");}
-			else if (ae.getSource() == numPad[4]) { System.out.println("5");}
-			else if (ae.getSource() == numPad[5]) { System.out.println("6");}
-			else if (ae.getSource() == numPad[6]) { System.out.println("7");}
-			else if (ae.getSource() == numPad[7]) { System.out.println("8");}
-			else if (ae.getSource() == numPad[8]) { System.out.println("9");}
-			else if (ae.getSource() == numPad[9]) { System.out.println("Star");}
-			else if (ae.getSource() == numPad[10]) { System.out.println("0");}
-			else if (ae.getSource() == numPad[11]) { System.out.println("Square");}
-			else if (ae.getSource() == numPad[12]) { System.out.println("VideoCall");}
-			else if (ae.getSource() == numPad[13]) { System.out.println("CALL");}
-			else if (ae.getSource() == numPad[14]) { System.out.println("Backspace");}
+			if (ae.getSource() == numPad[0]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"1");
+			}
+			
+			else if (ae.getSource() == numPad[1]) { 
+				lblPressedNumber.setText(lblPressedNumber.getText()+"2");
+			}
+			
+			else if (ae.getSource() == numPad[2]) { 
+				lblPressedNumber.setText(lblPressedNumber.getText()+"3");
+			}
+			
+			else if (ae.getSource() == numPad[3]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"4");
+			}
+			
+			else if (ae.getSource() == numPad[4]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"5");
+			}
+			
+			else if (ae.getSource() == numPad[5]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"6");
+			}
+			
+			else if (ae.getSource() == numPad[6]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"7");
+			}
+			
+			else if (ae.getSource() == numPad[7]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"8");
+			}
+			
+			else if (ae.getSource() == numPad[8]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"9");
+			}
+			
+			else if (ae.getSource() == numPad[9]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"9");
+			}
+			
+			else if (ae.getSource() == numPad[10]) {
+				lblPressedNumber.setText(lblPressedNumber.getText()+"0");
+			}
+			
+			else if (ae.getSource() == numPad[11])	{
+				lblPressedNumber.setText(lblPressedNumber.getText()+"#");
+			}
+			
+			else if (ae.getSource() == numPad[12])	{
+//				VIDEO CALL - NO FUNCTION
+			}
+		
+//			Call a number
+			else if (ae.getSource() == numPad[13]) {
+				parent.showPage("call");
+			}
+		
+//			Removes last pressed
+			else if (ae.getSource() == numPad[14]) {
+				if (!lblPressedNumber.getText().equals(""))
+				lblPressedNumber.setText(lblPressedNumber.getText().substring(0, lblPressedNumber.getText().length()-1));
+			}
 		}
 	}
 }

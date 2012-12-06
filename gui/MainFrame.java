@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 	private PhonePanel phonePanel;
 	private SettingsPanel settingsPanel;
 	private NewMessagePanel newMessagePanel;
+	private CallPanel callPanel;
 	
 	public MainFrame() {
 		homePanel = new HomePanel(this);
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame {
 		phonePanel = new PhonePanel(this);
 		settingsPanel = new SettingsPanel(this);
 		newMessagePanel = new NewMessagePanel(this);
+		callPanel = new CallPanel(this);
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -48,6 +50,7 @@ public class MainFrame extends JFrame {
 		this.add(phonePanel);
 		this.add(settingsPanel);
 		this.add(newMessagePanel);
+		this.add(callPanel);
 		
 		showPage("home");
 		
@@ -72,12 +75,15 @@ public class MainFrame extends JFrame {
 		phonePanel.setVisible(false);
 		settingsPanel.setVisible(false);
 		newMessagePanel.setVisible(false);
+		callPanel.setVisible(false);
+
 		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
 		if (panel.equals("contacts")) contactsPanel.setVisible(true);
 		if (panel.equals("messages")) messagesPanel.setVisible(true);
 		if (panel.equals("phone")) phonePanel.setVisible(true);
 		if (panel.equals("settings")) settingsPanel.setVisible(true);
 		if (panel.equals("newMessage")) newMessagePanel.setVisible(true);
+		if (panel.equals("call")) callPanel.setVisible(true);
 	}
 	 
 }
