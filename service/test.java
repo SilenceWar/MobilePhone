@@ -2,6 +2,7 @@ package service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,6 +34,19 @@ public class test {
 		
 		
 		System.out.println(service.findContact(phone, "Christian Liisberg").getName());
+		
+		System.out.println("\n");
+		
+		for (Contact contact: phone.getContacts())
+			System.out.println(contact.getName());
+		System.out.println("\nSearching...");
+		
+		ArrayList<Contact> searchResults = service.searchContacts(phone, "Liis");
+		if (searchResults == null)
+			System.out.println("No contacts found.");
+		else
+			for (Contact contact: searchResults)
+				System.out.println(contact.getName());
 		
 	}
 

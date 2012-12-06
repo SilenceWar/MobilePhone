@@ -56,8 +56,18 @@ public class Service
 		System.out.println("Contact not found.");
 		return null;
 	}
+	public ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
+	{
+		ArrayList<Contact> searchVolume = phone.getContacts();
+		ArrayList<Contact> result = new ArrayList<Contact>();
+		
+		for (Contact contact: searchVolume)
+			if (contact.getName().contains(searchPhrase))
+				result.add(contact);
+		return result;
+	}
 	
-	public void sendMessage (String number, String content)
+	public void sendMessage (Phone phone, String number, String content)
 	{
 		if (number.length() > 7 && content.length() > 0) {
 			System.out.println("Number must have at least 8 digits.");
@@ -68,14 +78,14 @@ public class Service
 			return;
 		}
 		
-		// TODO
+		
 	}
 	public void changeScreenLock (boolean status)
 	{
-		// TODO
+		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik
 	}
 	public void callNumber (String number)
 	{
-		// TODO
+		// TODO Heller ikke helt sikker her -- Henrik
 	}
 }
