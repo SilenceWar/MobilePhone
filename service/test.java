@@ -18,7 +18,7 @@ public class test {
 	 */
 	public static void main(String[] args)
 	{
-		Service service = new Service();
+		/*Service service = new Service();
 		Phone phone = new Phone("+4529927189");
 		// service.createConversation(phone, "+4529927189",))
 		
@@ -32,7 +32,9 @@ public class test {
 		message = conversation.createMessage("Test2", henrik);
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
 		
+		System.out.println(service.findContact(phone, "Christian Liisberg").getName());
 		
+	
 		System.out.println("\nFinding contact...\n" + service.findContact(phone, "Christian Liisberg").getName());
 		
 		System.out.println("\nPrinting contacts...");
@@ -63,7 +65,7 @@ public class test {
 				System.out.println("From: " + thisMessage.fromName());
 				System.out.println("Message: " + thisMessage.getContent());
 			}
-		}
+		}*/
 	}
 
 }
