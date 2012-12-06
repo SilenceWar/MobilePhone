@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Contact;
 import model.Conversation;
+import model.Message;
 import model.Phone;
 
 public class Service
@@ -69,16 +70,21 @@ public class Service
 	
 	public void sendMessage (Phone phone, String number, String content)
 	{
-		if (number.length() > 7 && content.length() > 0) {
+		if (number.length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
 			return;
 		}
-		if (content.length() > 0) {
+		if (content.length() < 1) {
 			System.out.println("Message can't be empty.");
 			return;
 		}
+		Conversation conversation = phone.conversationExists(number);
 		
-		
+		if (!(conversation instanceof Conversation)) {
+			conversation = new Conversation(number);
+			phone.addConversation(conversation);
+		}
+		Message message = conversation.createMessage(content, number);
 	}
 	public void changeScreenLock (boolean status)
 	{

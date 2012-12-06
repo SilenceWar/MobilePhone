@@ -20,7 +20,7 @@ public class Message implements Comparable<Message>
 		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		this.dateTime = new Date();
 		this.content = content;
-		this.fromName = "Unknown";
+		this.fromName = "Unknown <" + fromNumber + ">";
 		this.fromNumber = fromNumber;
 		this.read = false;
 	}

@@ -62,10 +62,15 @@ public class Conversation implements Comparable<Conversation>
 	}
 	
 	public void addMessage(Message theMessage) {
-		if (!this.outbox.contains(theMessage))
+		if (this.outbox.size() < 1) {
+			setPhoneNumber(theMessage.fromNumber());
+			this.inbox.add(theMessage);
+			return;
+		} else if (!this.inbox.contains(theMessage))
+			this.inbox.add(theMessage);
+		else if (!this.outbox.contains(theMessage))
 			this.outbox.add(theMessage);
-		else if (!this.inbox.contains(theMessage))
-			this.inbox.add(theMessage);	
+		
 	}
 			
 	public Message createMessage(String content, String fromNumber) 
