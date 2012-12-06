@@ -7,15 +7,15 @@ import model.Conversation;
 import model.Message;
 import model.Phone;
 
-public class Service
+public abstract class Service
 {
-	public Conversation createConversation (Phone phone, String phoneNumber)
+	public static Conversation createConversation (Phone phone, String phoneNumber)
 	{
 		Conversation conversation = new Conversation(phoneNumber);
 		phone.addConversation(conversation);
 		return conversation;
 	}
-	public Contact createContact (Phone phone, String name, String phoneNumber)
+	public static Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
 			System.out.println("Phone points to null.");
@@ -36,7 +36,7 @@ public class Service
 	 * @param name
 	 * @return
 	 */
-	public Contact findContact (Phone phone, String name)
+	public static Contact findContact (Phone phone, String name)
 	{
 		ArrayList<Contact> contacts = phone.getContacts();
 		int left = 0;
@@ -57,7 +57,7 @@ public class Service
 		System.out.println("Contact not found.");
 		return null;
 	}
-	public ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
+	public static ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
 	{
 		ArrayList<Contact> searchVolume = phone.getContacts();
 		ArrayList<Contact> result = new ArrayList<Contact>();
@@ -68,7 +68,7 @@ public class Service
 		return result;
 	}
 	
-	public void sendMessage (Phone phone, String number, String content)
+	public static void sendMessage (Phone phone, String number, String content)
 	{
 		if (number.length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
@@ -86,11 +86,11 @@ public class Service
 		}
 		Message message = conversation.createMessage(content, number);
 	}
-	public void changeScreenLock (boolean status)
+	public static void changeScreenLock (boolean status)
 	{
 		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik
 	}
-	public void callNumber (String number)
+	public static void callNumber (String number)
 	{
 		// TODO Heller ikke helt sikker her -- Henrik
 	}

@@ -18,7 +18,7 @@ public class test {
 	 */
 	public static void main(String[] args)
 	{
-		Service service = new Service();
+		/*Service service = new Service();
 		Phone phone = new Phone("+4529927189");
 		// service.createConversation(phone, "+4529927189",))
 		
@@ -65,7 +65,7 @@ public class test {
 				System.out.println("From: " + thisMessage.fromName());
 				System.out.println("Message: " + thisMessage.getContent());
 			}
-		}
+		}*/
 	}
 
 }
