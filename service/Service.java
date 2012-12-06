@@ -1,28 +1,62 @@
 package service;
 
+import java.util.ArrayList;
+
 import model.Contact;
+import model.Conversation;
 import model.Phone;
 
 public class Service
 {
-	public void createContact (Phone phone, String name, String phoneNumber)
+	public Conversation createConversation (Phone phone, String phoneNumber)
+	{
+		Conversation conversation = new Conversation(phoneNumber);
+		phone.addConversation(conversation);
+		return conversation;
+	}
+	public Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
 			System.out.println("Phone points to null.");
-			return;
+			return null;
 		}
 		if (name.length() < 1 || phoneNumber.length() < 8) {
 			System.out.println("Name is empty or number is too short.");
-			return; 
+			return null; 
 		}
 		Contact contact = new Contact(name, phoneNumber);
 		phone.addContact(contact);
+		return contact;
 	}
-	public Contact findContact (String number)
+	
+	/**
+	 * Searches specified phone's contact list for name given
+	 * @param phone
+	 * @param name
+	 * @return
+	 */
+	public Contact findContact (Phone phone, String name)
 	{
-		// TODO Binary search
+		ArrayList<Contact> contacts = phone.getContacts();
+		int left = 0;
+		int middle = -1;
+		int right = contacts.size()-1;
+		
+		while (left <= right)
+		{
+			middle = (left + right) / 2;
+			Contact candidate = contacts.get(middle);
+			if (candidate.getName().compareTo(name) == 0)
+				return contacts.get(middle);
+			else if (candidate.getName().compareTo(name) > 0)
+				right = middle -1;
+			else if (candidate.getName().compareTo(name) < 0)
+				left = middle+1;
+		}
+		System.out.println("Contact not found.");
 		return null;
 	}
+	
 	public void sendMessage (String number, String content)
 	{
 		if (number.length() > 7 && content.length() > 0) {

@@ -1,21 +1,24 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Conversation implements Comparable<Conversation>
 {
+	private DateFormat dateFormat;
 	private String phoneNumber;
 	private ArrayList<Message> outbox;
 	private ArrayList<Message> inbox;
 	private Contact contact;
-	private String content;
 	private Date date;
 	
-	public Conversation(String phoneNumber, Date date) 
+	public Conversation(String phoneNumber) 
 	{
+		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		this.phoneNumber = phoneNumber;
-		this.date = date;
+		this.date = new Date();
 		this.inbox = new ArrayList<Message>();
 		this.outbox = new ArrayList<Message>();
 	}
@@ -34,7 +37,10 @@ public class Conversation implements Comparable<Conversation>
 	{
 		this.date = date;
 	}
-	
+	public String getDateString()
+	{
+		return this.dateFormat.format(this.date);
+	}
 	public Date getDate()
 	{
 		return date;
@@ -55,33 +61,30 @@ public class Conversation implements Comparable<Conversation>
 		return contact;
 	}
 	
-	public void setContent(String content)
-	{
-		this.content = content;
-	}
-	
-	public String getContent()
-	{
-		return content;
-	}
-	
-	public void addMessage(boolean sent, Message theMessage) {
-		if (sent) {
-			if (!this.outbox.contains(theMessage))
+	public void addMessage(Message theMessage) {
+		if (!this.outbox.contains(theMessage))
 			this.outbox.add(theMessage);
-		} else {
-			if (!this.inbox.contains(theMessage))
-				this.inbox.add(theMessage);			
-		}
+		else if (!this.inbox.contains(theMessage))
+			this.inbox.add(theMessage);	
 	}
 			
-	public void createMessage(String content, boolean sent) 
+	public Message createMessage(String content, String fromNumber) 
 	{
-		Message NewMessage = new Message(new Date(),"hej",false);
-		addMessage(sent, NewMessage);
+		Message newMessage = new Message(content, fromNumber);
+		addMessage(newMessage);
+		return newMessage;
+	}
+	public Message createMessage(String content, Contact contact)
+	{
+		if (contact == null) {
+			System.out.println("Contact points to null.");
+			return null;
+		}
+		Message newMessage = new Message(content, contact);
+		addMessage(newMessage);
+		return newMessage;
 	}
 	
-
 	@Override
 	public int compareTo(Conversation conversation) {
 		if (conversation == null) {

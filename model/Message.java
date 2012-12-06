@@ -1,28 +1,58 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Message implements Comparable<Message>
 {
+	private DateFormat timeFormat;
+	private DateFormat dateFormat;
 	private Date dateTime;
+	private String fromName;
+	private String fromNumber;
 	private String content;
 	private boolean read;
 	
-	public Message(Date dateTime, String content, boolean read) 
+	public Message(String content, String fromNumber) 
 	{
-		this.dateTime = dateTime;
+		this.timeFormat = new SimpleDateFormat("HH:mm:ss");
+		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateTime = new Date();
 		this.content = content;
-		this.read = read;
+		this.fromName = "Unknown";
+		this.fromNumber = fromNumber;
+		this.read = false;
+	}
+	public Message(String content, Contact contact)
+	{
+		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateTime = new Date();
+		this.content = content;
+		this.fromName = contact.getName();
+		this.fromNumber = contact.getPhoneNumber();
+		this.read = false;
 	}
 	
-	public void setDateTime(Date dateTime) 
+	public String fromName()
 	{
-		this.dateTime = dateTime;
+		return this.fromName;
 	}
-
+	public String fromNumber()
+	{
+		return this.fromNumber;
+	}
+	public String getDateString()
+	{
+		return this.dateFormat.format(this.dateTime);
+	}
 	public Date getDateTime() 
 	{
 		return dateTime;
+	}
+	public String getTime()
+	{
+		return this.timeFormat.format(this.dateTime);
 	}
 	
 	public void setContent(String content) 
