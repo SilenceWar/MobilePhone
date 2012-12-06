@@ -84,7 +84,7 @@ public class Service
 			conversation = new Conversation(number);
 			phone.addConversation(conversation);
 		}
-		Message message = conversation.createMessage(content, number);
+		conversation.createMessage(content, number);
 	}
 	public void changeScreenLock (boolean status)
 	{
