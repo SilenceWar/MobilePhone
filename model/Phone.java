@@ -17,9 +17,16 @@ public class Phone
 		this.conversations = new ArrayList<Conversation>();
 	}
 	
-	public void receiveMessage (String number, String content)
+	public Conversation conversationExists(String number)
 	{
+		if (this.conversations == null)
+			return null;
 		
+		for (Conversation conversation: conversations)
+			if (conversation.getPhoneNumber().equals(number))
+				return conversation;
+		
+		return null;
 	}
 	
 	/**
@@ -125,5 +132,11 @@ public class Phone
 		}
 		if (!caught)
 			conversations.add(conversation);
+	}
+	
+	public Conversation hasConversation(Message message)
+	{
+		// TODO metode som hvis der allerede er en Conversation fra modtageren, returnerer denne Conversation
+		return null;
 	}
 }

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import model.Contact;
 import model.Conversation;
+import model.Message;
 import model.Phone;
 
-public abstract class Service
+public class Service
 {
 	public Conversation createConversation (Phone phone, String phoneNumber)
 	{
@@ -56,26 +57,41 @@ public abstract class Service
 		System.out.println("Contact not found.");
 		return null;
 	}
-	
-	public static void sendMessage (Phone phone, String number, String content)
+	public ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
 	{
-		if (number.length() > 7 && content.length() > 0) {
+		ArrayList<Contact> searchVolume = phone.getContacts();
+		ArrayList<Contact> result = new ArrayList<Contact>();
+		
+		for (Contact contact: searchVolume)
+			if (contact.getName().contains(searchPhrase))
+				result.add(contact);
+		return result;
+	}
+	
+	public void sendMessage (Phone phone, String number, String content)
+	{
+		if (number.length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
 			return;
 		}
-		if (content.length() > 0) {
+		if (content.length() < 1) {
 			System.out.println("Message can't be empty.");
 			return;
 		}
+		Conversation conversation = phone.conversationExists(number);
 		
-		// TODO
+		if (!(conversation instanceof Conversation)) {
+			conversation = new Conversation(number);
+			phone.addConversation(conversation);
+		}
+		Message message = conversation.createMessage(content, number);
 	}
 	public void changeScreenLock (boolean status)
 	{
-		// TODO
+		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik
 	}
 	public void callNumber (String number)
 	{
-		// TODO
+		// TODO Heller ikke helt sikker her -- Henrik
 	}
 }
