@@ -6,7 +6,7 @@ import model.Contact;
 import model.Conversation;
 import model.Phone;
 
-public class Service
+public abstract class Service
 {
 	public Conversation createConversation (Phone phone, String phoneNumber)
 	{
@@ -57,7 +57,7 @@ public class Service
 		return null;
 	}
 	
-	public void sendMessage (String number, String content)
+	public static void sendMessage (Phone phone, String number, String content)
 	{
 		if (number.length() > 7 && content.length() > 0) {
 			System.out.println("Number must have at least 8 digits.");

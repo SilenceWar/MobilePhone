@@ -15,9 +15,9 @@ public class test {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
-		Service service = new Service();
+		/*Service service = new Service();
 		Phone phone = new Phone("+4529927189");
 		// service.createConversation(phone, "+4529927189",))
 		
@@ -32,8 +32,8 @@ public class test {
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
 		
 		
-		System.out.println(service.findContact(phone, "Christian Liisberg").getName());
+		System.out.println(service.findContact(phone, "Christian Liisberg").getName());*
 		
-	}
+	}*/
 
 }
