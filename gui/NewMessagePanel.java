@@ -85,7 +85,7 @@ public class NewMessagePanel extends JPanel {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=211 && evt.getY()<=238) {
 		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText(),true);
-		        		Service.sendMessage(thisPhone, receiver.getText(), content.getText());
+		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText());
 		        	}
 		    }
 		});

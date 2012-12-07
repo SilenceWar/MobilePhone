@@ -88,7 +88,7 @@ public class MessagesPanel extends JPanel {
 			
 			newPanel.addMouseListener(new MouseAdapter() {
 			    public void mouseClicked(MouseEvent evt) {
-			    	System.out.println(evt.getSource().toString());
+			    	System.out.println(evt.getSource().getClass());
 			    	//System.out.println(formattedConversations.indexOf(evt.getSource()));
 			       // parent.showPage("showConversation");
 			    }

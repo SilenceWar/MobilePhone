@@ -5,18 +5,25 @@ import java.util.ArrayList;
 public class Phone
 {
 	private String number;
-	private ArrayList<Call> calls;
+	private ArrayList<Call> incoming;
+	private ArrayList<Call> outgoing;
 	private ArrayList<Contact> contacts;
 	private ArrayList<Conversation> conversations;
 	
 	public Phone (String number)
 	{
 		this.number = number;
-		this.calls = new ArrayList<Call>();
+		this.incoming = new ArrayList<Call>();
+		this.outgoing = new ArrayList<Call>();
 		this.contacts = new ArrayList<Contact>();
 		this.conversations = new ArrayList<Conversation>();
 	}
 	
+	/**
+	 * If a conversation exists with the given number, the conversation is returned
+	 * @param number
+	 * @return matching conversation
+	 */
 	public Conversation conversationExists(String number)
 	{
 		if (this.conversations == null)
@@ -59,30 +66,86 @@ public class Phone
 	}
 	
 	/**
-	 * @return the calls
+	 * @return calls received
 	 */
-	public ArrayList<Call> getCalls() {
-		return calls;
+	public ArrayList<Call> getIncoming() {
+		if (this.incoming != null)
+			return this.incoming;
+		else
+			return null;
+	}
+	/**
+	 * @return calls made
+	 */
+	public ArrayList<Call> getOutgoing() {
+		if (this.outgoing != null)
+			return this.outgoing;
+		else 
+			return null;
 	}
 	
 	/**
-	 * Adds new call to chronically sorted position in calls
+	 * Adds new call to chronically sorted position in incoming calls
 	 * @param call to add
 	 */
-	public void addCall(Call call)
+	private void addIncomingCall(Call call)
 	{
 		boolean caught = false;
-		for (int i = 0; i < calls.size(); i++) {
-			if (call.compareTo(calls.get(i)) < 0) {
-				calls.add(i, call);
+		for (int i = 0; i < this.incoming.size(); i++) {
+			if (call.compareTo(this.incoming.get(i)) < 0) {
+				this.incoming.add(i, call);
 				caught = true;
 				break;
 			}
 		}
 		if (!caught)
-			calls.add(call);
+			this.outgoing.add(call);
 	}
-	
+	/**
+	 * Adds new call to chronically sorted position in incoming calls
+	 * @param call to add
+	 */
+	private void addOutgoingCall(Call call)
+	{
+		boolean caught = false;
+		for (int i = 0; i < this.outgoing.size(); i++) {
+			if (call.compareTo(this.outgoing.get(i)) < 0) {
+				this.outgoing.add(i, call);
+				caught = true;
+				break;
+			}
+		}
+		if (!caught)
+			this.outgoing.add(call);
+	}
+	public Call createCall(String fromNumber, boolean outgoingCall) 
+	{
+		Call newCall = new Call(fromNumber);
+		if (outgoingCall)
+			addOutgoingCall(newCall);
+		else 
+			addIncomingCall(newCall);
+		return newCall;
+	}
+	/**
+	 * Adds a call to the phone
+	 * @param contact
+	 * @param outgoingCall if true, incoming call if false
+	 * @return created call
+	 */
+	public Call createCall(Contact contact, boolean outgoingCall)
+	{
+		if (contact == null) {
+			System.out.println("Contact points to null.");
+			return null;
+		}
+		Call newCall = new Call(contact);
+		if (outgoingCall)
+			addOutgoingCall(newCall);
+		else
+			addIncomingCall(newCall);
+		return newCall;
+	}
 	
 	/**
 	 * @return the contacts
@@ -98,13 +161,12 @@ public class Phone
 	public void addContact(Contact contact)
 	{
 		boolean caught = false;
-		for (int i = 0; i < contacts.size(); i++) {
+		for (int i = 0; i < contacts.size(); i++)
 			if (contact.compareTo(contacts.get(i)) < 0) {
 				contacts.add(i, contact);
 				caught = true;
 				break;
 			}
-		}
 		if (!caught)
 			contacts.add(contact);
 	}
@@ -123,13 +185,12 @@ public class Phone
 	public void addConversation(Conversation conversation)
 	{
 		boolean caught = false;
-		for (int i = 0; i < conversations.size(); i++) {
+		for (int i = 0; i < conversations.size(); i++)
 			if (conversation.compareTo(conversations.get(i)) < 0) {
 				conversations.add(i, conversation);
 				caught = true;
 				break;
 			}
-		}
 		if (!caught)
 			conversations.add(conversation);
 	}

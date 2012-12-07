@@ -11,14 +11,14 @@ import model.Conversation;
 import model.Message;
 import model.Phone;
 
-public class test {
+public class Test {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
-		//Service service = new Service();
+		/*//Service service = new Service();
 		Phone phone = new Phone("+4529927189");
 		//Service.createConversation(phone, "+4529927189",))
 		
@@ -26,10 +26,11 @@ public class test {
 		Contact benjamin = Service.createContact(phone, "Benjamin", "+4513371337");
 		Contact christian = Service.createContact(phone, "Christian Liisberg", "+4590019001");
 
-		Conversation conversation = Service.createConversation(phone, "+4529927189");
-		Message message = conversation.createMessage("Test", "+4529927189");
+		Conversation conversation = new Conversation("+4529927189");
+		phone.addConversation(conversation);
+		Message message = conversation.createMessage("Test", "+4529927189", true);
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
-		message = conversation.createMessage("Test2", henrik);
+		message = conversation.createMessage("Test2", henrik, true);
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
 		
 		System.out.println(Service.findContact(phone, "Christian Liisberg").getName());
@@ -43,7 +44,7 @@ public class test {
 			System.out.println(contact.getName());
 		System.out.println("\nSearching...");
 		
-		ArrayList<Contact> searchResults = Service.searchContacts(phone, "Liis");
+		ArrayList<Contact> searchResults = Service.searchContacts(phone, "liis");
 		if (searchResults == null)
 			System.out.println("No contacts found.");
 		else
@@ -52,20 +53,21 @@ public class test {
 		
 		System.out.println("\nAdding messages...");
 		
-		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!");
-		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?");
-		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>");
+		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!", true);
+		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?", true);
+		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>", true);
+		Service.sendMessage(phone, "+4529927180", "Testbesked << hvis den lægger i sin egen Conversation, så duer det!", true);
 		
 		System.out.println("\nNumber of conversations: " + phone.getConversations().size());
 		
 		System.out.println("\nPrinting messages...");
 		for (Conversation thisConversation: phone.getConversations()) {
 			System.out.println("\nConversation with " + thisConversation.getPhoneNumber());
-			for (Message thisMessage: thisConversation.getInbox()) {
+			for (Message thisMessage: thisConversation.getMessages()) {
 				System.out.println("From: " + thisMessage.fromName());
 				System.out.println("Message: " + thisMessage.getContent());
 			}
-		}
+		}*/
 	}
 
 }
