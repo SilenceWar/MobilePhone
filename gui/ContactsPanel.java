@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Contact;
+import model.Conversation;
+import model.Message;
 import model.Phone;
 
 public class ContactsPanel extends JPanel {
@@ -22,7 +26,10 @@ public class ContactsPanel extends JPanel {
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private Phone thisPhone;
+	private ArrayList<Contact> formattedContacts;
+	
 	public ContactsPanel(MainFrame theParent, Phone thePhone) {
+		this.formattedContacts = new ArrayList<Contact>();
 		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -88,6 +95,44 @@ public class ContactsPanel extends JPanel {
 		
 		this.add(newLabel);
 		return newLabel;
+	}
+	
+	public void printContacts() {
+		formattedContacts.clear();
+		ArrayList<Contact> conversations = this.thisPhone.getContacts();
+		for (int i=0;i<conversations.size();i++) {
+			JPanel newPanel = new JPanel();
+			newPanel.setLayout(null);
+			newPanel.setSize(340, 55);
+			newPanel.setLocation(1,63+(i*55));
+			newPanel.setOpaque(false);
+			formattedConversations.add(newPanel);
+			this.add(newPanel);
+			
+			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
+			
+			drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			
+			Message latestMessage = conversations.get(i).getLatestMessage();
+			String newestMessage = latestMessage.getContent();
+			newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
+			drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0, newPanel);	
+			
+			drawJLabel(latestMessage.getDateTimeFormat(), 185, 30, 160, 25, false, Color.gray, 0, newPanel);	
+			
+			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, newPanel);
+			
+			newPanel.addMouseListener(new MouseAdapter() {
+			    public void mouseClicked(MouseEvent evt) {
+			    	//System.out.println(evt.getSource().getClass());
+			    	System.out.println(formattedConversations.indexOf(evt.getSource()));
+			       // parent.showPage("showConversation");
+			    }
+			});
+			
+			newPanel.setVisible(true);
+		}
+		
 	}
 	
 	private class Controller implements ActionListener {
