@@ -13,51 +13,60 @@ public class Call implements Comparable<Call>
 	private String number;
 	private Contact contact;
 	
-	public Call(Date dateTime, int duration, String number) 
+	public Call(String number)
 	{
 		this.timeFormat = new SimpleDateFormat("HH:mm:ss");
 		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		this.dateTime = dateTime;
+		this.dateTime = new Date();
 		this.number = number;
-		this.duration = duration;
+		this.duration = 0;
+	}
+	public Call(Contact contact)
+	{
+		this.timeFormat = new SimpleDateFormat("HH:mm:ss");
+		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateTime = new Date();
+		this.number = contact.getPhoneNumber();
+		this.duration = 0;
 	}
 
 	public String getDateString()
 	{
 		return this.dateFormat.format(this.dateTime);
 	}
+	/**
+	 * @return date & time in formatted string
+	 */
 	public Date getDateTime() 
 	{
 		return dateTime;
 	}
+	/**
+	 * @return time in formatted string
+	 */
 	public String getTime()
 	{
 		return this.timeFormat.format(this.dateTime);
 	}
-
-	public void setDuration(int duration) 
-	{
-		this.duration = duration;	
-	}
-
+	
+	/**
+	 * @return duration
+	 */
 	public int getDuration() 
 	{
 		return duration;
 	}
-
-	public void setNumber(String number)	
+	/**
+	 * @param duration
+	 */
+	public void setDuration(int duration)
 	{
-		this.number = number;
+		this.duration = duration;
 	}
 
 	public String getNumber() 
 	{
 		return number;
-	}
-	
-	public void setContact(Contact contact)
-	{
-		this.contact = contact;
 	}
 	
 	public Contact getContact()
