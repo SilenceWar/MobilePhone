@@ -17,12 +17,12 @@ import model.Call;
 
 public class PhonePanel extends JPanel {
 	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, phoneTopBar;
-	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime, lblPressedNumber;
+	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, phoneTopBar, pressedNumber, clockDisplay;
+	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private JButton[] numPad;
-	
+		
 	public PhonePanel(MainFrame theParent) {
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -40,7 +40,7 @@ public class PhonePanel extends JPanel {
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, 0);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, 0);
 		
-		lblPressedNumber = drawJLabel("", 0, 100, 261, 50, false, Color.white, 32, 1);
+		pressedNumber = drawJLabel("", 0, 100, 261, 50, false, Color.white, 32, 1);
 		
 		phoneTopBar = drawJLabel("PhoneTopBar.png",1,20,262,47,true, Color.gray, 0, 0);
 		phoneTopBar.addMouseListener(new MouseAdapter() {
@@ -63,6 +63,14 @@ public class PhonePanel extends JPanel {
 		this.setVisible(true);
 	}
 	
+	public String getNumber() {
+		return pressedNumber.getText();
+	}
+	
+	public void clearScreen() {
+		pressedNumber.setText("");
+	}
+	
 //	Draws a JButton
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
@@ -79,7 +87,7 @@ public class PhonePanel extends JPanel {
 	    
 		return newButton;
 	}
-//	Creates a JLabel
+// Draws a JLabel
 	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment) {
 		JLabel newLabel;
 		if (image) { 
@@ -100,55 +108,55 @@ public class PhonePanel extends JPanel {
 		this.add(newLabel);
 		return newLabel;
 	}
-	
+			
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == numPad[0]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"1");
+				pressedNumber.setText(pressedNumber.getText()+"1");
 			}
 			
 			else if (ae.getSource() == numPad[1]) { 
-				lblPressedNumber.setText(lblPressedNumber.getText()+"2");
+				pressedNumber.setText(pressedNumber.getText()+"2");
 			}
 			
 			else if (ae.getSource() == numPad[2]) { 
-				lblPressedNumber.setText(lblPressedNumber.getText()+"3");
+				pressedNumber.setText(pressedNumber.getText()+"3");
 			}
 			
 			else if (ae.getSource() == numPad[3]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"4");
+				pressedNumber.setText(pressedNumber.getText()+"4");
 			}
 			
 			else if (ae.getSource() == numPad[4]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"5");
+				pressedNumber.setText(pressedNumber.getText()+"5");
 			}
 			
 			else if (ae.getSource() == numPad[5]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"6");
+				pressedNumber.setText(pressedNumber.getText()+"6");
 			}
 			
 			else if (ae.getSource() == numPad[6]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"7");
+				pressedNumber.setText(pressedNumber.getText()+"7");
 			}
 			
 			else if (ae.getSource() == numPad[7]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"8");
+				pressedNumber.setText(pressedNumber.getText()+"8");
 			}
 			
 			else if (ae.getSource() == numPad[8]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"9");
+				pressedNumber.setText(pressedNumber.getText()+"9");
 			}
 			
 			else if (ae.getSource() == numPad[9]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"9");
+				pressedNumber.setText(pressedNumber.getText()+"9");
 			}
 			
 			else if (ae.getSource() == numPad[10]) {
-				lblPressedNumber.setText(lblPressedNumber.getText()+"0");
+				pressedNumber.setText(pressedNumber.getText()+"0");
 			}
 			
 			else if (ae.getSource() == numPad[11])	{
-				lblPressedNumber.setText(lblPressedNumber.getText()+"#");
+				pressedNumber.setText(pressedNumber.getText()+"#");
 			}
 			
 			else if (ae.getSource() == numPad[12])	{
@@ -157,13 +165,13 @@ public class PhonePanel extends JPanel {
 		
 //			Call a number
 			else if (ae.getSource() == numPad[13]) {
-				parent.showPage("call");
+				parent.showPage("call");				
 			}
 		
 //			Removes last pressed
 			else if (ae.getSource() == numPad[14]) {
-				if (!lblPressedNumber.getText().equals(""))
-				lblPressedNumber.setText(lblPressedNumber.getText().substring(0, lblPressedNumber.getText().length()-1));
+				if (!pressedNumber.getText().equals(""))
+				pressedNumber.setText(pressedNumber.getText().substring(0, pressedNumber.getText().length()-1));
 			}
 		}
 	}
