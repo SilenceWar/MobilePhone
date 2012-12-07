@@ -12,17 +12,23 @@ import model.Phone;
 
 public abstract class Service
 {
-	public static Call makeCall(Phone phone, boolean incoming)
+	public static Call makeCall(Phone phone, String phoneNumber, boolean outgoing)
 	{
 		if (phone == null) {
 			System.out.println("[2] Phone points to null.");
 			return null;
 		}
-		
-		if (incoming) {
-			// TODO
+		Call call = phone.createCall(phoneNumber, outgoing);
+		return call;
+	}
+	public static Call makeCall(Phone phone, Contact contact, boolean outgoing)
+	{
+		if (phone == null) {
+			System.out.println("[3] Phone points to null.");
+			return null;
 		}
-		return null;
+		Call call = phone.createCall(contact, outgoing);
+		return call;
 	}
 	/**
 	 * Creates and adds new contact to the address book of the phone

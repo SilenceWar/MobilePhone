@@ -26,10 +26,32 @@ public class ContactsPanel extends JPanel {
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private Phone thisPhone;
-	private ArrayList<Contact> formattedContacts;
+	private ArrayList<JPanel> formattedContacts;
 	
 	public ContactsPanel(MainFrame theParent, Phone thePhone) {
-		this.formattedContacts = new ArrayList<Contact>();
+		this.formattedContacts = new ArrayList<JPanel>();
+		
+		// TODO Add contact panel & search panel
+		
+		JPanel newContact = new JPanel();
+		newContact.setLayout(null);
+		newContact.setSize(340, 405);
+		newContact.setLocation(1,63+55);
+		newContact.setOpaque(true);
+		this.add(newContact);
+		
+
+		java.net.URL imageURL = MainFrame.class.getResource("/images/Phone.png");
+		
+		JPanel searchPanel = new JPanel();
+		searchPanel.setLayout(null);
+		searchPanel.setSize(340,55);
+		searchPanel.setLocation(340,63);
+		searchPanel.setOpaque(true);
+		this.add(searchPanel);
+		
+		
+		
 		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -59,6 +81,7 @@ public class ContactsPanel extends JPanel {
 		    }
 		});
 		
+		printContacts(); // TODO
 		this.setVisible(true);
 	}
 	
@@ -99,33 +122,33 @@ public class ContactsPanel extends JPanel {
 	
 	public void printContacts() {
 		formattedContacts.clear();
-		ArrayList<Contact> conversations = this.thisPhone.getContacts();
-		for (int i=0;i<conversations.size();i++) {
+		ArrayList<Contact> contactList = this.thisPhone.getContacts();
+		for (int i=0;i<contactList.size();i++) {
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 55);
 			newPanel.setLocation(1,63+(i*55));
 			newPanel.setOpaque(false);
-			formattedConversations.add(newPanel);
+			formattedContacts.add(newPanel);
 			this.add(newPanel);
 			
 			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
 			
-			drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			drawJLabel(contactList.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
 			
-			Message latestMessage = conversations.get(i).getLatestMessage();
-			String newestMessage = latestMessage.getContent();
-			newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
-			drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0, newPanel);	
-			
-			drawJLabel(latestMessage.getDateTimeFormat(), 185, 30, 160, 25, false, Color.gray, 0, newPanel);	
+//			Message latestMessage = conversations.get(i).getLatestMessage();
+//			String newestMessage = latestMessage.getContent();
+//			newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
+//			drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0, newPanel);	
+//			
+//			drawJLabel(latestMessage.getDateTimeFormat(), 185, 30, 160, 25, false, Color.gray, 0, newPanel);	
 			
 			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, newPanel);
 			
 			newPanel.addMouseListener(new MouseAdapter() {
 			    public void mouseClicked(MouseEvent evt) {
 			    	//System.out.println(evt.getSource().getClass());
-			    	System.out.println(formattedConversations.indexOf(evt.getSource()));
+			    	System.out.println(formattedContacts.indexOf(evt.getSource()));
 			       // parent.showPage("showConversation");
 			    }
 			});
@@ -134,6 +157,25 @@ public class ContactsPanel extends JPanel {
 		}
 		
 	}
+	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, JPanel panel) {
+		JLabel newLabel;
+		if (image) { 
+			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
+			ImageIcon newImage = new ImageIcon(newImageURL);
+			newLabel = new JLabel(newImage);
+		} else { 
+			newLabel = new JLabel(text);
+		}
+		newLabel.setLocation(x,y);
+		newLabel.setSize(width, height);
+		newLabel.setForeground(color);
+		if (size != 0 && size != 16) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
+		else if (size == 16) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
+		
+		panel.add(newLabel);
+		return newLabel;
+	}
+	
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
