@@ -37,13 +37,13 @@ public class NewMessagePanel extends JPanel {
 	private JTextArea content;
 	
 	private int field;
-	private boolean shift;
+	private boolean shift = true;
 	private int screen = 1;
 	
 	public NewMessagePanel(MainFrame theParent) {
 		keyboard = new JButton[29];
 		specialKeys = new JButton[7];
-		numKeys = new JButton[26];
+		numKeys = new JButton[27];
 		
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -84,7 +84,7 @@ public class NewMessagePanel extends JPanel {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=211 && evt.getY()<=238) {
 		        		//System.out.println("Send message!");
-		        		Service.sendMessage(new Phone("342165"), "3498631", "hejmeddig");
+		        		//Service.sendMessage(new Phone("342165"), "3498631", "hejmeddig");
 		        	}
 		    }
 		});
@@ -92,7 +92,6 @@ public class NewMessagePanel extends JPanel {
 		
 		drawKeyboard();
 		showKeyboard(1);
-//		hideKeyboard();
 		
 		this.setVisible(true);
 	}
@@ -165,8 +164,8 @@ public class NewMessagePanel extends JPanel {
 			if (i%11 == 0) line++;
 		}
 		line = 0;
-		for (int i=1;i<27;i++) {
-			int xtra = (line%2==0 && line!=0) ? 50 : 0;
+		for (int i=1;i<=27;i++) {
+			int xtra = (line%2==0 && line!=0) ? 37 : 0;
 			numKeys[i-1] = drawJButtonImage("keyNum"+(i-1)+".png",xtra+7+((i-1)%10)*25, 310+(line*36), 24, 32);
 			if (i%10 == 0) line++;
 		}
@@ -191,7 +190,6 @@ public class NewMessagePanel extends JPanel {
 		if (show ==2)
 		for (JButton item: numKeys) 
 			item.setVisible(true);
-		
 		keyboardBackground.setVisible(true);
 	}
 	
@@ -203,8 +201,6 @@ public class NewMessagePanel extends JPanel {
 			item.setVisible(false);
 		}
 		keyboardBackground.setVisible(false);
-		
-		
 	}
 	
 	public String getAlpha(int i) {
@@ -258,7 +254,6 @@ public class NewMessagePanel extends JPanel {
 				}
 			}
 			
-			
 			if (ae.getSource()==specialKeys[0]) {
 				shift = (shift) ? false : true;
 			}
@@ -306,16 +301,14 @@ public class NewMessagePanel extends JPanel {
 		public void focusLost(FocusEvent ae) {}
 		public void focusGained(FocusEvent ae) {
 			if (ae.getSource() == receiver) {
-				if (receiver.getText().equals("Modtager")) {
+				if (receiver.getText().equals("Modtager")) 
 					receiver.setText("");
-					field = 1;
-				}
+				field = 1;
 			}
 			else if (ae.getSource() == content) {
-				if (content.getText().equals("Skriv din besked")) {
+				if (content.getText().equals("Skriv din besked"))
 					content.setText("");
-					field = 2;
-				}
+				field = 2;
 			}
 		}
 	}
