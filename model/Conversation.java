@@ -95,7 +95,7 @@ public class Conversation implements Comparable<Conversation>
 		boolean caught = false;
 		for (int i = 0; i < outbox.size(); i++) 
 			if (theMessage.compareTo(outbox.get(i)) < 0) {
-				inbox.add(i, theMessage);
+				outbox.add(i, theMessage);
 				caught = true;
 				break;
 			}
