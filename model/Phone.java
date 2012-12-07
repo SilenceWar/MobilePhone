@@ -194,4 +194,33 @@ public class Phone
 		if (!caught)
 			conversations.add(conversation);
 	}
+	
+	/**
+	 * Merges list of incoming and outgoing calls
+	 * @return calls
+	 */
+	public ArrayList<Call> getCalls() {
+		ArrayList<Call> newArray = new ArrayList<>();
+		int i1 = 0;
+		int i2 = 0;
+		while(i1<this.incoming.size() && i2<this.outgoing.size()) {
+			if (this.incoming.get(i1).compareTo(this.outgoing.get(i2)) <= 0) {
+				newArray.add(this.incoming.get(i1));
+				i1++;
+			}
+			else {
+				newArray.add(this.outgoing.get(i2));
+				i2++;
+			}
+		}
+		while (i1 < this.incoming.size()) { 
+			newArray.add(this.incoming.get(i1));
+			i1++;
+		}
+		while (i2 < this.outgoing.size()) { 
+			newArray.add(this.outgoing.get(i2));
+			i2++;
+		}
+		return newArray;
+	}
 }

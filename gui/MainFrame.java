@@ -50,6 +50,7 @@ public class MainFrame extends JFrame {
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
 		
 		java.net.URL imageURL = MainFrame.class.getResource("/images/Phone.png");
