@@ -160,4 +160,9 @@ public abstract class Service
 		Dao.addPhone(newPhone);
 		return newPhone;
 	}
+	
+	public static boolean deleteConversation(Phone thePhone, Conversation conversation) {
+		thePhone.deleteConversation(conversation);
+		return true;
+	}
 }
