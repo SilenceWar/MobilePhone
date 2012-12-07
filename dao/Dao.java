@@ -12,17 +12,15 @@ public class Dao
 		this.phones = new ArrayList<Phone>();
 	}
 	
-	public void addPhone(Phone phones)
+	public void addPhone(Phone phone)
 	{
-		
+		if (phones != null)
+			this.phones.add(phone);
+		else
+			System.out.println("Phone points to null.");
 	}
 	
-	public void removePhone()
-	{
-		
-	}
-	
-	public ArrayList<Phone> getAllPhones() 
+	public ArrayList<Phone> getPhones() 
 	{
 		return new ArrayList<Phone>(phones);
 	}
