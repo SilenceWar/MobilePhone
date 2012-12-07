@@ -5,20 +5,13 @@ import model.Phone;
 
 public class Dao 
 {
-	private static ArrayList<Phone> phones;
-	
-	public Dao()
-	{
-		phones = new ArrayList<Phone>();
-	}
+	private static ArrayList<Phone> phones = new ArrayList<>();
 	
 
 	public static void addPhone(Phone phone)
 	{
-		if (phones != null)
+		if (!phones.contains(phone))
 			phones.add(phone);
-		else
-			System.out.println("Phone points to null.");
 	}
 	
 	public static ArrayList<Phone> getPhones() 
