@@ -2,13 +2,25 @@ package service;
 
 import java.util.ArrayList;
 
+import model.Call;
 import model.Contact;
 import model.Conversation;
-import model.Message;
 import model.Phone;
 
 public abstract class Service
 {
+	public static Call makeCall(Phone phone, boolean incoming)
+	{
+		if (phone == null) {
+			System.out.println("Phone points to null.");
+			return null;
+		}
+		
+		if (incoming) {
+			// TODO
+		}
+		return null;
+	}
 	/**
 	 * Creates and adds new contact to the address book of the phone
 	 * @param phone
@@ -80,8 +92,9 @@ public abstract class Service
 	 * @param phone
 	 * @param number
 	 * @param content message
+	 * @param outgoing if true, incoming if false
 	 */
-	public static void sendMessage (Phone phone, String number, String content)
+	public static void sendMessage (Phone phone, String number, String content, boolean outgoing)
 	{
 		if (number.length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
@@ -97,15 +110,16 @@ public abstract class Service
 			conversation = new Conversation(number);
 			phone.addConversation(conversation);
 		}
-		conversation.createMessage(content, number);
+		conversation.createMessage(content, number, outgoing);
 	}
 	/**
 	 * Sends message to phone with contact association
 	 * @param phone
 	 * @param contact
 	 * @param content message
+	 * @param outgoing if true, incoming if false
 	 */
-	public static void sendMessage (Phone phone, Contact contact, String content)
+	public static void sendMessage (Phone phone, Contact contact, String content, boolean outgoing)
 	{
 		if (contact.getPhoneNumber().length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
@@ -121,7 +135,7 @@ public abstract class Service
 			conversation = new Conversation(contact);
 			phone.addConversation(conversation);
 		}
-		conversation.createMessage(content, contact.getPhoneNumber());
+		conversation.createMessage(content, contact.getPhoneNumber(), outgoing);
 	}
 	
 	public static void changeScreenLock (boolean status)

@@ -28,9 +28,9 @@ public class Test {
 
 		Conversation conversation = new Conversation("+4529927189");
 		phone.addConversation(conversation);
-		Message message = conversation.createMessage("Test", "+4529927189");
+		Message message = conversation.createMessage("Test", "+4529927189", true);
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
-		message = conversation.createMessage("Test2", henrik);
+		message = conversation.createMessage("Test2", henrik, true);
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
 		
 		System.out.println(Service.findContact(phone, "Christian Liisberg").getName());
@@ -53,10 +53,10 @@ public class Test {
 		
 		System.out.println("\nAdding messages...");
 		
-		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!");
-		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?");
-		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>");
-		Service.sendMessage(phone, "+4529927180", "Testbesked << hvis den lægger i sin egen Conversation, så duer det!");
+		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!", true);
+		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?", true);
+		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>", true);
+		Service.sendMessage(phone, "+4529927180", "Testbesked << hvis den lægger i sin egen Conversation, så duer det!", true);
 		
 		System.out.println("\nNumber of conversations: " + phone.getConversations().size());
 		

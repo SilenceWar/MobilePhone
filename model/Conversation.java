@@ -70,6 +70,38 @@ public class Conversation implements Comparable<Conversation>
 		return contact;
 	}
 	
+	/**
+	 * Adds message to inbox
+	 * @param theMessage
+	 */
+	public void addToInbox(Message theMessage)
+	{
+		boolean caught = false;
+		for (int i = 0; i < inbox.size(); i++)
+			if (theMessage.compareTo(inbox.get(i)) < 0) {
+				inbox.add(i, theMessage);
+				caught = true;
+				break;
+			}
+		if (!caught)
+			inbox.add(theMessage);
+	}
+	/**
+	 * Adds message to outbox
+	 * @param theMessage
+	 */
+	public void addToOutbox(Message theMessage)
+	{
+		boolean caught = false;
+		for (int i = 0; i < outbox.size(); i++) 
+			if (theMessage.compareTo(outbox.get(i)) < 0) {
+				inbox.add(i, theMessage);
+				caught = true;
+				break;
+			}
+		if (!caught)
+			outbox.add(theMessage);
+	}
 	public void addMessage(Message theMessage) {
 		if (this.outbox.size() < 1) {
 			setPhoneNumber(theMessage.fromNumber());
@@ -81,21 +113,27 @@ public class Conversation implements Comparable<Conversation>
 			this.outbox.add(theMessage);
 		
 	}
-			
-	public Message createMessage(String content, String fromNumber) 
+	
+	public Message createMessage(String content, String fromNumber, boolean incomingMessage) 
 	{
 		Message newMessage = new Message(content, fromNumber);
-		addMessage(newMessage);
+		if (incomingMessage)
+			addToInbox(newMessage);
+		else
+			addToOutbox(newMessage);
 		return newMessage;
 	}
-	public Message createMessage(String content, Contact contact)
+	public Message createMessage(String content, Contact contact, boolean incomingMessage)
 	{
 		if (contact == null) {
 			System.out.println("Contact points to null.");
 			return null;
 		}
 		Message newMessage = new Message(content, contact);
-		addMessage(newMessage);
+		if (incomingMessage)
+			addToInbox(newMessage);
+		else
+			addToOutbox(newMessage);
 		return newMessage;
 	}
 	
