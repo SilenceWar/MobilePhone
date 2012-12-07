@@ -15,7 +15,7 @@ public abstract class Service
 	public static Call makeCall(Phone phone, boolean incoming)
 	{
 		if (phone == null) {
-			System.out.println("Phone points to null.");
+			System.out.println("[2] Phone points to null.");
 			return null;
 		}
 		
@@ -34,7 +34,7 @@ public abstract class Service
 	public static Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
-			System.out.println("Phone points to null.");
+			System.out.println("[1] Phone points to null.");
 			return null;
 		}
 		if (name.length() < 1 || phoneNumber.length() < 8) {
