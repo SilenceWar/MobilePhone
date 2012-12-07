@@ -4,17 +4,18 @@ import java.util.ArrayList;
 
 import model.Contact;
 import model.Conversation;
+import model.Message;
 import model.Phone;
 
-public class Service
+public abstract class Service
 {
-	public Conversation createConversation (Phone phone, String phoneNumber)
+	public static Conversation createConversation (Phone phone, String phoneNumber)
 	{
 		Conversation conversation = new Conversation(phoneNumber);
 		phone.addConversation(conversation);
 		return conversation;
 	}
-	public Contact createContact (Phone phone, String name, String phoneNumber)
+	public static Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
 			System.out.println("Phone points to null.");
@@ -35,7 +36,7 @@ public class Service
 	 * @param name
 	 * @return
 	 */
-	public Contact findContact (Phone phone, String name)
+	public static Contact findContact (Phone phone, String name)
 	{
 		ArrayList<Contact> contacts = phone.getContacts();
 		int left = 0;
@@ -56,26 +57,41 @@ public class Service
 		System.out.println("Contact not found.");
 		return null;
 	}
-	
-	public void sendMessage (String number, String content)
+	public static ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
 	{
-		if (number.length() > 7 && content.length() > 0) {
+		ArrayList<Contact> searchVolume = phone.getContacts();
+		ArrayList<Contact> result = new ArrayList<Contact>();
+		
+		for (Contact contact: searchVolume)
+			if (contact.getName().contains(searchPhrase))
+				result.add(contact);
+		return result;
+	}
+	
+	public static void sendMessage (Phone phone, String number, String content)
+	{
+		if (number.length() < 8) {
 			System.out.println("Number must have at least 8 digits.");
 			return;
 		}
-		if (content.length() > 0) {
+		if (content.length() < 1) {
 			System.out.println("Message can't be empty.");
 			return;
 		}
+		Conversation conversation = phone.conversationExists(number);
 		
-		// TODO
+		if (!(conversation instanceof Conversation)) {
+			conversation = new Conversation(number);
+			phone.addConversation(conversation);
+		}
+		conversation.createMessage(content, number);
 	}
-	public void changeScreenLock (boolean status)
+	public static void changeScreenLock (boolean status)
 	{
-		// TODO
+		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik
 	}
-	public void callNumber (String number)
+	public static void callNumber (String number)
 	{
-		// TODO
+		// TODO Heller ikke helt sikker her -- Henrik
 	}
 }
