@@ -12,7 +12,7 @@ public class Dao
 		this.phones = new ArrayList<Phone>();
 	}
 	
-	public void addPhone(Phone phones)
+	public static void addPhone(Phone phones)
 	{
 		
 	}

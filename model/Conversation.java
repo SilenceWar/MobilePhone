@@ -89,6 +89,15 @@ public class Conversation implements Comparable<Conversation>
 		addMessage(newMessage);
 		return newMessage;
 	}
+	public Message getLatestMessage() {
+		if (!this.outbox.isEmpty() && !this.inbox.isEmpty()) {
+			Message latestOutbox = this.outbox.get(this.outbox.size()-1);
+			Message latestInbox = this.inbox.get(this.inbox.size()-1);
+			return (latestOutbox.getDateString().compareTo(latestInbox.getDateString()) > 0) ? latestOutbox : latestInbox;
+		} else {
+			return (!this.outbox.isEmpty()) ? this.outbox.get(this.outbox.size()-1) : this.inbox.get(this.inbox.size()-1);
+		}
+	}
 	
 	@Override
 	public int compareTo(Conversation conversation) {

@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.border.Border;
 
+import model.Phone;
+
+import service.Service;
+
 public class MainFrame extends JFrame {
 	private HomePanel homePanel;
 	private ContactsPanel contactsPanel;
@@ -24,15 +28,18 @@ public class MainFrame extends JFrame {
 	private SettingsPanel settingsPanel;
 	private NewMessagePanel newMessagePanel;
 	private CallPanel callPanel;
+	private Phone thisPhone;
 	
 	public MainFrame() {
-		homePanel = new HomePanel(this);
-		contactsPanel = new ContactsPanel(this);
-		messagesPanel = new MessagesPanel(this);
-		phonePanel = new PhonePanel(this);
-		settingsPanel = new SettingsPanel(this);
-		newMessagePanel = new NewMessagePanel(this);
-		callPanel = new CallPanel(this);
+		this.thisPhone = Service.createPhone("25798315");
+		
+		homePanel = new HomePanel(this, this.thisPhone);
+		contactsPanel = new ContactsPanel(this, this.thisPhone);
+		messagesPanel = new MessagesPanel(this, this.thisPhone);
+		phonePanel = new PhonePanel(this, this.thisPhone);
+		settingsPanel = new SettingsPanel(this, this.thisPhone);
+		newMessagePanel = new NewMessagePanel(this, this.thisPhone);
+		callPanel = new CallPanel(this, this.thisPhone);		
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -79,7 +86,10 @@ public class MainFrame extends JFrame {
 
 		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
 		if (panel.equals("contacts")) contactsPanel.setVisible(true);
-		if (panel.equals("messages")) messagesPanel.setVisible(true);
+		if (panel.equals("messages")) {
+			messagesPanel.printFormattedConversations();
+			messagesPanel.setVisible(true);
+		}
 		if (panel.equals("phone")) phonePanel.setVisible(true);
 		if (panel.equals("settings")) settingsPanel.setVisible(true);
 		if (panel.equals("newMessage")) newMessagePanel.setVisible(true);

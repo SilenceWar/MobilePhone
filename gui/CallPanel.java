@@ -11,13 +11,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Phone;
+
 public class CallPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime, lblNewCall;
 	private Controller buttonPress;
 	private MainFrame parent;
-	public CallPanel(MainFrame parent) {
+	private Phone thisPhone;
+	public CallPanel(MainFrame parent, Phone thePhone) {
+		this.thisPhone = thePhone;
 		this.parent = parent;
 		buttonPress = new Controller();
 		

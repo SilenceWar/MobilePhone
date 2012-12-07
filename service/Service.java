@@ -2,6 +2,8 @@ package service;
 
 import java.util.ArrayList;
 
+import dao.Dao;
+
 import model.Contact;
 import model.Conversation;
 import model.Message;
@@ -93,5 +95,10 @@ public abstract class Service
 	public static void callNumber (String number)
 	{
 		// TODO Heller ikke helt sikker her -- Henrik
+	}
+	public static Phone createPhone(String number) {
+		Phone newPhone = new Phone(number);
+		Dao.addPhone(newPhone);
+		return newPhone;
 	}
 }
