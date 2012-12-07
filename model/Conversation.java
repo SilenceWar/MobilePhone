@@ -102,26 +102,26 @@ public class Conversation implements Comparable<Conversation>
 		if (!caught)
 			outbox.add(theMessage);
 	}
-	public Message createMessage(String content, String fromNumber, boolean incomingMessage) 
+	public Message createMessage(String content, String fromNumber, boolean outgoingMessage) 
 	{
 		Message newMessage = new Message(content, fromNumber);
-		if (incomingMessage)
-			addToInbox(newMessage);
-		else
+		if (outgoingMessage)
 			addToOutbox(newMessage);
+		else
+			addToInbox(newMessage);
 		return newMessage;
 	}
-	public Message createMessage(String content, Contact contact, boolean incomingMessage)
+	public Message createMessage(String content, Contact contact, boolean outgoingMessage)
 	{
 		if (contact == null) {
 			System.out.println("Contact points to null.");
 			return null;
 		}
 		Message newMessage = new Message(content, contact);
-		if (incomingMessage)
-			addToInbox(newMessage);
-		else
+		if (outgoingMessage)
 			addToOutbox(newMessage);
+		else
+			addToInbox(newMessage);
 		return newMessage;
 	}
 	public Message getLatestMessage() {
