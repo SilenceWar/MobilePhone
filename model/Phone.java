@@ -19,6 +19,11 @@ public class Phone
 		this.conversations = new ArrayList<Conversation>();
 	}
 	
+	/**
+	 * If a conversation exists with the given number, the conversation is returned
+	 * @param number
+	 * @return matching conversation
+	 */
 	public Conversation conversationExists(String number)
 	{
 		if (this.conversations == null)

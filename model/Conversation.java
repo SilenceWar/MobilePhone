@@ -54,12 +54,12 @@ public class Conversation implements Comparable<Conversation>
 	{
 		return date;
 	}
-
+	
 	public ArrayList<Message> getInbox()
 	{
 		return new ArrayList<Message>(inbox);
 	}
-
+	
 	public ArrayList<Message> getOutbox() 
 	{
 		return new ArrayList<Message>(outbox);	
@@ -102,18 +102,6 @@ public class Conversation implements Comparable<Conversation>
 		if (!caught)
 			outbox.add(theMessage);
 	}
-	public void addMessage(Message theMessage) {
-		if (this.outbox.size() < 1) {
-			setPhoneNumber(theMessage.fromNumber());
-			this.inbox.add(theMessage);
-			return;
-		} else if (!this.inbox.contains(theMessage))
-			this.inbox.add(theMessage);
-		else if (!this.outbox.contains(theMessage))
-			this.outbox.add(theMessage);
-		
-	}
-	
 	public Message createMessage(String content, String fromNumber, boolean incomingMessage) 
 	{
 		Message newMessage = new Message(content, fromNumber);
@@ -144,5 +132,30 @@ public class Conversation implements Comparable<Conversation>
 			return 0;
 		}
 		return this.getDate().compareTo(conversation.getDate());
+	}
+	
+	public ArrayList<Message> getMessages() {
+		ArrayList<Message> newArray = new ArrayList<>();
+		int i1 = 0;
+		int i2 = 0;
+		while(i1<this.inbox.size() && i2<this.outbox.size()) {
+			if (this.inbox.get(i1).compareTo(this.outbox.get(i2)) <= 0) {
+				newArray.add(this.inbox.get(i1));
+				i1++;
+			}
+			else {
+				newArray.add(this.outbox.get(i2));
+				i2++;
+			}
+		}
+		while (i1 < this.inbox.size()) { 
+			newArray.add(this.inbox.get(i1));
+			i1++;
+		}
+		while (i2 < this.outbox.size()) { 
+			newArray.add(this.outbox.get(i2));
+			i2++;
+		}
+		return newArray;
 	}
 }

@@ -63,7 +63,7 @@ public class Test {
 		System.out.println("\nPrinting messages...");
 		for (Conversation thisConversation: phone.getConversations()) {
 			System.out.println("\nConversation with " + thisConversation.getPhoneNumber());
-			for (Message thisMessage: thisConversation.getInbox()) {
+			for (Message thisMessage: thisConversation.getMessages()) {
 				System.out.println("From: " + thisMessage.fromName());
 				System.out.println("Message: " + thisMessage.getContent());
 			}
