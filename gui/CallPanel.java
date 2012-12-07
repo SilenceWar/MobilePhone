@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
+import model.Phone;
 import service.Service;
 
 public class CallPanel extends JPanel {
@@ -24,12 +26,16 @@ public class CallPanel extends JPanel {
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg, newCall, getNumber, clockDisplay;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
+	
 	private Timer clock;
 	private int secs=0, hrs=0, mins=0;
 	private DecimalFormat dFormat = new DecimalFormat("00");
 	private final MainFrame parent;
-	public CallPanel(MainFrame theParent) {
+	private final Phone phone;
+	
+	public CallPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
+		this.phone = thePhone;
 		buttonPress = new Controller();
 		
 		this.setLayout(null);

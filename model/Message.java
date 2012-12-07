@@ -8,6 +8,7 @@ public class Message implements Comparable<Message>
 {
 	private DateFormat timeFormat;
 	private DateFormat dateFormat;
+	private DateFormat dateTimeFormat;
 	private Date dateTime;
 	private String fromName;
 	private String fromNumber;
@@ -16,8 +17,9 @@ public class Message implements Comparable<Message>
 	
 	public Message(String content, String fromNumber) 
 	{
-		this.timeFormat = new SimpleDateFormat("HH:mm:ss");
+		this.timeFormat = new SimpleDateFormat("HH:mm");
 		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateTimeFormat = new SimpleDateFormat("dd/MM HH:mm");
 		this.dateTime = new Date();
 		this.content = content;
 		this.fromName = "Unknown <" + fromNumber + ">";
@@ -53,6 +55,11 @@ public class Message implements Comparable<Message>
 	public String getTime()
 	{
 		return this.timeFormat.format(this.dateTime);
+	}
+	
+	public String getDateTimeFormat()
+	{
+		return this.dateTimeFormat.format(this.dateTime);
 	}
 	
 	public void setContent(String content) 

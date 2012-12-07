@@ -5,22 +5,23 @@ import model.Phone;
 
 public class Dao 
 {
-	private ArrayList<Phone> phones;
+	private static ArrayList<Phone> phones;
 	
 	public Dao()
 	{
-		this.phones = new ArrayList<Phone>();
+		phones = new ArrayList<Phone>();
 	}
 	
-	public void addPhone(Phone phone)
+
+	public static void addPhone(Phone phone)
 	{
 		if (phones != null)
-			this.phones.add(phone);
+			phones.add(phone);
 		else
 			System.out.println("Phone points to null.");
 	}
 	
-	public ArrayList<Phone> getPhones() 
+	public static ArrayList<Phone> getPhones() 
 	{
 		return new ArrayList<Phone>(phones);
 	}

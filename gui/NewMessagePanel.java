@@ -39,8 +39,9 @@ public class NewMessagePanel extends JPanel {
 	private int field;
 	private boolean shift = true;
 	private int screen = 1;
-	
-	public NewMessagePanel(MainFrame theParent) {
+	private Phone thisPhone;
+	public NewMessagePanel(MainFrame theParent, Phone thePhone) {
+		this.thisPhone = thePhone;
 		keyboard = new JButton[29];
 		specialKeys = new JButton[7];
 		numKeys = new JButton[27];
@@ -83,8 +84,8 @@ public class NewMessagePanel extends JPanel {
 		newMessageGUI.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=211 && evt.getY()<=238) {
-		        		//System.out.println("Send message!");
-		        		//Service.sendMessage(new Phone("342165"), "3498631", "hejmeddig");
+		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText(),true);
+		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText());
 		        	}
 		    }
 		});

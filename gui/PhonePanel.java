@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Call;
+import model.Phone;
 
 public class PhonePanel extends JPanel {
 	private JButton contacts, call, messages, settings;
@@ -22,8 +23,11 @@ public class PhonePanel extends JPanel {
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private JButton[] numPad;
-		
-	public PhonePanel(MainFrame theParent) {
+	
+	private Phone thisPhone;
+	
+	public PhonePanel(MainFrame theParent, Phone thePhone) {
+		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
 		
