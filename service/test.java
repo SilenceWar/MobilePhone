@@ -11,7 +11,7 @@ import model.Conversation;
 import model.Message;
 import model.Phone;
 
-public class test {
+public class Test {
 
 	/**
 	 * @param args
@@ -26,7 +26,8 @@ public class test {
 		Contact benjamin = Service.createContact(phone, "Benjamin", "+4513371337");
 		Contact christian = Service.createContact(phone, "Christian Liisberg", "+4590019001");
 
-		Conversation conversation = Service.createConversation(phone, "+4529927189");
+		Conversation conversation = new Conversation("+4529927189");
+		phone.addConversation(conversation);
 		Message message = conversation.createMessage("Test", "+4529927189");
 		System.out.println("\"" + message.getContent() + "\", from " + message.fromName() + " (" + message.fromNumber() + ") on " + message.getDateString());
 		message = conversation.createMessage("Test2", henrik);
@@ -43,7 +44,7 @@ public class test {
 			System.out.println(contact.getName());
 		System.out.println("\nSearching...");
 		
-		ArrayList<Contact> searchResults = Service.searchContacts(phone, "Liis");
+		ArrayList<Contact> searchResults = Service.searchContacts(phone, "liis");
 		if (searchResults == null)
 			System.out.println("No contacts found.");
 		else
@@ -55,6 +56,7 @@ public class test {
 		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!");
 		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?");
 		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>");
+		Service.sendMessage(phone, "+4529927180", "Testbesked << hvis den lægger i sin egen Conversation, så duer det!");
 		
 		System.out.println("\nNumber of conversations: " + phone.getConversations().size());
 		

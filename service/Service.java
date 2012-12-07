@@ -9,12 +9,13 @@ import model.Phone;
 
 public abstract class Service
 {
-	public static Conversation createConversation (Phone phone, String phoneNumber)
-	{
-		Conversation conversation = new Conversation(phoneNumber);
-		phone.addConversation(conversation);
-		return conversation;
-	}
+	/**
+	 * Creates and adds new contact to the address book of the phone
+	 * @param phone
+	 * @param name
+	 * @param phoneNumber
+	 * @return created contact
+	 */
 	public static Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
@@ -31,10 +32,10 @@ public abstract class Service
 	}
 	
 	/**
-	 * Searches specified phone's contact list for name given
+	 * Searches contact list for a given name
 	 * @param phone
 	 * @param name
-	 * @return
+	 * @return match if found, null if not found
 	 */
 	public static Contact findContact (Phone phone, String name)
 	{
@@ -57,17 +58,29 @@ public abstract class Service
 		System.out.println("Contact not found.");
 		return null;
 	}
+	/**
+	 * Searches contact list of the phone for a given search phrase
+	 * @param phone to search
+	 * @param searchPhrase to search for
+	 * @return list of matches found
+	 */
 	public static ArrayList<Contact> searchContacts(Phone phone, String searchPhrase)
 	{
 		ArrayList<Contact> searchVolume = phone.getContacts();
 		ArrayList<Contact> result = new ArrayList<Contact>();
 		
 		for (Contact contact: searchVolume)
-			if (contact.getName().contains(searchPhrase))
+			if (contact.getName().contains(searchPhrase) || contact.getName().toLowerCase().contains(searchPhrase))
 				result.add(contact);
 		return result;
 	}
 	
+	/**
+	 * Sends message to phone without contact association
+	 * @param phone
+	 * @param number
+	 * @param content message
+	 */
 	public static void sendMessage (Phone phone, String number, String content)
 	{
 		if (number.length() < 8) {
@@ -86,6 +99,31 @@ public abstract class Service
 		}
 		conversation.createMessage(content, number);
 	}
+	/**
+	 * Sends message to phone with contact association
+	 * @param phone
+	 * @param contact
+	 * @param content message
+	 */
+	public static void sendMessage (Phone phone, Contact contact, String content)
+	{
+		if (contact.getPhoneNumber().length() < 8) {
+			System.out.println("Number must have at least 8 digits.");
+			return;
+		}
+		if (content.length() < 1) {
+			System.out.println("Message can't be empty.");
+			return;
+		}
+		Conversation conversation = phone.conversationExists(contact.getPhoneNumber());
+		
+		if (!(conversation instanceof Conversation)) {
+			conversation = new Conversation(contact);
+			phone.addConversation(conversation);
+		}
+		conversation.createMessage(content, contact.getPhoneNumber());
+	}
+	
 	public static void changeScreenLock (boolean status)
 	{
 		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik

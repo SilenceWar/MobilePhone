@@ -22,6 +22,15 @@ public class Conversation implements Comparable<Conversation>
 		this.inbox = new ArrayList<Message>();
 		this.outbox = new ArrayList<Message>();
 	}
+	public Conversation(Contact contact)
+	{
+		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		this.contact = contact;
+		this.phoneNumber = this.contact.getPhoneNumber();
+		this.date = new Date();
+		this.inbox = new ArrayList<Message>();
+		this.outbox = new ArrayList<Message>();
+	}
 
 	public void setPhoneNumber(String phoneNumber) 
 	{
