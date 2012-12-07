@@ -18,7 +18,7 @@ public class Test {
 	 */
 	public static void main(String[] args)
 	{
-		/*//Service service = new Service();
+		//Service service = new Service();
 		Phone phone = new Phone("+4529927189");
 		//Service.createConversation(phone, "+4529927189",))
 		
@@ -54,7 +54,7 @@ public class Test {
 		System.out.println("\nAdding messages...");
 		
 		Service.sendMessage(phone, "+4529927189", "Hej dig, hvordan går det? Hilsen mig!", true);
-		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?", true);
+		Service.sendMessage(phone, "+4529927189", "Det er mig igen. Virker det?", false);
 		Service.sendMessage(phone, "12345678", "<font face=\"comic sans\">BUY VIAGRA CHEAP!</font>", true);
 		Service.sendMessage(phone, "+4529927180", "Testbesked << hvis den lægger i sin egen Conversation, så duer det!", true);
 		
@@ -67,7 +67,25 @@ public class Test {
 				System.out.println("From: " + thisMessage.fromName());
 				System.out.println("Message: " + thisMessage.getContent());
 			}
-		}*/
+		}
+		
+		System.out.println("\n\nPrinting inbox...");
+		for (Conversation thisConversation: phone.getConversations()) {
+			System.out.println("\nConversation with " + thisConversation.getPhoneNumber());
+			for (Message thisMessage: thisConversation.getInbox()) {
+				System.out.println("From: " + thisMessage.fromName());
+				System.out.println("Message: " + thisMessage.getContent());
+			}
+		}
+		
+		System.out.println("\n\nPrinting outbox...");
+		for (Conversation thisConversation: phone.getConversations()) {
+			System.out.println("\nConversation with " + thisConversation.getPhoneNumber());
+			for (Message thisMessage: thisConversation.getOutbox()) {
+				System.out.println("From: " + thisMessage.fromName());
+				System.out.println("Message: " + thisMessage.getContent());
+			}
+		}
 	}
 
 }
