@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
@@ -34,7 +35,7 @@ public class NewMessagePanel extends JPanel {
 	private JLabel keyboardBackground;
 	
 	private JTextField receiver;
-	private JTextArea content;
+	private JEditorPane content;
 	
 	private int field;
 	private boolean shift = true;
@@ -85,6 +86,8 @@ public class NewMessagePanel extends JPanel {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=211 && evt.getY()<=238) {
 		        		Service.sendMessage(thisPhone, receiver.getText(), content.getText(),true);
+		        		parent.chosenConversation = thisPhone.getConversations().get(thisPhone.getConversations().size()-1);
+		        		parent.showPage("showConversation");
 		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText());
 		        	}
 		    }
@@ -145,8 +148,9 @@ public class NewMessagePanel extends JPanel {
 		return newTextfield;
 	}
 	
-	public JTextArea drawJTextArea(String text, int x, int y, int width, int height) {
-		JTextArea newTextArea = new JTextArea(text);
+	public JEditorPane drawJTextArea(String text, int x, int y, int width, int height) {
+		JEditorPane newTextArea = new JEditorPane();
+		newTextArea.setText(text);
 		newTextArea.setLocation(x, y);
 		newTextArea.setSize(width, height);
 		newTextArea.setOpaque(false);

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,21 +19,18 @@ import model.Conversation;
 import model.Message;
 import model.Phone;
 
-public class MessagesPanel extends JPanel {
+public class ShowConversationPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, messagesTopBar;
-	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
+	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime, lblConversationTopbar;
 	private Controller buttonPress;
-	private final MainFrame parent;
+	private MainFrame parent;
 	private Phone thisPhone;
-	private ArrayList<JPanel> formattedConversations;
 	
-	public MessagesPanel(MainFrame theParent, Phone thePhone) {
+	public ShowConversationPanel(MainFrame parent, Phone thePhone) {
 		this.thisPhone = thePhone;
-		this.parent = theParent;
+		this.parent = parent;
 		buttonPress = new Controller();
-		
-		formattedConversations = new ArrayList<>();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -47,67 +45,36 @@ public class MessagesPanel extends JPanel {
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, this);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, this);
 		
-		messagesTopBar = drawJLabel("MessagesTopBar.png",1,20,262,43,true, Color.gray, 0, this);
-		messagesTopBar.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent evt) {
-		        	if (evt.getX()>=231 && evt.getX()<=251 && evt.getY()>=10 && evt.getY()<=30) {
-		        		parent.showPage("newMessage");
-		        	}
-		    }
-		});
+		lblConversationTopbar = drawJLabel("",55,20,262,43,false, Color.WHITE, 16, this);
+		messagesTopBar = drawJLabel("InConversationTopBar.png",1,20,262,43,true, Color.gray, 0, this);
 		
-		printFormattedConversations();
+		showConversation(parent.chosenConversation);
 		
 		this.setVisible(true);
 	}
 	
-	public void printFormattedConversations() {
-		clearArrayList();
-		
-		ArrayList<Conversation> conversations = this.thisPhone.getConversations();
-		for (int i=0;i<conversations.size();i++) {
+	
+	public void showConversation(Conversation conversation) {	
+		if (conversation == null) return;
+		String receiverString = (conversation.getContact()!=null) ? conversation.getContact().getName() : conversation.getPhoneNumber(); 
+		lblConversationTopbar.setText(receiverString);
+		ArrayList<Message> messages = conversation.getMessages();
+		for (int i=0;i<messages.size();i++) {
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
-			newPanel.setSize(340, 55);
+			newPanel.setSize(340, 0);
 			newPanel.setLocation(1,(63+(i*55)));
 			newPanel.setOpaque(false);
-			
-			formattedConversations.add(newPanel);
-			
+			System.out.println("HEJ!");
 			this.add(newPanel);
 			
-			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
-			
-			drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
-			
-			Message latestMessage = conversations.get(i).getLatestMessage();
-			
-			String newestMessage = latestMessage.getContent();
-			newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
-			drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0, newPanel);	
-			
-			drawJLabel(latestMessage.getDateTimeFormat(), 185, 30, 160, 25, false, Color.gray, 0, newPanel);	
-			
-			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, newPanel);
-			
-			newPanel.addMouseListener(new MouseAdapter() {
-			    public void mouseClicked(MouseEvent evt) {
-			    	parent.chosenConversation = thisPhone.getConversations().get(formattedConversations.indexOf(evt.getSource()));
-			    	parent.showPage("showConversation");
-			    }
-			});
-			
+			if (conversation.getOutbox().contains(messages.get(i)))
+				drawJEditorPane(messages.get(i).getContent(), 1, 2, 188, Color.black, 16, newPanel);	
+			else 
+				drawJEditorPane(messages.get(i).getContent(), 71, 2, 188, Color.black, 16, newPanel);
 			newPanel.setVisible(true);
 		}
 		
-	}
-	public void clearArrayList() {
-		
-		for (JPanel item : formattedConversations) {
-			item.setVisible(false);
-		}
-		
-		formattedConversations.clear();
 	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
@@ -138,11 +105,43 @@ public class MessagesPanel extends JPanel {
 		newLabel.setLocation(x,y);
 		newLabel.setSize(width, height);
 		newLabel.setForeground(color);
-		if (size != 0 && size != 16) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
-		else if (size == 16) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
+		if (size != 0 && size != 50) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
+		else if (size == 50) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
 		
 		panel.add(newLabel);
 		return newLabel;
+	}
+	
+	public JEditorPane drawJEditorPane(String text, int x, int y, int width, Color color, int size, JPanel panel) {
+		JEditorPane newPane;
+		newPane = new JEditorPane();
+		newPane.setText(text);
+		newPane.setEditable(false);
+		newPane.setLocation(x,y);
+		
+		int height = 25+((text.length() / 26) *17);
+		System.out.println(height);
+		height += numberOfApearences(text,"\\n") * 16;
+		System.out.println(height);
+		
+		panel.setSize(panel.getWidth(), panel.getHeight()+height);
+		
+		newPane.setSize(width, height);
+		newPane.setForeground(color);
+		newPane.setBackground(Color.LIGHT_GRAY);
+		if (size != 0 && size != 50) newPane.setFont(new Font(newPane.getName(), Font.PLAIN, size));
+		else if (size == 50) newPane.setFont(new Font(newPane.getName(), Font.BOLD, size));
+		
+		panel.add(newPane);
+		return newPane;
+	}
+	
+	public int numberOfApearences(String theString, String searchString) {
+		
+		String str = theString;
+		String findStr = searchString;
+		
+		return str.split(findStr).length-1;
 	}
 	
 	private class Controller implements ActionListener {
