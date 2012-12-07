@@ -113,6 +113,7 @@ public class Conversation implements Comparable<Conversation>
 	}
 	public Message createMessage(String content, Contact contact, boolean outgoingMessage)
 	{
+		System.out.println("her2!");
 		if (contact == null) {
 			System.out.println("Contact points to null.");
 			return null;

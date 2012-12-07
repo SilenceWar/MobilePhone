@@ -69,9 +69,6 @@ public class NewMessagePanel extends JPanel {
 		inConversationTopBar = drawJLabel("newMessageTopBar.png",1,20,262,43,true, Color.gray, 0);
 		inConversationTopBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-	        	/*if (evt.getX()>=231 && evt.getX()<=251 && evt.getY()>=10 && evt.getY()<=30) {
-	        		System.out.println("DELETE");
-	        	} */
 		    	if (evt.getX()>=4 && evt.getX()<=16 && evt.getY()>=9 && evt.getY()<=30) {
 		        	parent.showPage("messages");
 		        }
@@ -88,7 +85,9 @@ public class NewMessagePanel extends JPanel {
 		        		Service.sendMessage(thisPhone, receiver.getText(), content.getText(),true);
 		        		parent.chosenConversation = thisPhone.getConversations().get(thisPhone.getConversations().size()-1);
 		        		parent.showPage("showConversation");
-		        		//Service.sendMessage(thisPhone, receiver.getText(), content.getText());
+		        	}
+		        	else if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=8 && evt.getY()<=33) {
+		        		parent.showPage("contacts");
 		        	}
 		    }
 		});
@@ -100,6 +99,9 @@ public class NewMessagePanel extends JPanel {
 		this.setVisible(true);
 	}
 	
+	public void toContact(Contact contact) {
+		receiver.setText(contact.getPhoneNumber());
+	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);

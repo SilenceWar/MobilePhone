@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import service.Service;
+
 import model.Conversation;
 import model.Message;
 import model.Phone;
@@ -78,7 +80,10 @@ public class MessagesPanel extends JPanel {
 			
 			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
 			
-			drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			if (Service.searchContactsWithNumber(thisPhone, conversations.get(i).getPhoneNumber()) == null)
+				drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			else 
+				drawJLabel(conversations.get(i).getContact().getName(), 55, 5, 160, 25, false, Color.white, 16, newPanel);
 			
 			Message latestMessage = conversations.get(i).getLatestMessage();
 			

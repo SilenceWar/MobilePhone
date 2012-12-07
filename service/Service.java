@@ -61,6 +61,7 @@ public abstract class Service
 	public static Contact findContact (Phone phone, String name)
 	{
 		ArrayList<Contact> contacts = phone.getContacts();
+			
 		int left = 0;
 		int middle = -1;
 		int right = contacts.size()-1;
@@ -89,11 +90,21 @@ public abstract class Service
 	{
 		ArrayList<Contact> searchVolume = phone.getContacts();
 		ArrayList<Contact> result = new ArrayList<Contact>();
-		
+				
 		for (Contact contact: searchVolume)
-			if (contact.getName().contains(searchPhrase) || contact.getName().toLowerCase().contains(searchPhrase))
+			if (contact.getName().contains(searchPhrase) || contact.getName().toLowerCase().contains(searchPhrase.toLowerCase()))
 				result.add(contact);
 		return result;
+	}
+	
+	public static Contact searchContactsWithNumber(Phone phone, String searchPhrase)
+	{
+		ArrayList<Contact> searchVolume = phone.getContacts();
+				
+		for (Contact contact: searchVolume)
+			if (contact.getPhoneNumber().contains(searchPhrase) || contact.getPhoneNumber().toLowerCase().contains(searchPhrase.toLowerCase()))
+				return contact;
+		return null;
 	}
 	
 	/**
@@ -116,10 +127,17 @@ public abstract class Service
 		Conversation conversation = phone.conversationExists(number);
 		
 		if (!(conversation instanceof Conversation)) {
-			conversation = new Conversation(number);
+			if (searchContactsWithNumber(phone, number) != null) 
+				conversation = new Conversation(searchContactsWithNumber(phone, number));
+			else 
+				conversation = new Conversation(number);
 			phone.addConversation(conversation);
 		}
-		conversation.createMessage(content, number, outgoing);
+		if (searchContactsWithNumber(phone, number) != null) {
+			conversation.createMessage(content, searchContactsWithNumber(phone, number), outgoing);
+		}
+		else
+			conversation.createMessage(content, number, outgoing);
 	}
 	/**
 	 * Sends message to phone with contact association
