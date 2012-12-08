@@ -28,7 +28,7 @@ public class LoggerPanel extends JPanel {
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Phone thisPhone;
 	private Controller buttonPress;
-	private final ArrayList<JPanel> formattedCalls;
+	private ArrayList<JPanel> formattedCalls;
 	private final MainFrame parent;
 	public LoggerPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
@@ -64,19 +64,16 @@ public class LoggerPanel extends JPanel {
 		    }
 		});
 		
-		printFormattedCalls();
+		//printFormattedCalls();
 		
 		this.setVisible(true);
 	}
 
 	public void printFormattedCalls() {
-		formattedCalls.clear();
-		
-		System.out.println("her1");
+		clearArrayList();
 		
 		ArrayList<Call> calls = this.thisPhone.getCalls();
 		for (int i=0;i<calls.size();i++) {
-			System.out.println("her2");
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 55);
@@ -88,8 +85,10 @@ public class LoggerPanel extends JPanel {
 			this.add(newPanel);
 									
 			drawJLabel("contactImage.png",2,2,47,48,true,Color.gray,0,0,newPanel);
-			
+			System.out.println(calls.get(i).getNumber());
+			drawJLabel(""+calls.get(i).getDuration(),190,5,160,25,false,Color.white,16,0,newPanel);	
 			drawJLabel(calls.get(i).getNumber(),55,5,160,25,false,Color.white,16,0,newPanel);	
+
 						
 			drawJLabel("______________________________________",0,35,340,25,false,Color.gray,0,0,newPanel);
 			
@@ -97,7 +96,15 @@ public class LoggerPanel extends JPanel {
 		}
 		
 	}
-				
+		
+	public void clearArrayList() {
+		
+		for (JPanel item : formattedCalls) {
+			item.setVisible(false);
+		}
+		
+		formattedCalls.clear();
+	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
@@ -114,9 +121,7 @@ public class LoggerPanel extends JPanel {
 	    
 		return newButton;
 	}
-	
-	
-	
+			
 	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment, JPanel panel) {
 		JLabel newLabel;
 		if (image) { 

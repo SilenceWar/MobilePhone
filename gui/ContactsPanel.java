@@ -79,7 +79,6 @@ public class ContactsPanel extends JPanel {
 		    public void mouseClicked(MouseEvent evt) {
 //		    	System.out.println(evt.getX()+"|"+evt.getY());
 		        	if (evt.getX()>=0 && evt.getX()<=65 && evt.getY()>=0 && evt.getY()<=49) {
-		        		System.out.println("clicked!");
 		        		parent.showPage("phone");
 		        	}
 		    }

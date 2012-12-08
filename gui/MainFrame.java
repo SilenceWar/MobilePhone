@@ -34,9 +34,11 @@ public class MainFrame extends JFrame {
 	private ShowConversationPanel showConversationPanel;
 	private CreateContactPanel createContactPanel;
 	private ShowContactPanel showContactPanel;
+	private IncommingCallPanel incommingCallPanel;
 	private Phone thisPhone;
 	public Conversation chosenConversation;
 	public Contact chosenViewContact;
+	
 	
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
@@ -55,6 +57,7 @@ public class MainFrame extends JFrame {
 		showConversationPanel = new ShowConversationPanel(this, this.thisPhone);
 		createContactPanel = new CreateContactPanel(this, this.thisPhone);
 		showContactPanel = new ShowContactPanel(this, this.thisPhone);
+		incommingCallPanel = new IncommingCallPanel(this, this.thisPhone);
 
 		
 		this.setSize(350,650);
@@ -79,6 +82,7 @@ public class MainFrame extends JFrame {
 		this.add(showConversationPanel);
 		this.add(createContactPanel);
 		this.add(showContactPanel);
+		this.add(incommingCallPanel);
 		
 		showPage("home");
 		
@@ -108,6 +112,7 @@ public class MainFrame extends JFrame {
 		showConversationPanel.setVisible(false);
 		createContactPanel.setVisible(false);
 		showContactPanel.setVisible(false);
+		incommingCallPanel.setVisible(false);
 		
 		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
 		if (panel.equals("contacts")) {
@@ -147,8 +152,9 @@ public class MainFrame extends JFrame {
 		if (panel.equals("showContact")) {
 			showContactPanel.refreshPanel();
 			showContactPanel.setVisible(true);
-
 		}
+		if (panel.equals("incommingCall")) incommingCallPanel.setVisible(true); 
+		
 	}
 }
 	 

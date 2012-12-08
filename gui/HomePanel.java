@@ -52,6 +52,8 @@ public class HomePanel extends JPanel {
 		lblWeatherTime = drawJLabel("12:45",65,65,155,40,false, Color.BLACK, 50);
 		weatherImg = drawJLabel("Weather.png",3,40,255,153,true, Color.gray, 0);
 		
+		
+		
 		this.setVisible(true);
 		
 	}
@@ -104,7 +106,7 @@ public class HomePanel extends JPanel {
 				parent.showPage("messages");
 			}
 			else if (ae.getSource() == settings) {
-				parent.showPage("settings");
+				parent.showPage("incommingCall");
 			}
 		}
 	}

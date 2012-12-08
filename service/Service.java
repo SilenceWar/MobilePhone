@@ -13,22 +13,24 @@ import model.Phone;
 public abstract class Service
 {
 
-	public static Call makeCall(Phone phone, String phoneNumber, boolean incoming)
+	public static Call recieveCall(Phone phone, String phoneNumber, boolean incoming)
 	{
 		if (phone == null) {
 			System.out.println("[2] Phone points to null.");
 			return null;
 		}
-		Call call = phone.createCall(phoneNumber, incoming);
+		Call call = phone.createCall(phoneNumber, incoming); 
+		
 		return call;
 	}
-	public static Call makeCall(Phone phone, Contact contact, boolean outgoing)
+	public static Call makeCall(Phone phone, Contact contact, boolean outgoing) 
 	{
 		if (phone == null) {
 			System.out.println("[3] Phone points to null.");
 			return null;
 		}
 		Call call = phone.createCall(contact, outgoing);
+		
 		return call;
 	}
 	/**
