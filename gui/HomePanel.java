@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import model.Phone;
 
@@ -20,11 +22,16 @@ public class HomePanel extends JPanel {
 	private Controller buttonPress;
 	private MainFrame parent;
 	private Phone thisPhone;
+	private TimeController timeController;
+	private Timer clockTimer;
 	
 	public HomePanel(MainFrame parent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = parent;
 		buttonPress = new Controller();
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -41,7 +48,7 @@ public class HomePanel extends JPanel {
 		lblMessages = drawJLabel("Meddelelser",133,425,100,25,false, Color.WHITE, 10);
 		lblSettings = drawJLabel("Indstillinger",199,425,100,25,false, Color.WHITE, 10);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0);
+		topBarClock = drawJLabel("",225,-4,100,25,false, Color.gray, 0);
 		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0);
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
@@ -49,13 +56,13 @@ public class HomePanel extends JPanel {
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
-		lblWeatherTime = drawJLabel("12:45",65,65,155,40,false, Color.BLACK, 50);
+		lblWeatherTime = drawJLabel("",65,65,155,40,false, Color.BLACK, 50);
 		weatherImg = drawJLabel("Weather.png",3,40,255,153,true, Color.gray, 0);
+		
 		
 		this.setVisible(true);
 		
-	}
-	
+	}	
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
@@ -105,6 +112,16 @@ public class HomePanel extends JPanel {
 			}
 			else if (ae.getSource() == settings) {
 				parent.showPage("settings");
+			}
+		}
+	}
+	
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+				lblWeatherTime.setText(""+stf.format(System.currentTimeMillis()));
 			}
 		}
 	}

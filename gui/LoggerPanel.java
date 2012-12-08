@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class LoggerPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
@@ -19,9 +21,17 @@ public class LoggerPanel extends JPanel {
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
 	private final MainFrame parent;
+	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public LoggerPanel(MainFrame theParent) {
 		this.parent = theParent;
 		buttonPress = new Controller();
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -83,6 +93,15 @@ public class LoggerPanel extends JPanel {
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 						
+		}
+	}
+	
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+			}
 		}
 	}
 }

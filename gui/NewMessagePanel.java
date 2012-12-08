@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import service.Service;
 import model.*;
@@ -41,11 +43,19 @@ public class NewMessagePanel extends JPanel {
 	private boolean shift = true;
 	private int screen = 1;
 	private Phone thisPhone;
+	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public NewMessagePanel(MainFrame theParent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		keyboard = new JButton[29];
 		specialKeys = new JButton[7];
 		numKeys = new JButton[27];
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -82,9 +92,11 @@ public class NewMessagePanel extends JPanel {
 		newMessageGUI.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=211 && evt.getY()<=238) {
+		        		if (receiver.getText().length()>7 && !content.equals("")) {
 		        		Service.sendMessage(thisPhone, receiver.getText(), content.getText(),true);
 		        		parent.chosenConversation = thisPhone.getConversations().get(thisPhone.getConversations().size()-1);
 		        		parent.showPage("showConversation");
+		        		}
 		        	}
 		        	else if (evt.getX()>=214 && evt.getX()<=254 && evt.getY()>=8 && evt.getY()<=33) {
 		        		parent.showPage("contacts");
@@ -97,6 +109,11 @@ public class NewMessagePanel extends JPanel {
 		showKeyboard(1);
 		
 		this.setVisible(true);
+	}
+	
+	public void clearAll() {
+		receiver.setText("Modtager");
+		content.setText("Skriv din besked");
 	}
 	
 	public void toContact(Contact contact) {
@@ -316,6 +333,14 @@ public class NewMessagePanel extends JPanel {
 				if (content.getText().equals("Skriv din besked"))
 					content.setText("");
 				field = 2;
+			}
+		}
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
 			}
 		}
 	}

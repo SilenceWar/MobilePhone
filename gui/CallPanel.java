@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Timer;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 
 import javax.swing.ImageIcon;
@@ -32,11 +33,16 @@ public class CallPanel extends JPanel {
 	private DecimalFormat dFormat = new DecimalFormat("00");
 	private final MainFrame parent;
 	private final Phone phone;
+	private TimeController timeController;
+	private Timer clockTimer;
 	
 	public CallPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
 		this.phone = thePhone;
 		buttonPress = new Controller();
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -158,5 +164,13 @@ public class CallPanel extends JPanel {
 		        dFormat.format(secs));
 		  
 		}		
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+			}
+		}
 	}
 }

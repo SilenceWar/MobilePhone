@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import service.Service;
 
@@ -47,6 +49,9 @@ public class ContactsPanel extends JPanel {
 	
 	private FocusController boxFocus;
 	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public ContactsPanel(MainFrame theParent, Phone thePhone) {
 		this.formattedContacts = new ArrayList<JPanel>();
 		
@@ -55,6 +60,10 @@ public class ContactsPanel extends JPanel {
 		buttonPress = new Controller();
 		textfieldEnter = new TextFieldController();
 		boxFocus = new FocusController();
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		keyboard = new JButton[29];
 		specialKeys = new JButton[7];
@@ -85,7 +94,7 @@ public class ContactsPanel extends JPanel {
 		    }
 		});
 		
-		name = drawJTextField("Navn",44,75,175,23);
+		name = drawJTextField("Søg",44,75,175,23);
 		name.addActionListener(textfieldEnter);
 
 		contactSearchBar = drawJLabel("ContactSearch.png", 1, 67, 261, 40, true, Color.gray, 0,this);
@@ -102,6 +111,10 @@ public class ContactsPanel extends JPanel {
 		hideKeyboard();
 		
 		this.setVisible(true);
+	}
+	
+	public void clearAll() {
+		name.setText("Søg");
 	}
 	
 	public JTextField drawJTextField(String text, int x, int y, int width, int height) {
@@ -344,7 +357,7 @@ public class ContactsPanel extends JPanel {
 		public void focusLost(FocusEvent ae) {}
 		public void focusGained(FocusEvent ae) {
 			if (ae.getSource() == name) {
-				if (name.getText().equals("Navn")) 
+				if (name.getText().equals("Søg")) 
 					name.setText("");
 				showKeyboard(1);
 			}
@@ -356,6 +369,14 @@ public class ContactsPanel extends JPanel {
 				search(name.getText());
 			}
 			
+		}
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+			}
 		}
 	}
 }
