@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import service.Service;
 
@@ -42,11 +44,18 @@ public class CreateContactPanel extends JPanel {
 	private JTextField number;
 	private FocusController boxFocus;
 	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public CreateContactPanel(MainFrame theParent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
 		boxFocus = new FocusController();
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		keyboard = new JButton[29];
 		specialKeys = new JButton[7];
@@ -78,8 +87,10 @@ public class CreateContactPanel extends JPanel {
 		        		parent.showPage("contacts");
 		        	}
 		        	else if (evt.getX()>=216 && evt.getX()<=260 && evt.getY()>=0 && evt.getY()<=35) {
+		        		if (!name.getText().equals("") && number.getText().length() > 7) {
 		        		Service.createContact(thisPhone, name.getText(), number.getText());
 		        		parent.showPage("contacts");
+		        		}
 		        	}
 		    }
 		});
@@ -88,6 +99,11 @@ public class CreateContactPanel extends JPanel {
 		showKeyboard(1);
 		
 		this.setVisible(true);
+	}
+	
+	public void clearAll() {
+		name.setText("Navn");
+		number.setText("Nummer");
 	}
 	
 	public JTextField drawJTextField(String text, int x, int y, int width, int height) {
@@ -291,6 +307,14 @@ public class CreateContactPanel extends JPanel {
 				if (number.getText().equals("Nummer"))
 					number.setText("");
 				field = 2;
+			}
+		}
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
 			}
 		}
 	}

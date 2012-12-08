@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import model.Phone;
 
@@ -22,10 +24,18 @@ public class SettingsPanel extends JPanel {
 	private Controller buttonPress;
 	private MainFrame parent;
 	private Phone thisPhone;
+	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public SettingsPanel(MainFrame parent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = parent;
 		buttonPress = new Controller();
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -82,6 +92,14 @@ public class SettingsPanel extends JPanel {
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
+		}
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+			}
 		}
 	}
 }

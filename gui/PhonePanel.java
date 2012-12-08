@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import model.Call;
 import model.Phone;
@@ -26,10 +28,17 @@ public class PhonePanel extends JPanel {
 	
 	private Phone thisPhone;
 	
+	private TimeController timeController;
+	private Timer clockTimer;
+	
 	public PhonePanel(MainFrame theParent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
+		
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -178,6 +187,14 @@ public class PhonePanel extends JPanel {
 			else if (ae.getSource() == numPad[14]) {
 				if (!pressedNumber.getText().equals(""))
 				pressedNumber.setText(pressedNumber.getText().substring(0, pressedNumber.getText().length()-1));
+			}
+		}
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
 			}
 		}
 	}
