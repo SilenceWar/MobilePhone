@@ -71,7 +71,7 @@ public class CallPanel extends JPanel {
 	
 //	Starts a call
 	public void startCall(String number) {
-		Service.callNumber(number);
+		Service.makeCall(this.phone,getNumber.getText(), true);
 		getNumber.setText(number);
 		countUpClock();
 	}

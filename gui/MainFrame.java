@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 		settingsPanel = new SettingsPanel(this, this.thisPhone);
 		newMessagePanel = new NewMessagePanel(this, this.thisPhone);
 		callPanel = new CallPanel(this, this.thisPhone);	
-		loggerPanel = new LoggerPanel(this);
+		loggerPanel = new LoggerPanel(this, this.thisPhone);
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -107,7 +107,10 @@ public class MainFrame extends JFrame {
 			callPanel.startCall(phonePanel.getNumber());
 			callPanel.setVisible(true);
 		}	
-		if (panel.equals("logger")) loggerPanel.setVisible(true);
+		if (panel.equals("logger")) {
+			loggerPanel.printFormattedCalls();
+			loggerPanel.setVisible(true);
+		}
 	}
 	 
 }

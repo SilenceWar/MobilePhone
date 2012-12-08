@@ -12,7 +12,7 @@ import model.Phone;
 
 public abstract class Service
 {
-	public static Call makeCall(Phone phone, boolean incoming)
+	public static Call makeCall(Phone phone,String phoneNumber, boolean incoming)
 	{
 		if (phone == null) {
 			System.out.println("[2] Phone points to null.");

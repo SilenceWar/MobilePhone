@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import service.Service;
+
 import model.Call;
 import model.Conversation;
 import model.Message;
@@ -25,10 +27,14 @@ public class LoggerPanel extends JPanel {
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Phone thisPhone;
 	private Controller buttonPress;
+	private final ArrayList<JPanel> formattedCalls;
 	private final MainFrame parent;
-	public LoggerPanel(MainFrame theParent) {
+	public LoggerPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
 		buttonPress = new Controller();
+		this.thisPhone = thePhone;
+		
+		formattedCalls = new ArrayList<>();
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -56,36 +62,37 @@ public class LoggerPanel extends JPanel {
 	        	}
 		    }
 		});
-//		mangler merge til calls (fra henrik)
-		public void printFormattedCalls() {
-			ArrayList<Call> calls = this.thisPhone.getCalls();
-			for (int i=0;i<calls.size();i++) {
-				JPanel newPanel = new JPanel();
-				newPanel.setLayout(null);
-				newPanel.setSize(340, 55);
-				newPanel.setLocation(1,63+(i*55));
-				newPanel.setOpaque(false);
-				this.add(newPanel);
-			
-				drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,0,newPanel);
-				
-				drawJLabel(calls.get(i).getNumber(), 55, 5, 160, 25, false, Color.white, 16,0, newPanel);	
-				
-				Call latestCall = calls.get(i).getNumber();
-				String newestCall = latestMessage.getContent();
-				newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
-				drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0,0, newPanel);	
-				
-				drawJLabel(latestMessage.getDateTimeFormat(), 185, 30, 160, 25, false, Color.gray, 0,0, newPanel);	
-				
-				drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0,0, newPanel);
-				
-				
-			
-				newPanel.setVisible(true);
-		}
+		
+		printFormattedCalls();
 		
 		this.setVisible(true);
+	}
+
+	public void printFormattedCalls() {
+		formattedCalls.clear();
+		System.out.println("her");
+		ArrayList<Call> calls = this.thisPhone.getCalls();
+		for (int i=0;i<calls.size();i++) {
+			JPanel newPanel = new JPanel();
+			newPanel.setLayout(null);
+			newPanel.setSize(340, 55);
+			newPanel.setLocation(1,63+(i*55));
+			newPanel.setOpaque(false);
+			formattedCalls.add(newPanel);
+			this.add(newPanel);
+			
+			System.out.println("her2");
+			
+			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,0,newPanel);
+			
+			drawJLabel(calls.get(i).getNumber(), 55, 5, 160, 25, false, Color.white, 16,0, newPanel);	
+						
+			
+			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0,0, newPanel);
+			
+			newPanel.setVisible(true);
+		}
+		
 	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
