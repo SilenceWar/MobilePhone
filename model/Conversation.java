@@ -135,6 +135,10 @@ public class Conversation implements Comparable<Conversation>
 		}
 	}
 	
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+	
 	@Override
 	public int compareTo(Conversation conversation) {
 		if (conversation == null) {

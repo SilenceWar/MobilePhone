@@ -48,6 +48,9 @@ public abstract class Service
 			return null; 
 		}
 		Contact contact = new Contact(name, phoneNumber);
+		
+		if (phone.conversationExists(phoneNumber) != null)  phone.conversationExists(phoneNumber).setContact(contact);
+		
 		phone.addContact(contact);
 		return contact;
 	}
