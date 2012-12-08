@@ -59,9 +59,9 @@ public class Call implements Comparable<Call>
 	/**
 	 * @param duration
 	 */
-	public void setDuration(int duration)
+	public void setDuration(int time)
 	{
-		this.duration = duration;
+		this.duration = time;
 	}
 
 	public String getNumber() 

@@ -69,19 +69,13 @@ public class Phone
 	 * @return calls received
 	 */
 	public ArrayList<Call> getIncoming() {
-		if (this.incoming != null)
-			return this.incoming;
-		else
-			return null;
+		return new ArrayList<Call>(incoming);
 	}
 	/**
 	 * @return calls made
 	 */
 	public ArrayList<Call> getOutgoing() {
-		if (this.outgoing != null)
-			return this.outgoing;
-		else 
-			return null;
+		return new ArrayList<Call>(outgoing);
 	}
 	
 	/**

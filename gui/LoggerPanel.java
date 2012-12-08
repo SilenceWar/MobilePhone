@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,19 +16,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import service.Service;
+
+import model.Call;
+import model.Contact;
+import model.Conversation;
+import model.Message;
+import model.Phone;
+
 public class LoggerPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, loggerTopBar;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
+	private Phone thisPhone;
 	private Controller buttonPress;
+	private ArrayList<JPanel> formattedCalls;
 	private final MainFrame parent;
 	
 	private TimeController timeController;
 	private Timer clockTimer;
 	
-	public LoggerPanel(MainFrame theParent) {
+	public LoggerPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
 		buttonPress = new Controller();
+		this.thisPhone = thePhone;
+		
+		formattedCalls = new ArrayList<>();
 		
 		timeController = new TimeController();
 		clockTimer = new Timer(1000, timeController);
@@ -38,18 +52,68 @@ public class LoggerPanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0,0);
-		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0,0);
-		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0,0);
-		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0,0);
-		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0,0);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0,0);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0,0);
+		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0,0,this);
+		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0,0,this);
+		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0,0,this);
+		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0,0,this);
+		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0,0,this);
+		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0,0,this);
+		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0,0,this);
 		
-		loggerTopBar = drawJLabel("LoggerTopBar.png",1,20,261,47,true, Color.gray, 0,0);
+		loggerTopBar = drawJLabel("LoggerTopBar.png",1,20,261,47,true, Color.gray, 0,0,this);
+				
+		loggerTopBar.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+//		    	System.out.println(evt.getX()+"|"+evt.getY());
+	        	if (evt.getX()>=198 && evt.getX()<=260 && evt.getY()>=0 && evt.getY()<=49) {
+	        		parent.showPage("contacts");
+	        	}
+	        	else if (evt.getX()>=1 && evt.getX()<=61 && evt.getY()>=0 && evt.getY()<=49) {
+	        		parent.showPage("phone");
+	        	}
+		    }
+		});
+		
+		//printFormattedCalls();
 		
 		this.setVisible(true);
+	}
+
+	public void printFormattedCalls() {
+		clearArrayList();
 		
+		ArrayList<Call> calls = this.thisPhone.getCalls();
+		for (int i=0;i<calls.size();i++) {
+			JPanel newPanel = new JPanel();
+			newPanel.setLayout(null);
+			newPanel.setSize(340, 55);
+			newPanel.setLocation(1,63+(i*55));
+			newPanel.setOpaque(false);
+			
+			formattedCalls.add(newPanel);
+			
+			this.add(newPanel);
+									
+			drawJLabel("contactImage.png",2,2,47,48,true,Color.gray,0,0,newPanel);
+			System.out.println(calls.get(i).getNumber());
+			drawJLabel(""+calls.get(i).getDuration(),190,5,160,25,false,Color.white,16,0,newPanel);	
+			drawJLabel(calls.get(i).getNumber(),55,5,160,25,false,Color.white,16,0,newPanel);	
+
+						
+			drawJLabel("______________________________________",0,35,340,25,false,Color.gray,0,0,newPanel);
+			
+			newPanel.setVisible(true);
+		}
+		
+	}
+		
+	public void clearArrayList() {
+		
+		for (JPanel item : formattedCalls) {
+			item.setVisible(false);
+		}
+		
+		formattedCalls.clear();
 	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
@@ -67,8 +131,8 @@ public class LoggerPanel extends JPanel {
 	    
 		return newButton;
 	}
-	
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment) {
+			
+	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment, JPanel panel) {
 		JLabel newLabel;
 		if (image) { 
 			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
@@ -86,9 +150,10 @@ public class LoggerPanel extends JPanel {
 		if (size != 0 && size != 50) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
 		else if (size == 50) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
 		
-		this.add(newLabel);
+		panel.add(newLabel);
 		return newLabel;
 	}
+	
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
