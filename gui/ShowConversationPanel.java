@@ -84,6 +84,9 @@ public class ShowConversationPanel extends JPanel {
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 0);
 			newPanel.setLocation(1,(63+(i*55)));
+			if (!conPanels.isEmpty())
+			newPanel.setLocation(1,(63+(i*(conPanels.get(conPanels.size()-1).getHeight()+5))));
+			
 			newPanel.setOpaque(false);
 			System.out.println("HEJ!");
 			this.add(newPanel);
@@ -146,10 +149,13 @@ public class ShowConversationPanel extends JPanel {
 		newPane.setEditable(false);
 		newPane.setLocation(x,y);
 		
-		int height = 25+((text.length() / 26) *17);
-		System.out.println(height);
-		height += numberOfApearences(text,"\\n") * 16;
-		System.out.println(height);
+		int height = 30;
+		int count=0;
+		String[] result = text.split("\\n");
+		for (int i=0; i<result.length; i++)
+			if (result[i].length()>20) { count += result[i].length()/26; }
+		height += (count * 22);
+		height += numberOfApearences(text,"\\n") * 22;
 		
 		panel.setSize(panel.getWidth(), panel.getHeight()+height);
 		
