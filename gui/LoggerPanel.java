@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import service.Service;
 
 import model.Call;
+import model.Contact;
 import model.Conversation;
 import model.Message;
 import model.Phone;
@@ -50,7 +51,7 @@ public class LoggerPanel extends JPanel {
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0,0,this);
 		
 		loggerTopBar = drawJLabel("LoggerTopBar.png",1,20,261,47,true, Color.gray, 0,0,this);
-		
+				
 		loggerTopBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 //		    	System.out.println(evt.getX()+"|"+evt.getY());
@@ -70,30 +71,33 @@ public class LoggerPanel extends JPanel {
 
 	public void printFormattedCalls() {
 		formattedCalls.clear();
-		System.out.println("her");
+		
+		System.out.println("her1");
+		
 		ArrayList<Call> calls = this.thisPhone.getCalls();
 		for (int i=0;i<calls.size();i++) {
+			System.out.println("her2");
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 55);
 			newPanel.setLocation(1,63+(i*55));
 			newPanel.setOpaque(false);
+			
 			formattedCalls.add(newPanel);
+			
 			this.add(newPanel);
+									
+			drawJLabel("contactImage.png",2,2,47,48,true,Color.gray,0,0,newPanel);
 			
-			System.out.println("her2");
-			
-			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,0,newPanel);
-			
-			drawJLabel(calls.get(i).getNumber(), 55, 5, 160, 25, false, Color.white, 16,0, newPanel);	
+			drawJLabel(calls.get(i).getNumber(),55,5,160,25,false,Color.white,16,0,newPanel);	
 						
-			
-			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0,0, newPanel);
+			drawJLabel("______________________________________",0,35,340,25,false,Color.gray,0,0,newPanel);
 			
 			newPanel.setVisible(true);
 		}
 		
 	}
+				
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
@@ -110,6 +114,8 @@ public class LoggerPanel extends JPanel {
 	    
 		return newButton;
 	}
+	
+	
 	
 	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment, JPanel panel) {
 		JLabel newLabel;
@@ -132,6 +138,7 @@ public class LoggerPanel extends JPanel {
 		panel.add(newLabel);
 		return newLabel;
 	}
+	
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {

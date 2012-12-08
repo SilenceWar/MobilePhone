@@ -50,14 +50,12 @@ public class MainFrame extends JFrame {
 		settingsPanel = new SettingsPanel(this, this.thisPhone);
 		newMessagePanel = new NewMessagePanel(this, this.thisPhone);
 		callPanel = new CallPanel(this, this.thisPhone);	
-<<<<<<< HEAD
 		loggerPanel = new LoggerPanel(this, this.thisPhone);
-=======
-		loggerPanel = new LoggerPanel(this);
+
 		showConversationPanel = new ShowConversationPanel(this, this.thisPhone);
 		createContactPanel = new CreateContactPanel(this, this.thisPhone);
 		showContactPanel = new ShowContactPanel(this, this.thisPhone);
->>>>>>> 81497896611778dbf7fae0d2248dd16f47a7eb9f
+
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -135,14 +133,12 @@ public class MainFrame extends JFrame {
 		if (panel.equals("call")) { 
 			callPanel.startCall(phonePanel.getNumber());
 			callPanel.setVisible(true);
-<<<<<<< HEAD
-		}	
+		}
 		if (panel.equals("logger")) {
 			loggerPanel.printFormattedCalls();
-			loggerPanel.setVisible(true);
-=======
+			loggerPanel.setVisible(true);	
 		}
-		if (panel.equals("logger")) loggerPanel.setVisible(true);
+		
 		if (panel.equals("showConversation")) {
 			showConversationPanel.showConversation(chosenConversation);
 			showConversationPanel.setVisible(true);
@@ -151,8 +147,9 @@ public class MainFrame extends JFrame {
 		if (panel.equals("showContact")) {
 			showContactPanel.refreshPanel();
 			showContactPanel.setVisible(true);
->>>>>>> 81497896611778dbf7fae0d2248dd16f47a7eb9f
+
 		}
 	}
-	 
 }
+	 
+
