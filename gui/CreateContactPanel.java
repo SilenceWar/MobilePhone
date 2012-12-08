@@ -8,10 +8,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,20 +19,15 @@ import javax.swing.JTextField;
 
 import service.Service;
 
-import model.Contact;
-import model.Conversation;
-import model.Message;
 import model.Phone;
 
-public class ContactsPanel extends JPanel {
+public class CreateContactPanel extends JPanel {
 	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, contactsTopBar, contactSearchBar;
+	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, createContactBar;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
-	private TextFieldController textfieldEnter;
 	private final MainFrame parent;
 	private Phone thisPhone;
-	private ArrayList<JPanel> formattedContacts;
 	
 	private JButton[] keyboard;
 	private JButton[] numKeys;
@@ -44,16 +39,13 @@ public class ContactsPanel extends JPanel {
 	private int screen = 1;
 	
 	private JTextField name;
-	
+	private JTextField number;
 	private FocusController boxFocus;
 	
-	public ContactsPanel(MainFrame theParent, Phone thePhone) {
-		this.formattedContacts = new ArrayList<JPanel>();
-		
+	public CreateContactPanel(MainFrame theParent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = theParent;
 		buttonPress = new Controller();
-		textfieldEnter = new TextFieldController();
 		boxFocus = new FocusController();
 		
 		keyboard = new JButton[29];
@@ -73,33 +65,27 @@ public class ContactsPanel extends JPanel {
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
+		name = drawJTextField("Navn",64,109,156,25);
+		number = drawJTextField("Nummer",102,177,118,25);
 		
-		contactsTopBar = drawJLabel("ContactsTopBar.png",1,20,262,47,true, Color.gray, 0);
-		contactsTopBar.addMouseListener(new MouseAdapter() {
+		createContactBar = drawJLabel("CreateContact.png",0,20,262,192,true, Color.gray, 0);
+		createContactBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-//		    	System.out.println(evt.getX()+"|"+evt.getY());
-		        	if (evt.getX()>=0 && evt.getX()<=65 && evt.getY()>=0 && evt.getY()<=49) {
-		        		System.out.println("clicked!");
-		        		parent.showPage("phone");
+		        	if (evt.getX()>=6 && evt.getX()<=16 && evt.getY()>=8 && evt.getY()<=26) {
+		        		parent.showPage("contacts");
 		        	}
-		    }
-		});
-		
-		name = drawJTextField("Navn",44,75,175,23);
-		name.addActionListener(textfieldEnter);
-
-		contactSearchBar = drawJLabel("ContactSearch.png", 1, 67, 261, 40, true, Color.gray, 0,this);
-		contactSearchBar.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent evt) {
-//		    	System.out.println(evt.getX()+"|"+evt.getY());
-		        	if (evt.getX()>=227 && evt.getX()<=254 && evt.getY()>=6 && evt.getY()<=32) {
-		        		parent.showPage("createContact");
+		        	else if (evt.getX()>=167 && evt.getX()<=215 && evt.getY()>=0 && evt.getY()<=35) {
+		        		parent.showPage("contacts");
+		        	}
+		        	else if (evt.getX()>=216 && evt.getX()<=260 && evt.getY()>=0 && evt.getY()<=35) {
+		        		Service.createContact(thisPhone, name.getText(), number.getText());
+		        		parent.showPage("contacts");
 		        	}
 		    }
 		});
 		
 		drawKeyboard();
-		hideKeyboard();
+		showKeyboard(1);
 		
 		this.setVisible(true);
 	}
@@ -151,73 +137,6 @@ public class ContactsPanel extends JPanel {
 		return newLabel;
 	}
 	
-	public void printContacts(ArrayList<Contact> theContacts) {
-		clearArrayList();
-		
-		ArrayList<Contact> contacts = theContacts;
-		for (int i=0;i<contacts.size();i++) {
-			JPanel newPanel = new JPanel();
-			newPanel.setLayout(null);
-			newPanel.setSize(340, 55);
-			newPanel.setLocation(1,(108+(i*55)));
-			newPanel.setOpaque(false);
-			
-			formattedContacts.add(newPanel);
-			
-			this.add(newPanel);
-			
-			drawJLabel(contacts.get(i).getName(), 55, 12, 160, 25, false, Color.white, 16, newPanel);	
-			
-			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
-			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, newPanel);
-
-			newPanel.addMouseListener(new MouseAdapter() {
-			    public void mouseClicked(MouseEvent evt) {
-			    	parent.chosenViewContact = thisPhone.getContacts().get(formattedContacts.indexOf(evt.getSource()));
-			    	parent.showPage("showContact");
-			    }
-			});
-			newPanel.setVisible(true);
-		}
-	}
-	
-	public void clearArrayList() {
-		
-		for (JPanel item : formattedContacts) {
-			item.setVisible(false);
-		}
-		
-		formattedContacts.clear();
-	}
-	
-	public void search(String name) {
-		this.requestFocusInWindow(false);
-		hideKeyboard();
-		ArrayList<Contact> contacts = Service.searchContacts(thisPhone, name);
-		printContacts(contacts);
-	}
-
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, JPanel panel) {
-		JLabel newLabel;
-		if (image) { 
-			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
-			ImageIcon newImage = new ImageIcon(newImageURL);
-			newLabel = new JLabel(newImage);
-		} else { 
-			newLabel = new JLabel(text);
-		}
-		newLabel.setLocation(x,y);
-		newLabel.setSize(width, height);
-		newLabel.setForeground(color);
-		if (size != 0 && size != 16) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
-		else if (size == 16) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
-		
-		panel.add(newLabel);
-		return newLabel;
-	}
-	
-	
-	
 	
 	public void drawKeyboard() {
 		int line = 0;
@@ -239,7 +158,7 @@ public class ContactsPanel extends JPanel {
 		specialKeys[3] = drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31);
 		specialKeys[4] = drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31);
 		specialKeys[5] = drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31);
-		specialKeys[6] = drawJButtonImage("keySearch.png",218, 417, 40, 31);
+		specialKeys[6] = drawJButtonImage("keyEnter.png",218, 417, 40, 31);
 		
 		keyboardBackground = drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0);
 		hideKeyboard();
@@ -253,8 +172,6 @@ public class ContactsPanel extends JPanel {
 		if (show ==2)
 		for (JButton item: numKeys) 
 			item.setVisible(true);
-		for (JButton item: specialKeys) 
-			item.setVisible(true);
 		keyboardBackground.setVisible(true);
 	}
 	
@@ -265,11 +182,8 @@ public class ContactsPanel extends JPanel {
 		for (JButton item: numKeys) {
 			item.setVisible(false);
 		}
-		for (JButton item: specialKeys) 
-			item.setVisible(false);
 		keyboardBackground.setVisible(false);
 	}
-	
 	
 	public String getAlpha(int i) {
 		if (i==0) return "q"; if (i==1) return "w"; if (i==2) return "e"; if (i==3) return "r";
@@ -301,14 +215,24 @@ public class ContactsPanel extends JPanel {
 				if (ae.getSource()==keyboard[i]) {
 					String value = getAlpha(i);
 					if (shift) value = value.toUpperCase();
+					if (field == 1) {
 						name.setText(name.getText()+value);
+					}
+					else if (field == 2) {
+						number.setText(number.getText()+value);
+					}
 					shift = false;
 				}
 			}
 			for (int i=0;i<numKeys.length;i++) {
 				if (ae.getSource()==numKeys[i]) {
 					String value = getNumeric(i);
+					if (field == 1) {
 						name.setText(name.getText()+value);
+					}
+					else if (field == 2) {
+						number.setText(number.getText()+value);
+					}
 					shift = false;
 				}
 			}
@@ -317,25 +241,40 @@ public class ContactsPanel extends JPanel {
 				shift = (shift) ? false : true;
 			}
 			else if (ae.getSource()==specialKeys[1]) {
-				if (!name.getText().equals("")) 
+				if (field == 1 && !name.getText().equals("")) 
 					name.setText(name.getText().substring(0, name.getText().length()-1));
+				else if (field == 2 && !number.getText().equals("")) 
+					number.setText(number.getText().substring(0, number.getText().length()-1));
 			}
 			else if (ae.getSource()==specialKeys[2]) {
 				hideKeyboard();
 				if (screen == 1) { showKeyboard(2); screen = 2; } else { showKeyboard(1); screen = 1; } 
 			}
 			else if (ae.getSource()==specialKeys[3]) {
+				if (field == 1) 
 					name.setText(name.getText()+",");
+				else if (field == 2) 
+					number.setText(number.getText()+",");
 			}
 			else if (ae.getSource()==specialKeys[4]) {
+				if (field == 1) 
 					name.setText(name.getText()+" ");
+				else if (field == 2) 
+					number.setText(number.getText()+" ");
 			}
 			else if (ae.getSource()==specialKeys[5]) {
-				name.setText(name.getText()+".");
+				if (field == 1) 
+					name.setText(name.getText()+".");
+				else if (field == 2) 
+					number.setText(number.getText()+".");
 				shift = true;
 			}
 			else if (ae.getSource()==specialKeys[6]) {
-				search(name.getText());
+				if (field == 1) 
+					name.setText(name.getText()+"\n");
+				else if (field == 2) 
+					number.setText(number.getText()+"\n"); 
+				shift = true;
 			}
 		}
 	}
@@ -346,16 +285,13 @@ public class ContactsPanel extends JPanel {
 			if (ae.getSource() == name) {
 				if (name.getText().equals("Navn")) 
 					name.setText("");
-				showKeyboard(1);
+				field = 1;
 			}
-		}
-	}
-	private class TextFieldController implements ActionListener {
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == name) {
-				search(name.getText());
+			else if (ae.getSource() == number) {
+				if (number.getText().equals("Nummer"))
+					number.setText("");
+				field = 2;
 			}
-			
 		}
 	}
 }

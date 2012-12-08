@@ -190,6 +190,16 @@ public class Phone
 	}
 	
 	/**
+	 * Removes given conversation from the ArrayList
+	 * @param conversation to add
+	 */
+	public void deleteConversation(Conversation conversation)
+	{
+		if (conversations.contains(conversation)) 
+			conversations.remove(conversation);
+	}
+	
+	/**
 	 * Merges list of incoming and outgoing calls
 	 * @return calls
 	 */

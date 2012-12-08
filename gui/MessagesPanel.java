@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import service.Service;
+
 import model.Conversation;
 import model.Message;
 import model.Phone;
@@ -25,7 +27,7 @@ public class MessagesPanel extends JPanel {
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private Phone thisPhone;
-	private final ArrayList<JPanel> formattedConversations;
+	private ArrayList<JPanel> formattedConversations;
 	
 	public MessagesPanel(MainFrame theParent, Phone thePhone) {
 		this.thisPhone = thePhone;
@@ -62,22 +64,29 @@ public class MessagesPanel extends JPanel {
 	}
 	
 	public void printFormattedConversations() {
-		formattedConversations.clear();
+		clearArrayList();
+		
 		ArrayList<Conversation> conversations = this.thisPhone.getConversations();
 		for (int i=0;i<conversations.size();i++) {
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 55);
-			newPanel.setLocation(1,63+(i*55));
+			newPanel.setLocation(1,(63+(i*55)));
 			newPanel.setOpaque(false);
+			
 			formattedConversations.add(newPanel);
+			
 			this.add(newPanel);
 			
 			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
 			
-			drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			if (Service.searchContactsWithNumber(thisPhone, conversations.get(i).getPhoneNumber()) == null)
+				drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
+			else 
+				drawJLabel(conversations.get(i).getContact().getName(), 55, 5, 160, 25, false, Color.white, 16, newPanel);
 			
 			Message latestMessage = conversations.get(i).getLatestMessage();
+			
 			String newestMessage = latestMessage.getContent();
 			newestMessage = (newestMessage.length()>15) ? newestMessage.substring(0, 15)+"..." : newestMessage ;
 			drawJLabel(newestMessage, 55, 30, 160, 25, false, Color.gray, 0, newPanel);	
@@ -88,15 +97,22 @@ public class MessagesPanel extends JPanel {
 			
 			newPanel.addMouseListener(new MouseAdapter() {
 			    public void mouseClicked(MouseEvent evt) {
-			    	//System.out.println(evt.getSource().getClass());
-			    	System.out.println(formattedConversations.indexOf(evt.getSource()));
-			       // parent.showPage("showConversation");
+			    	parent.chosenConversation = thisPhone.getConversations().get(formattedConversations.indexOf(evt.getSource()));
+			    	parent.showPage("showConversation");
 			    }
 			});
 			
 			newPanel.setVisible(true);
 		}
 		
+	}
+	public void clearArrayList() {
+		
+		for (JPanel item : formattedConversations) {
+			item.setVisible(false);
+		}
+		
+		formattedConversations.clear();
 	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {

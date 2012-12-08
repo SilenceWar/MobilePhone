@@ -113,6 +113,7 @@ public class Conversation implements Comparable<Conversation>
 	}
 	public Message createMessage(String content, Contact contact, boolean outgoingMessage)
 	{
+		System.out.println("her2!");
 		if (contact == null) {
 			System.out.println("Contact points to null.");
 			return null;
@@ -132,6 +133,10 @@ public class Conversation implements Comparable<Conversation>
 		} else {
 			return (!this.outbox.isEmpty()) ? this.outbox.get(this.outbox.size()-1) : this.inbox.get(this.inbox.size()-1);
 		}
+	}
+	
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	
 	@Override

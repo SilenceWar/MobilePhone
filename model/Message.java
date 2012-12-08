@@ -27,8 +27,10 @@ public class Message implements Comparable<Message>
 		this.read = false;
 	}
 	public Message(String content, Contact contact)
-	{
+	{		
+		this.timeFormat = new SimpleDateFormat("HH:mm");
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateTimeFormat = new SimpleDateFormat("dd/MM HH:mm");
 		this.dateTime = new Date();
 		this.content = content;
 		this.fromName = contact.getName();

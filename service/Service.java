@@ -12,17 +12,27 @@ import model.Phone;
 
 public abstract class Service
 {
+<<<<<<< HEAD
 	public static Call makeCall(Phone phone,String phoneNumber, boolean incoming)
+=======
+	public static Call makeCall(Phone phone, String phoneNumber, boolean outgoing)
+>>>>>>> 81497896611778dbf7fae0d2248dd16f47a7eb9f
 	{
 		if (phone == null) {
 			System.out.println("[2] Phone points to null.");
 			return null;
 		}
-		
-		if (incoming) {
-			// TODO
+		Call call = phone.createCall(phoneNumber, outgoing);
+		return call;
+	}
+	public static Call makeCall(Phone phone, Contact contact, boolean outgoing)
+	{
+		if (phone == null) {
+			System.out.println("[3] Phone points to null.");
+			return null;
 		}
-		return null;
+		Call call = phone.createCall(contact, outgoing);
+		return call;
 	}
 	/**
 	 * Creates and adds new contact to the address book of the phone
@@ -42,6 +52,9 @@ public abstract class Service
 			return null; 
 		}
 		Contact contact = new Contact(name, phoneNumber);
+		
+		if (phone.conversationExists(phoneNumber) != null)  phone.conversationExists(phoneNumber).setContact(contact);
+		
 		phone.addContact(contact);
 		return contact;
 	}
@@ -55,6 +68,7 @@ public abstract class Service
 	public static Contact findContact (Phone phone, String name)
 	{
 		ArrayList<Contact> contacts = phone.getContacts();
+			
 		int left = 0;
 		int middle = -1;
 		int right = contacts.size()-1;
@@ -83,11 +97,21 @@ public abstract class Service
 	{
 		ArrayList<Contact> searchVolume = phone.getContacts();
 		ArrayList<Contact> result = new ArrayList<Contact>();
-		
+				
 		for (Contact contact: searchVolume)
-			if (contact.getName().contains(searchPhrase) || contact.getName().toLowerCase().contains(searchPhrase))
+			if (contact.getName().contains(searchPhrase) || contact.getName().toLowerCase().contains(searchPhrase.toLowerCase()))
 				result.add(contact);
 		return result;
+	}
+	
+	public static Contact searchContactsWithNumber(Phone phone, String searchPhrase)
+	{
+		ArrayList<Contact> searchVolume = phone.getContacts();
+				
+		for (Contact contact: searchVolume)
+			if (contact.getPhoneNumber().contains(searchPhrase) || contact.getPhoneNumber().toLowerCase().contains(searchPhrase.toLowerCase()))
+				return contact;
+		return null;
 	}
 	
 	/**
@@ -110,10 +134,17 @@ public abstract class Service
 		Conversation conversation = phone.conversationExists(number);
 		
 		if (!(conversation instanceof Conversation)) {
-			conversation = new Conversation(number);
+			if (searchContactsWithNumber(phone, number) != null) 
+				conversation = new Conversation(searchContactsWithNumber(phone, number));
+			else 
+				conversation = new Conversation(number);
 			phone.addConversation(conversation);
 		}
-		conversation.createMessage(content, number, outgoing);
+		if (searchContactsWithNumber(phone, number) != null) {
+			conversation.createMessage(content, searchContactsWithNumber(phone, number), outgoing);
+		}
+		else
+			conversation.createMessage(content, number, outgoing);
 	}
 	/**
 	 * Sends message to phone with contact association
@@ -153,5 +184,10 @@ public abstract class Service
 		Phone newPhone = new Phone(number);
 		Dao.addPhone(newPhone);
 		return newPhone;
+	}
+	
+	public static boolean deleteConversation(Phone thePhone, Conversation conversation) {
+		thePhone.deleteConversation(conversation);
+		return true;
 	}
 }

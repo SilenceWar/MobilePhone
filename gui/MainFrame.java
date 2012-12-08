@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.border.Border;
 
+import model.Contact;
+import model.Conversation;
 import model.Phone;
 
 import service.Service;
@@ -29,10 +31,17 @@ public class MainFrame extends JFrame {
 	private NewMessagePanel newMessagePanel;
 	private CallPanel callPanel;
 	private LoggerPanel loggerPanel;
+	private ShowConversationPanel showConversationPanel;
+	private CreateContactPanel createContactPanel;
+	private ShowContactPanel showContactPanel;
 	private Phone thisPhone;
+	public Conversation chosenConversation;
+	public Contact chosenViewContact;
 	
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
+		chosenConversation = null;
+		chosenViewContact = null;
 		
 		homePanel = new HomePanel(this, this.thisPhone);
 		contactsPanel = new ContactsPanel(this, this.thisPhone);
@@ -41,7 +50,14 @@ public class MainFrame extends JFrame {
 		settingsPanel = new SettingsPanel(this, this.thisPhone);
 		newMessagePanel = new NewMessagePanel(this, this.thisPhone);
 		callPanel = new CallPanel(this, this.thisPhone);	
+<<<<<<< HEAD
 		loggerPanel = new LoggerPanel(this, this.thisPhone);
+=======
+		loggerPanel = new LoggerPanel(this);
+		showConversationPanel = new ShowConversationPanel(this, this.thisPhone);
+		createContactPanel = new CreateContactPanel(this, this.thisPhone);
+		showContactPanel = new ShowContactPanel(this, this.thisPhone);
+>>>>>>> 81497896611778dbf7fae0d2248dd16f47a7eb9f
 		
 		this.setSize(350,650);
 		this.setLocation(400,50);
@@ -62,6 +78,9 @@ public class MainFrame extends JFrame {
 		this.add(newMessagePanel);
 		this.add(callPanel);
 		this.add(loggerPanel);
+		this.add(showConversationPanel);
+		this.add(createContactPanel);
+		this.add(showContactPanel);
 		
 		showPage("home");
 		
@@ -88,9 +107,15 @@ public class MainFrame extends JFrame {
 		newMessagePanel.setVisible(false);
 		callPanel.setVisible(false);
 		loggerPanel.setVisible(false);
-
+		showConversationPanel.setVisible(false);
+		createContactPanel.setVisible(false);
+		showContactPanel.setVisible(false);
+		
 		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
-		if (panel.equals("contacts")) contactsPanel.setVisible(true);
+		if (panel.equals("contacts")) {
+			contactsPanel.printContacts(this.thisPhone.getContacts());
+			contactsPanel.setVisible(true);
+		}
 
 		if (panel.equals("messages")) {
 			messagesPanel.printFormattedConversations();
@@ -103,13 +128,30 @@ public class MainFrame extends JFrame {
 		}
 		if (panel.equals("settings")) settingsPanel.setVisible(true);
 		if (panel.equals("newMessage")) newMessagePanel.setVisible(true);
+		if (panel.equals("newMessageContact")) {
+			newMessagePanel.toContact(chosenViewContact);
+			newMessagePanel.setVisible(true); 
+		}
 		if (panel.equals("call")) { 
 			callPanel.startCall(phonePanel.getNumber());
 			callPanel.setVisible(true);
+<<<<<<< HEAD
 		}	
 		if (panel.equals("logger")) {
 			loggerPanel.printFormattedCalls();
 			loggerPanel.setVisible(true);
+=======
+		}
+		if (panel.equals("logger")) loggerPanel.setVisible(true);
+		if (panel.equals("showConversation")) {
+			showConversationPanel.showConversation(chosenConversation);
+			showConversationPanel.setVisible(true);
+		}
+		if (panel.equals("createContact")) createContactPanel.setVisible(true);
+		if (panel.equals("showContact")) {
+			showContactPanel.refreshPanel();
+			showContactPanel.setVisible(true);
+>>>>>>> 81497896611778dbf7fae0d2248dd16f47a7eb9f
 		}
 	}
 	 
