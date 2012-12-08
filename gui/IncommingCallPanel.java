@@ -20,8 +20,8 @@ public class IncommingCallPanel extends JPanel {
 	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, newCall;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
-	private MainFrame parent;
-	private Phone thisPhone;
+	private final MainFrame parent;
+	private final Phone thisPhone;
 	public IncommingCallPanel(MainFrame parent, Phone thePhone) {
 		this.thisPhone = thePhone;
 		this.parent = parent;
@@ -41,8 +41,8 @@ public class IncommingCallPanel extends JPanel {
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 
 		newCall = drawJLabel("IncomingCall.png",1,20,261,436,true, Color.gray, 0);
-
-			
+		
+					
 		this.setVisible(true);
 	}
 	
