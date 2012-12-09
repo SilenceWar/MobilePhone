@@ -58,6 +58,7 @@ public class CallPanel extends JPanel {
 		this.setBackground(Color.BLACK);
 		
 		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, 0);
+
 		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0, 0);
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, 0);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0);

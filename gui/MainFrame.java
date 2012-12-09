@@ -172,6 +172,7 @@ public class MainFrame extends JFrame {
 			showContactPanel.setVisible(true);
 			break;
 		case "incommingCall":
+			incommingCallPanel.receiveCall();
 			incommingCallPanel.setVisible(true); 
 			break;
 	}

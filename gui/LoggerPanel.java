@@ -57,7 +57,7 @@ public class LoggerPanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0,0,this);
+		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, 0, this);
 		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0,0,this);
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0,0,this);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0,0,this);
@@ -78,9 +78,8 @@ public class LoggerPanel extends JPanel {
 	        	}
 		    }
 		});
-		
-		//printFormattedCalls();
-		
+	
+
 		this.setVisible(true);
 	}
 	
@@ -159,7 +158,7 @@ public class LoggerPanel extends JPanel {
 	    
 		return newButton;
 	}
-			
+
 	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, int alignment, JPanel panel) {
 		JLabel newLabel;
 		if (image) { 
