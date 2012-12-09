@@ -74,12 +74,15 @@ public class PhonePanel extends JPanel {
 			numPad[i-1] = drawJButtonImage(i+".png",3+((i-1)%3)*86, 197+(line*51), 84, 49);
 			if (i%3==0) { line++; }
 		}
-		
 		this.setVisible(true);
 	}
 	
 	public String getNumber() {
 		return pressedNumber.getText();
+	}
+	
+	public void setNumber(String number) {
+		pressedNumber.setText(number);
 	}
 	
 	public void clearScreen() {

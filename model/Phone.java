@@ -37,6 +37,23 @@ public class Phone
 	}
 	
 	/**
+	 * If a contact exists with the given number, the contact is returned
+	 * @param number
+	 * @return matching contact
+	 */
+	public Contact contactExists(String number)
+	{
+		if (this.contacts == null)
+			return null;
+		
+		for (Contact item: contacts)
+			if (item.getPhoneNumber().equals(number))
+				return item;
+		
+		return null;
+	}
+	
+	/**
 	 * @return count of unread messages
 	 */
 	public int unreadMessages()
@@ -84,7 +101,8 @@ public class Phone
 	 */
 	private void addIncomingCall(Call call)
 	{
-		boolean caught = false;
+		this.incoming.add(0, call);
+		/*boolean caught = false;
 		for (int i = 0; i < this.incoming.size(); i++) {
 			if (call.compareTo(this.incoming.get(i)) < 0) {
 				this.incoming.add(i, call);
@@ -93,7 +111,7 @@ public class Phone
 			}
 		}
 		if (!caught)
-			this.outgoing.add(call);
+			this.outgoing.add(call);*/
 	}
 	/**
 	 * Adds new call to chronically sorted position in incoming calls
@@ -101,7 +119,8 @@ public class Phone
 	 */
 	private void addOutgoingCall(Call call)
 	{
-		boolean caught = false;
+		this.outgoing.add(0, call);
+		/*boolean caught = false;
 		for (int i = 0; i < this.outgoing.size(); i++) {
 			if (call.compareTo(this.outgoing.get(i)) < 0) {
 				this.outgoing.add(i, call);
@@ -110,11 +129,16 @@ public class Phone
 			}
 		}
 		if (!caught)
-			this.outgoing.add(call);
+			this.outgoing.add(call);*/
 	}
-	public Call createCall(String fromNumber, boolean outgoingCall) 
+	public Call createCall(String toNumber, boolean outgoingCall) 
 	{
-		Call newCall = new Call(fromNumber);
+		Call newCall;
+		if (this.contactExists(toNumber) != null) 
+			newCall = new Call(this.contactExists(toNumber));
+		else
+			newCall = new Call(toNumber);
+		
 		if (outgoingCall)
 			addOutgoingCall(newCall);
 		else 

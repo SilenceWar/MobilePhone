@@ -35,7 +35,7 @@ public class CallPanel extends JPanel {
 	private int secs=0, hrs=0, mins=0;
 	private DecimalFormat dFormat = new DecimalFormat("00");
 	private final MainFrame parent;
-	private final Phone phone;
+	private final Phone thisPhone;
 
 	private TimeController timeController;
 	private Timer clockTimer;
@@ -44,7 +44,7 @@ public class CallPanel extends JPanel {
 	
 	public CallPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
-		this.phone = thePhone;
+		this.thisPhone = thePhone;
 		buttonPress = new Controller();
 		timeController = new TimeController();
 		clockTimer = new Timer(1000, timeController);
@@ -86,8 +86,11 @@ public class CallPanel extends JPanel {
 //	Starts a call
 	public void startCall(String number) {  
 		countUpClock();
-		theCall = Service.recieveCall(this.phone,number, true); 
-		getNumber.setText(number);
+		theCall = Service.makeCall(this.thisPhone,number, true); 
+		if (thisPhone.contactExists(number) != null) 
+			getNumber.setText(thisPhone.contactExists(number).getName());
+		else 
+			getNumber.setText(number);
 	}
 			
 	
