@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -7,14 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import javax.swing.JFrame;
-import javax.swing.border.Border;
 
 import model.Contact;
 import model.Conversation;
@@ -38,8 +37,8 @@ public class MainFrame extends JFrame {
 	private Phone thisPhone;
 	public Conversation chosenConversation;
 	public Contact chosenViewContact;
-	
-	
+	public String chosenRecallNumber;
+		
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
 		chosenConversation = null;
@@ -113,7 +112,7 @@ public class MainFrame extends JFrame {
 		createContactPanel.setVisible(false);
 		showContactPanel.setVisible(false);
 		incommingCallPanel.setVisible(false);
-		
+				
 	switch (panel){
 		case "home":
 			homePanel.setVisible(true);
@@ -150,6 +149,14 @@ public class MainFrame extends JFrame {
 			break;
 		case "call":
 			callPanel.startCall(phonePanel.getNumber());
+			callPanel.setVisible(true);
+			break;
+		case "callContact":
+			callPanel.startCall(chosenViewContact.getPhoneNumber());
+			callPanel.setVisible(true);
+			break;
+		case "reCallNumber":
+			callPanel.startCall(chosenRecallNumber);
 			callPanel.setVisible(true);
 			break;
 		case "logger":

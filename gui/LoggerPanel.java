@@ -9,12 +9,15 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 
 import service.Service;
 
@@ -33,9 +36,11 @@ public class LoggerPanel extends JPanel {
 	private ArrayList<JPanel> formattedCalls;
 	private final MainFrame parent;
 	
+	private JButton[] reCall;
+	
 	private TimeController timeController;
 	private Timer clockTimer;
-	
+		
 	public LoggerPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
 		buttonPress = new Controller();
@@ -78,28 +83,51 @@ public class LoggerPanel extends JPanel {
 		
 		this.setVisible(true);
 	}
+	
+	public void addScrollPane(JPanel panel)
+	{
+		JScrollPane scrollPane = new JScrollPane(panel);
+		scrollPane.setLocation(panel.getX(), panel.getY());
+		scrollPane.setSize(panel.getWidth(), panel.getHeight());
+		Border border = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+		scrollPane.setBorder(border);
+		this.add(scrollPane);
+	}
 
 	public void printFormattedCalls() {
 		clearArrayList();
 		
 		ArrayList<Call> calls = this.thisPhone.getCalls();
+		reCall = new JButton[calls.size()];
 		for (int i=0;i<calls.size();i++) {
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setSize(340, 55);
-			newPanel.setLocation(1,63+(i*55));
+			newPanel.setLocation(1,68+(i*55));
 			newPanel.setOpaque(false);
 			
 			formattedCalls.add(newPanel);
 			
 			this.add(newPanel);
-									
-			drawJLabel("contactImage.png",2,2,47,48,true,Color.gray,0,0,newPanel);
-			System.out.println(calls.get(i).getNumber());
-			drawJLabel(""+calls.get(i).getDuration(),190,5,160,25,false,Color.white,16,0,newPanel);	
-			drawJLabel(calls.get(i).getNumber(),55,5,160,25,false,Color.white,16,0,newPanel);	
-
 						
+			drawJLabel("contactImage.png",2,2,47,48,true,Color.gray,0,0,newPanel);
+
+			if (thisPhone.contactExists(calls.get(i).getNumber()) != null)
+				drawJLabel(thisPhone.contactExists(calls.get(i).getNumber()).getName(),55,5,160,25,false,Color.white,16,0,newPanel);
+			else 
+				drawJLabel(calls.get(i).getNumber(),55,5,160,25,false,Color.white,16,0,newPanel);
+			
+			if (thisPhone.getOutgoing().contains(calls.get(i))) 
+				drawJLabel("outgoingCall.png",55,29,27,17,true,Color.gray,0,0,newPanel);
+			else 
+				drawJLabel("incomingCallIcon.png",55,29,27,17,true,Color.gray,0,0,newPanel);
+			
+			reCall[i] = drawJButtonImage("MakeCall.png",230, 5, 23, 23, newPanel);
+			
+			
+			drawJLabel(calls.get(i).getDuration(),85,25,160,25,false,Color.gray,12,0,newPanel);
+			drawJLabel(calls.get(i).getDateTimeString(),185,25,160,25,false,Color.cyan,12,0,newPanel);
+	
 			drawJLabel("______________________________________",0,35,340,25,false,Color.gray,0,0,newPanel);
 			
 			newPanel.setVisible(true);
@@ -116,7 +144,7 @@ public class LoggerPanel extends JPanel {
 		formattedCalls.clear();
 	}
 	
-	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
+	public JButton drawJButtonImage(String path,int x, int y, int width, int height, JPanel panel) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
 		ImageIcon newImage = new ImageIcon(newImageURL);
 	    JButton newButton = new JButton(newImage);
@@ -127,7 +155,7 @@ public class LoggerPanel extends JPanel {
 	    newButton.setBorderPainted(false);
 	    newButton.setFocusPainted(false);
 	    newButton.addActionListener(buttonPress);
-	    this.add(newButton);
+	    panel.add(newButton);
 	    
 		return newButton;
 	}
@@ -157,7 +185,12 @@ public class LoggerPanel extends JPanel {
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-						
+			for (int i=0;i<reCall.length;i++) {
+				if (ae.getSource() == reCall[i]) {
+					parent.chosenRecallNumber = thisPhone.getCalls().get(i).getNumber();
+					parent.showPage("reCallNumber");
+				}
+			}
 		}
 	}
 	

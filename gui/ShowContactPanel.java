@@ -65,7 +65,7 @@ public class ShowContactPanel extends JPanel {
 	        		System.out.println("EDIT");
 	        	}
 		    	else if (evt.getX()>=191 && evt.getX()<=221 && evt.getY()>=155 && evt.getY()<=189) {
-	        		System.out.println("CALL CONTACT!");
+		    		parent.showPage("callContact");
 	        	}
 		    	else if (evt.getX()>=223 && evt.getX()<=259 && evt.getY()>=155 && evt.getY()<=189) {
 	        		parent.showPage("newMessageContact");
