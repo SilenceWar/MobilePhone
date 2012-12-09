@@ -57,9 +57,8 @@ public class HomePanel extends JPanel {
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
+		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0);
 		topBarNewMessage.setVisible(false);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
 		lblWeatherTime = drawJLabel("",65,65,155,40,false, Color.BLACK, 50);
 		weatherImg = drawJLabel("Weather.png",3,40,255,153,true, Color.gray, 0);

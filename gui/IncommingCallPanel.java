@@ -54,9 +54,8 @@ public class IncommingCallPanel extends JPanel {
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0,0,this);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0,0,this);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0,0,this);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0,0,this);
+		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, 0, this);
 		topBarNewMessage.setVisible(false);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0,0, this);
 		
 		getNumber = drawJLabel("11223344", 20, 15, 100, 100, false, Color.white, 0,0,this);
 		

@@ -79,9 +79,8 @@ public class ShowConversationPanel extends JPanel {
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, this);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, this);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, this);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, this);
+		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, this);
 		topBarNewMessage.setVisible(false);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, this);
 		
 		lblConversationTopbar = drawJLabel("",55,20,262,43,false, Color.WHITE, 16, this);
 		messagesTopBar = drawJLabel("InConversationTopBar.png",1,20,262,43,true, Color.gray, 0, this);

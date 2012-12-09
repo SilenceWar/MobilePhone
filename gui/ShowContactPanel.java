@@ -50,9 +50,8 @@ public class ShowContactPanel extends JPanel {
 		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
-		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
+		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0);
 		topBarNewMessage.setVisible(false);
-		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
 		
 		
