@@ -17,7 +17,7 @@ import model.Phone;
 
 public class HomePanel extends JPanel {
 	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg;
+	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, weatherImg, newMessage;
 	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
 	private Controller buttonPress;
 	private MainFrame parent;
@@ -40,6 +40,10 @@ public class HomePanel extends JPanel {
 		
 		contacts = drawJButtonImage("Contacts.png",15,385,46,45);
 		call = drawJButtonImage("Call.png",76,385,46,45);
+		
+		newMessage = drawJLabel("newMessageSmallHome.png",170,380,18,19,true, Color.gray, 0);
+		newMessage.setVisible(false);
+		
 		messages = drawJButtonImage("Messages.png",139,385,46,45);
 		settings = drawJButtonImage("Settings.png",203,385,46,45);
 		
@@ -54,6 +58,7 @@ public class HomePanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
 		lblWeatherTime = drawJLabel("",65,65,155,40,false, Color.BLACK, 50);
@@ -62,6 +67,17 @@ public class HomePanel extends JPanel {
 		this.setVisible(true);
 		
 	}	
+
+	public void checkNew() {
+		if (thisPhone.unReadConversation()) {
+			newMessage.setVisible(true);
+			topBarNewMessage.setVisible(true);
+		}
+		else {
+			newMessage.setVisible(false);
+			topBarNewMessage.setVisible(false);
+		}
+	}
 	
 	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
 		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);

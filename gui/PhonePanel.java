@@ -51,6 +51,7 @@ public class PhonePanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, 0);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, 0);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, 0);
 		
 		pressedNumber = drawJLabel("", 0, 100, 261, 50, false, Color.white, 32, 1);
@@ -86,6 +87,10 @@ public class PhonePanel extends JPanel {
 	}
 	
 	public void clearScreen() {
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
 		pressedNumber.setText("");
 	}
 	

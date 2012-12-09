@@ -61,6 +61,7 @@ public class LoggerPanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0,0,this);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0,0,this);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0,0,this);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0,0,this);
 		
 		loggerTopBar = drawJLabel("LoggerTopBar.png",1,20,261,47,true, Color.gray, 0,0,this);
@@ -77,9 +78,14 @@ public class LoggerPanel extends JPanel {
 		    }
 		});
 		
-		//printFormattedCalls();
-		
 		this.setVisible(true);
+	}
+	
+	public void clearAll() {
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
 	}
 
 	public void printFormattedCalls() {

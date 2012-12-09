@@ -56,6 +56,7 @@ public class MessagesPanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, this);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, this);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, this);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, this);
 		
 		messagesTopBar = drawJLabel("MessagesTopBar.png",1,20,262,43,true, Color.gray, 0, this);
@@ -70,6 +71,13 @@ public class MessagesPanel extends JPanel {
 		printFormattedConversations();
 		
 		this.setVisible(true);
+	}
+	
+	public void clearAll() {
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
 	}
 	
 	public void printFormattedConversations() {
@@ -93,6 +101,9 @@ public class MessagesPanel extends JPanel {
 				drawJLabel(conversations.get(i).getPhoneNumber(), 55, 5, 160, 25, false, Color.white, 16, newPanel);	
 			else 
 				drawJLabel(conversations.get(i).getContact().getName(), 55, 5, 160, 25, false, Color.white, 16, newPanel);
+			
+			if (!conversations.get(i).isRead()) 
+				drawJLabel("newMessageSmall.png", 230, 5, 20, 20, true, Color.gray, 0, newPanel);
 			
 			Message latestMessage = conversations.get(i).getLatestMessage();
 			

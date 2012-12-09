@@ -23,6 +23,7 @@ import model.Conversation;
 import model.Phone;
 
 import service.Service;
+import java.util.Random;
 
 public class MainFrame extends JFrame {
 	private HomePanel homePanel;
@@ -41,7 +42,8 @@ public class MainFrame extends JFrame {
 	public Conversation chosenConversation;
 	public Contact chosenViewContact;
 	public String chosenRecallNumber;
-		
+	private String currentPage;	
+	
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
 		chosenConversation = null;
@@ -95,14 +97,66 @@ public class MainFrame extends JFrame {
 		this.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=148 && evt.getX()<=215 && evt.getY()>=577 && evt.getY()<=600) {
-		        	showPage("home"); // If clicked within the right coordinates of the Home-button of our phone.
+		        		showPage("home"); // If clicked within the right coordinates of the Home-button of our phone.
 		        	}
+		        	else if (evt.getX()>=88 && evt.getX()<=111 && evt.getY()>=577 && evt.getY()<=593) {
+			        	recieveMessage();
+			        }
 		    }
 		});
 		
 	}
 	
+	public void recieveMessage() {
+		Random generator = new Random();
+		int randMessage = generator.nextInt(5)+1;
+		int randPhoneNumber = generator.nextInt(5)+1;
+		  
+		String message = "";
+		String number = "";
+		
+		switch(randMessage) {
+		case 1:
+			message = "Hvad skal du i dag?";
+			break;
+		case 2:
+			message = "Det lyder godt nok mærkeligt! \nDet virker her ved mig :-(";
+			break;
+		case 3:
+			message = "Hvad siger du? Er du syg? \nDet er der jo ikke noget at gøre ved desværre";
+			break;
+		case 4: 
+			message = "Er du nu for sent på den igen? \nDet går da snart ikke med mere fravær? \nHvad har du? 25% allerede?";
+			break;
+		case 5:
+			message = "Det er sku godt :-D \nGlæder mig sku også til jul :-P";
+			break;
+		}
+		
+		switch(randPhoneNumber) {
+		case 1:
+			number = "52305249";
+			break;
+		case 2:
+			number = "61785495";
+			break;
+		case 3:
+			number = "27507013";
+			break;
+		case 4: 
+			number = "61206125";
+			break;
+		case 5:
+			number = "65758595";
+			break;
+		}
+		Service.sendMessage(thisPhone, number, message, false); // Dummy button which sends a message to yourself :-)
+		showPage(currentPage);
+	}
+	
 	public void showPage(String panel) {
+		currentPage = panel;
+		
 		homePanel.setVisible(false);
 		contactsPanel.setVisible(false);
 		messagesPanel.setVisible(false);
@@ -118,6 +172,7 @@ public class MainFrame extends JFrame {
 				
 	switch (panel){
 		case "home":
+			homePanel.checkNew();
 			homePanel.setVisible(true);
 			break;
 		case "settings":
@@ -129,6 +184,7 @@ public class MainFrame extends JFrame {
 			contactsPanel.setVisible(true);
 			break;
 		case "messages":
+			messagesPanel.clearAll();
 			messagesPanel.printFormattedConversations();
 			messagesPanel.setVisible(true);
 			break;
@@ -142,8 +198,8 @@ public class MainFrame extends JFrame {
 			newMessagePanel.setVisible(true); 
 			break;
 		case "phone":
-			phonePanel.setVisible(true);
 			phonePanel.clearScreen();
+			phonePanel.setVisible(true);
 			break;
 		case "showConversation":
 			showConversationPanel.clearAll();
@@ -163,6 +219,7 @@ public class MainFrame extends JFrame {
 			callPanel.setVisible(true);
 			break;
 		case "logger":
+			loggerPanel.clearAll();
 			loggerPanel.printFormattedCalls();
 			loggerPanel.setVisible(true);
 			break;
@@ -175,6 +232,7 @@ public class MainFrame extends JFrame {
 			showContactPanel.setVisible(true);
 			break;
 		case "incommingCall":
+			incommingCallPanel.clearAll();
 			incommingCallPanel.setVisible(true); 
 			break;
 	}

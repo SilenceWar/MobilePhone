@@ -63,6 +63,7 @@ public class CallPanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, 0);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, 0);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, 0);
 		getNumber = drawJLabel("",3,10,261,50,false,Color.white,20,0);
 		clockDisplay = drawJLabel("", 200, 30, 100, 100, false, Color.white,14,0);
@@ -85,6 +86,12 @@ public class CallPanel extends JPanel {
 	
 //	Starts a call
 	public void startCall(String number) {  
+		
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
+		
 		countUpClock();
 		theCall = Service.makeCall(this.thisPhone,number, true); 
 		if (thisPhone.contactExists(number) != null) 

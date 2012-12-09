@@ -251,4 +251,10 @@ public class Phone
 		}
 		return newArray;
 	}
+	
+	public boolean unReadConversation() {
+		for (Conversation item: this.conversations)
+			if (!item.isRead()) return true;
+		return false;
+	}
 }

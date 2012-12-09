@@ -80,6 +80,7 @@ public class ShowConversationPanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, this);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, this);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0, this);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0, this);
 		
 		lblConversationTopbar = drawJLabel("",55,20,262,43,false, Color.WHITE, 16, this);
@@ -122,6 +123,10 @@ public class ShowConversationPanel extends JPanel {
 	}
 	
 	public void clearAll() {
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
 		this.requestFocusInWindow(false);
 		content.setVisible(true);
 		content2.setVisible(false);
@@ -131,6 +136,8 @@ public class ShowConversationPanel extends JPanel {
 	
 	public void showConversation(Conversation conversation) {	
 		if (conversation == null) return;
+		
+		conversation.setRead();
 		
 		removePanels();
 		
@@ -143,7 +150,7 @@ public class ShowConversationPanel extends JPanel {
 			newPanel.setSize(340, 0);
 			newPanel.setLocation(1,(63+(i*55)));
 			if (!conPanels.isEmpty())
-			newPanel.setLocation(1,(63+(i*(conPanels.get(conPanels.size()-1).getHeight()+5))));
+				newPanel.setLocation(1,conPanels.get(conPanels.size()-1).getY()+conPanels.get(conPanels.size()-1).getHeight()+5);
 			
 			newPanel.setOpaque(false);
 			this.add(newPanel);

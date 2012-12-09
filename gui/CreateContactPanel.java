@@ -72,6 +72,7 @@ public class CreateContactPanel extends JPanel {
 		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
 		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
 		topBarNewMessage = drawJLabel("topNewMessage.png",25,-3,20,25,true, Color.gray, 0);
+		topBarNewMessage.setVisible(false);
 		topBarMissedCall = drawJLabel("topMissedCall.png",0,-3,20,25,true, Color.gray, 0);
 		
 		name = drawJTextField("Navn",64,109,156,25);
@@ -102,6 +103,10 @@ public class CreateContactPanel extends JPanel {
 	}
 	
 	public void clearAll() {
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
 		name.setText("Navn");
 		number.setText("Nummer");
 	}

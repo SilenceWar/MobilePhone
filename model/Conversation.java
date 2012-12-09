@@ -172,4 +172,16 @@ public class Conversation implements Comparable<Conversation>
 		}
 		return newArray;
 	}
+	
+	public boolean isRead() {
+		for (Message item: inbox) {
+			if (!item.getRead()) return false;
+		}
+		return true;
+	}
+	
+	public void setRead() {
+		for (Message item: inbox)
+			item.setRead(true); 
+	}
 }
