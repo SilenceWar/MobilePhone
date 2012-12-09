@@ -96,7 +96,6 @@ public class Call implements Comparable<Call>
 	@Override
 	public int compareTo(Call call) {
 		if (call == null) {
-			System.out.println("compareTo(): Call points to null.");
 			return 0;
 		}
 		return this.dateTime.compareTo(call.getDateTime());

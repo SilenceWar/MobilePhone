@@ -43,7 +43,6 @@ public class Contact implements Comparable<Contact>
 	public int compareTo(Contact contact) 
 	{
 		if (contact == null) {
-			System.out.println("compareTo(): Contact points to null.");
 			return 0;
 		}
 		return this.name.toLowerCase().compareTo(contact.getName().toLowerCase());

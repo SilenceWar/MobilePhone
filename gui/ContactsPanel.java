@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -11,9 +10,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,14 +19,10 @@ import javax.swing.Timer;
 import service.Service;
 
 import model.Contact;
-import model.Conversation;
-import model.Message;
 import model.Phone;
 
 public class ContactsPanel extends JPanel {
-	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, contactsTopBar, contactSearchBar;
-	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime;
+	private JLabel topBarClock, topBarNewMessage, contactsTopBar, contactSearchBar;
 	private Controller buttonPress;
 	private TextFieldController textfieldEnter;
 	private final MainFrame parent;
@@ -41,7 +34,6 @@ public class ContactsPanel extends JPanel {
 	private JButton[] specialKeys;
 	private JLabel keyboardBackground;
 	
-	private int field;
 	private boolean shift = true;
 	private int screen = 1;
 	
@@ -74,32 +66,30 @@ public class ContactsPanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0);
-		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0);
-		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0);
-		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0);
-		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0);
-		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0);
+		topBarClock = Ccollection.drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, 0, this);
+		topBarNewMessage = Ccollection.drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, 0, this);
 		topBarNewMessage.setVisible(false);
 		
 		
-		contactsTopBar = drawJLabel("ContactsTopBar.png",1,20,262,47,true, Color.gray, 0);
+		contactsTopBar = Ccollection.drawJLabel("ContactsTopBar.png",1,20,262,47,true, Color.gray, 0, 0, this);
 		contactsTopBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-//		    	System.out.println(evt.getX()+"|"+evt.getY());
 		        	if (evt.getX()>=0 && evt.getX()<=65 && evt.getY()>=0 && evt.getY()<=49) {
 		        		parent.showPage("phone");
 		        	}
 		    }
 		});
 		
-		name = drawJTextField("Søg",44,75,175,23);
+		name = Ccollection.drawJTextField("Søg",44,75,175,23,boxFocus,this);
 		name.addActionListener(textfieldEnter);
 
-		contactSearchBar = drawJLabel("ContactSearch.png", 1, 67, 261, 40, true, Color.gray, 0,this);
+		contactSearchBar = Ccollection.drawJLabel("ContactSearch.png", 1, 67, 261, 40, true, Color.gray, 0, 0,this);
 		contactSearchBar.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
-//		    	System.out.println(evt.getX()+"|"+evt.getY());
 		        	if (evt.getX()>=227 && evt.getX()<=254 && evt.getY()>=6 && evt.getY()<=32) {
 		        		parent.showPage("createContact");
 		        	}
@@ -120,53 +110,6 @@ public class ContactsPanel extends JPanel {
 		name.setText("Søg");
 	}
 	
-	public JTextField drawJTextField(String text, int x, int y, int width, int height) {
-		JTextField newTextfield = new JTextField(text);
-		newTextfield.setLocation(x, y);
-		newTextfield.setSize(width, height);
-		newTextfield.setOpaque(false);
-		newTextfield.setBorder(null);
-		newTextfield.addFocusListener(boxFocus);
-		newTextfield.setForeground(Color.white);
-		this.add(newTextfield);
-		return newTextfield;
-	}
-	
-	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
-		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
-		ImageIcon newImage = new ImageIcon(newImageURL);
-	    JButton newButton = new JButton(newImage);
-	    newButton.setSize(width,height);
-	    newButton.setLocation(x,y);
-	    newButton.setOpaque(false);
-	    newButton.setContentAreaFilled(false);
-	    newButton.setBorderPainted(false);
-	    newButton.setFocusPainted(false);
-	    newButton.addActionListener(buttonPress);
-	    this.add(newButton);
-	    
-		return newButton;
-	}
-	
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size) {
-		JLabel newLabel;
-		if (image) { 
-			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
-			ImageIcon newImage = new ImageIcon(newImageURL);
-			newLabel = new JLabel(newImage);
-		} else { 
-			newLabel = new JLabel(text);
-		}
-		newLabel.setLocation(x,y);
-		newLabel.setSize(width, height);
-		newLabel.setForeground(color);
-		if (size != 0 && size != 50) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
-		else if (size == 50) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
-		
-		this.add(newLabel);
-		return newLabel;
-	}
-	
 	public void printContacts(ArrayList<Contact> theContacts) {
 		clearArrayList();
 		
@@ -182,10 +125,10 @@ public class ContactsPanel extends JPanel {
 			
 			this.add(newPanel);
 			
-			drawJLabel(contacts.get(i).getName(), 55, 12, 160, 25, false, Color.white, 16, newPanel);	
+			Ccollection.drawJLabel(contacts.get(i).getName(), 55, 12, 160, 25, false, Color.white, 16, 0, newPanel);	
 			
-			drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0,newPanel);
-			drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, newPanel);
+			Ccollection.drawJLabel("contactImage.png", 2, 2, 47, 48, true, Color.gray, 0, 0, newPanel);
+			Ccollection.drawJLabel("______________________________________", 0, 35, 340, 25, false, Color.gray, 0, 0, newPanel);
 
 			newPanel.addMouseListener(new MouseAdapter() {
 			    public void mouseClicked(MouseEvent evt) {
@@ -212,26 +155,6 @@ public class ContactsPanel extends JPanel {
 		ArrayList<Contact> contacts = Service.searchContacts(thisPhone, name);
 		printContacts(contacts);
 	}
-
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, JPanel panel) {
-		JLabel newLabel;
-		if (image) { 
-			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
-			ImageIcon newImage = new ImageIcon(newImageURL);
-			newLabel = new JLabel(newImage);
-		} else { 
-			newLabel = new JLabel(text);
-		}
-		newLabel.setLocation(x,y);
-		newLabel.setSize(width, height);
-		newLabel.setForeground(color);
-		if (size != 0 && size != 16) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
-		else if (size == 16) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
-		
-		panel.add(newLabel);
-		return newLabel;
-	}
-	
 	
 	
 	
@@ -239,25 +162,25 @@ public class ContactsPanel extends JPanel {
 		int line = 0;
 		for (int i=1;i<30;i++) {
 			int xtra = (line%2==0 && line!=0) ? 46 : 0;
-			keyboard[i-1] = drawJButtonImage("keyAlpha"+(i-1)+".png",xtra+6+((i-1)%11)*23, 310+(line*36), 19, 30);
+			keyboard[i-1] = Ccollection.drawJButtonImage("keyAlpha"+(i-1)+".png",xtra+6+((i-1)%11)*23, 310+(line*36), 19, 30, buttonPress, this);
 			if (i%11 == 0) line++;
 		}
 		line = 0;
 		for (int i=1;i<=27;i++) {
 			int xtra = (line%2==0 && line!=0) ? 37 : 0;
-			numKeys[i-1] = drawJButtonImage("keyNum"+(i-1)+".png",xtra+7+((i-1)%10)*25, 310+(line*36), 24, 32);
+			numKeys[i-1] = Ccollection.drawJButtonImage("keyNum"+(i-1)+".png",xtra+7+((i-1)%10)*25, 310+(line*36), 24, 32, buttonPress, this);
 			if (i%10 == 0) line++;
 		}
 		
-		specialKeys[0] = drawJButtonImage("keyAlphaShift.png",6, 381, 32, 31);
-		specialKeys[1] = drawJButtonImage("keyAlphaBackspace.png",224, 382, 32, 31);
-		specialKeys[2] = drawJButtonImage("keyAlphaSymbols.png",4, 418, 40, 31);
-		specialKeys[3] = drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31);
-		specialKeys[4] = drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31);
-		specialKeys[5] = drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31);
-		specialKeys[6] = drawJButtonImage("keySearch.png",218, 417, 40, 31);
+		specialKeys[0] = Ccollection.drawJButtonImage("keyAlphaShift.png",6, 381, 32, 31, buttonPress, this);
+		specialKeys[1] = Ccollection.drawJButtonImage("keyAlphaBackspace.png",224, 382, 32, 31, buttonPress, this);
+		specialKeys[2] = Ccollection.drawJButtonImage("keyAlphaSymbols.png",4, 418, 40, 31, buttonPress, this);
+		specialKeys[3] = Ccollection.drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31, buttonPress, this);
+		specialKeys[4] = Ccollection.drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31, buttonPress, this);
+		specialKeys[5] = Ccollection.drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31, buttonPress, this);
+		specialKeys[6] = Ccollection.drawJButtonImage("keySearch.png",218, 417, 40, 31, buttonPress, this);
 		
-		keyboardBackground = drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0);
+		keyboardBackground = Ccollection.drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0, 0, this);
 		hideKeyboard();
 	}
 	

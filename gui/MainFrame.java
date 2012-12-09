@@ -1,24 +1,13 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
 import javax.swing.JFrame;
-
 import model.Contact;
 import model.Conversation;
 import model.Phone;
-
 import service.Service;
 import java.util.Random;
 
@@ -27,7 +16,6 @@ public class MainFrame extends JFrame {
 	private ContactsPanel contactsPanel;
 	private MessagesPanel messagesPanel;
 	private PhonePanel phonePanel;
-	private SettingsPanel settingsPanel;
 	private NewMessagePanel newMessagePanel;
 	private CallPanel callPanel;
 	private LoggerPanel loggerPanel;
@@ -50,7 +38,6 @@ public class MainFrame extends JFrame {
 		contactsPanel = new ContactsPanel(this, this.thisPhone);
 		messagesPanel = new MessagesPanel(this, this.thisPhone);
 		phonePanel = new PhonePanel(this, this.thisPhone);
-		settingsPanel = new SettingsPanel(this, this.thisPhone);
 		newMessagePanel = new NewMessagePanel(this, this.thisPhone);
 		callPanel = new CallPanel(this, this.thisPhone);	
 		loggerPanel = new LoggerPanel(this, this.thisPhone);
@@ -76,7 +63,6 @@ public class MainFrame extends JFrame {
 		this.add(contactsPanel);
 		this.add(messagesPanel);
 		this.add(phonePanel);
-		this.add(settingsPanel);
 		this.add(newMessagePanel);
 		this.add(callPanel);
 		this.add(loggerPanel);
@@ -158,7 +144,6 @@ public class MainFrame extends JFrame {
 		contactsPanel.setVisible(false);
 		messagesPanel.setVisible(false);
 		phonePanel.setVisible(false);
-		settingsPanel.setVisible(false);
 		newMessagePanel.setVisible(false);
 		callPanel.setVisible(false);
 		loggerPanel.setVisible(false);
@@ -171,9 +156,6 @@ public class MainFrame extends JFrame {
 		case "home":
 			homePanel.checkNew();
 			homePanel.setVisible(true);
-			break;
-		case "settings":
-			settingsPanel.setVisible(true);
 			break;
 		case "contacts":
 			contactsPanel.clearAll();

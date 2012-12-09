@@ -22,7 +22,6 @@ public abstract class Service
 	public static Call makeCall(Phone phone, String phoneNumber, boolean outgoing)
 	{
 		if (phone == null) {
-			System.out.println("[2] Phone points to null.");
 			return null;
 		}
 		Call call = phone.createCall(phoneNumber, outgoing);
@@ -38,7 +37,6 @@ public abstract class Service
 	public static Call makeCall(Phone phone, Contact contact, boolean outgoing)
 	{
 		if (phone == null) {
-			System.out.println("[3] Phone points to null.");
 			return null;
 		}
 		Call call = phone.createCall(contact, outgoing);
@@ -54,11 +52,9 @@ public abstract class Service
 	public static Contact createContact (Phone phone, String name, String phoneNumber)
 	{
 		if (phone == null) {
-			System.out.println("[1] Phone points to null.");
 			return null;
 		}
 		if (name.length() < 1 || phoneNumber.length() < 8) {
-			System.out.println("Name is empty or number is too short.");
 			return null; 
 		}
 		Contact contact = new Contact(name, phoneNumber);
@@ -94,7 +90,6 @@ public abstract class Service
 			else if (candidate.getName().compareTo(name) < 0)
 				left = middle+1;
 		}
-		System.out.println("Contact not found.");
 		return null;
 	}
 	/**
@@ -139,11 +134,9 @@ public abstract class Service
 	public static void sendMessage (Phone phone, String number, String content, boolean outgoing)
 	{
 		if (number.length() < 8) {
-			System.out.println("Number must have at least 8 digits.");
 			return;
 		}
 		if (content.length() < 1) {
-			System.out.println("Message can't be empty.");
 			return;
 		}
 		Conversation conversation = phone.conversationExists(number);
@@ -172,11 +165,9 @@ public abstract class Service
 	public static void sendMessage (Phone phone, Contact contact, String content, boolean outgoing)
 	{
 		if (contact.getPhoneNumber().length() < 8) {
-			System.out.println("Number must have at least 8 digits.");
 			return;
 		}
 		if (content.length() < 1) {
-			System.out.println("Message can't be empty.");
 			return;
 		}
 		Conversation conversation = phone.conversationExists(contact.getPhoneNumber());

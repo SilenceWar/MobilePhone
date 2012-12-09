@@ -102,16 +102,6 @@ public class Phone
 	private void addIncomingCall(Call call)
 	{
 		this.incoming.add(0, call);
-		/*boolean caught = false;
-		for (int i = 0; i < this.incoming.size(); i++) {
-			if (call.compareTo(this.incoming.get(i)) < 0) {
-				this.incoming.add(i, call);
-				caught = true;
-				break;
-			}
-		}
-		if (!caught)
-			this.outgoing.add(call);*/
 	}
 	/**
 	 * Adds new call to chronically sorted position in incoming calls
@@ -120,16 +110,6 @@ public class Phone
 	private void addOutgoingCall(Call call)
 	{
 		this.outgoing.add(0, call);
-		/*boolean caught = false;
-		for (int i = 0; i < this.outgoing.size(); i++) {
-			if (call.compareTo(this.outgoing.get(i)) < 0) {
-				this.outgoing.add(i, call);
-				caught = true;
-				break;
-			}
-		}
-		if (!caught)
-			this.outgoing.add(call);*/
 	}
 	public Call createCall(String toNumber, boolean outgoingCall) 
 	{
@@ -154,7 +134,6 @@ public class Phone
 	public Call createCall(Contact contact, boolean outgoingCall)
 	{
 		if (contact == null) {
-			System.out.println("Contact points to null.");
 			return null;
 		}
 		Call newCall = new Call(contact);

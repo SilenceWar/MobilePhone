@@ -113,9 +113,7 @@ public class Conversation implements Comparable<Conversation>
 	}
 	public Message createMessage(String content, Contact contact, boolean outgoingMessage)
 	{
-		System.out.println("her2!");
 		if (contact == null) {
-			System.out.println("Contact points to null.");
 			return null;
 		}
 		Message newMessage = new Message(content, contact);
@@ -142,7 +140,6 @@ public class Conversation implements Comparable<Conversation>
 	@Override
 	public int compareTo(Conversation conversation) {
 		if (conversation == null) {
-			System.out.println("compareTo(): Conversation points to null.");
 			return 0;
 		}
 		return this.getDate().compareTo(conversation.getDate());

@@ -88,7 +88,6 @@ public class Message implements Comparable<Message>
 	@Override
 	public int compareTo(Message message) {
 		if (message == null) {
-			System.out.println("compareTo(): Message points to null.");
 			return 0;
 		}
 		return this.getDateTime().compareTo(message.getDateTime());

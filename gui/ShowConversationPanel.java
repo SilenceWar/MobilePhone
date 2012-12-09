@@ -11,14 +11,11 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 import javax.swing.Timer;
 
 import service.Service;
@@ -28,9 +25,7 @@ import model.Message;
 import model.Phone;
 
 public class ShowConversationPanel extends JPanel {
-	private JButton contacts, call, messages, settings;
-	private JLabel topBarClock, topBarBattery, topBarSignal, topBarWifi, topBarMute, topBarNewMessage, topBarMissedCall, messagesTopBar, writeMessage, writeMessageBig;
-	private JLabel lblMessages, lblContacts, lblCall, lblSettings, lblWeatherTime, lblConversationTopbar;
+	private JLabel topBarClock, topBarNewMessage, writeMessage, writeMessageBig, lblConversationTopbar;
 	private Controller buttonPress;
 	private final MainFrame parent;
 	private final Phone thisPhone;
@@ -41,7 +36,6 @@ public class ShowConversationPanel extends JPanel {
 	private JButton[] specialKeys;
 	private JLabel keyboardBackground;
 	
-	private int field;
 	private boolean shift = true;
 	private int screen = 1;
 	
@@ -74,17 +68,17 @@ public class ShowConversationPanel extends JPanel {
 		this.setLocation(43, 67);
 		this.setBackground(Color.BLACK);
 		
-		topBarClock = drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, this);
-		topBarBattery = drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0, this);
-		topBarSignal = drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, this);
-		topBarWifi = drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, this);
-		topBarMute = drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, this);
-		topBarNewMessage = drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, this);
+		topBarClock = Ccollection.drawJLabel("12:45",225,-4,100,25,false, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topBattery.png",200,-4,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topSignal.png",175,-5,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topWifi.png",150,-4,20,25,true, Color.gray, 0, 0, this);
+		Ccollection.drawJLabel("topMute.png",125,-4,20,25,true, Color.gray, 0, 0, this);
+		topBarNewMessage = Ccollection.drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, 0, this);
 		topBarNewMessage.setVisible(false);
 		
-		lblConversationTopbar = drawJLabel("",55,20,262,43,false, Color.WHITE, 16, this);
-		messagesTopBar = drawJLabel("InConversationTopBar.png",1,20,262,43,true, Color.gray, 0, this);
-		messagesTopBar.addMouseListener(new MouseAdapter() {
+		lblConversationTopbar = Ccollection.drawJLabel("",55,20,262,43,false, Color.WHITE, 16, 0, this);
+		
+		Ccollection.drawJLabel("InConversationTopBar.png",1,20,262,43,true, Color.gray, 0, 0, this).addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 	        	if (evt.getX()>=231 && evt.getX()<=251 && evt.getY()>=10 && evt.getY()<=30) {
 	        		Service.deleteConversation(thisPhone,parent.chosenConversation);
@@ -96,13 +90,13 @@ public class ShowConversationPanel extends JPanel {
 		    }
 		});
 		
-		content = drawJTextField("Skriv din besked",15,422,190,23);
-		content2 = drawJTextArea("Skriv din besked",15,217,190,71);
+		content = Ccollection.drawJTextField("Skriv din besked",15,422,190,23,boxFocus,this);
+		content2 = Ccollection.drawJEditorPane("Skriv din besked",15,217,190,71,boxFocus,this);
 		content2.setVisible(false);
 		
-		writeMessage = drawJLabel("WriteMessageBar.png",1,413,262,40,true, Color.gray, 0, this);
+		writeMessage = Ccollection.drawJLabel("WriteMessageBar.png",1,413,262,40,true, Color.gray, 0, 0, this);
 		
-		writeMessageBig = drawJLabel("WriteMessageBarBig.png",0,207,262,92,true, Color.gray, 0, this);
+		writeMessageBig = Ccollection.drawJLabel("WriteMessageBarBig.png",0,207,262,92,true, Color.gray, 0, 0, this);
 		writeMessageBig.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent evt) {
 		        	if (evt.getX()>=216 && evt.getX()<=256 && evt.getY()>=59 && evt.getY()<=85) {
@@ -156,9 +150,9 @@ public class ShowConversationPanel extends JPanel {
 			conPanels.add(newPanel);
 			
 			if (conversation.getOutbox().contains(messages.get(i)))
-				drawJEditorPane(messages.get(i).getContent(), 71, 2, 188, Color.black, 16, newPanel);	
+				drawSpecialJEditorPane(messages.get(i).getContent(), 71, 2, 188, Color.black, 16, newPanel);	
 			else 
-				drawJEditorPane(messages.get(i).getContent(), 1, 2, 188, Color.black, 16, newPanel);
+				drawSpecialJEditorPane(messages.get(i).getContent(), 1, 2, 188, Color.black, 16, newPanel);
 			newPanel.setVisible(true);
 		}
 		
@@ -170,67 +164,7 @@ public class ShowConversationPanel extends JPanel {
 		conPanels.clear();
 	}
 	
-	public JTextField drawJTextField(String text, int x, int y, int width, int height) {
-		JTextField newTextfield = new JTextField(text);
-		newTextfield.setLocation(x, y);
-		newTextfield.setSize(width, height);
-		newTextfield.setOpaque(false);
-		newTextfield.setBorder(null);
-		newTextfield.addFocusListener(boxFocus);
-		newTextfield.setForeground(Color.white);
-		this.add(newTextfield);
-		return newTextfield;
-	}
-	
-	public JEditorPane drawJTextArea(String text, int x, int y, int width, int height) {
-		JEditorPane newTextArea = new JEditorPane();
-		newTextArea.setText(text);
-		newTextArea.setLocation(x, y);
-		newTextArea.setSize(width, height);
-		newTextArea.setOpaque(false);
-		newTextArea.setBorder(null);
-		newTextArea.addFocusListener(boxFocus);
-		newTextArea.setForeground(Color.white);
-		this.add(newTextArea);
-		return newTextArea;
-	}
-	
-	public JButton drawJButtonImage(String path,int x, int y, int width, int height) {
-		java.net.URL newImageURL = MainFrame.class.getResource("/images/"+path);
-		ImageIcon newImage = new ImageIcon(newImageURL);
-	    JButton newButton = new JButton(newImage);
-	    newButton.setSize(width,height);
-	    newButton.setLocation(x,y);
-	    newButton.setOpaque(false);
-	    newButton.setContentAreaFilled(false);
-	    newButton.setBorderPainted(false);
-	    newButton.setFocusPainted(false);
-	    newButton.addActionListener(buttonPress);
-	    this.add(newButton);
-	    
-		return newButton;
-	}
-	
-	public JLabel drawJLabel(String text, int x, int y, int width, int height, boolean image, Color color, int size, JPanel panel) {
-		JLabel newLabel;
-		if (image) { 
-			java.net.URL newImageURL = MainFrame.class.getResource("/images/"+text);
-			ImageIcon newImage = new ImageIcon(newImageURL);
-			newLabel = new JLabel(newImage);
-		} else { 
-			newLabel = new JLabel(text);
-		}
-		newLabel.setLocation(x,y);
-		newLabel.setSize(width, height);
-		newLabel.setForeground(color);
-		if (size != 0 && size != 50) newLabel.setFont(new Font(newLabel.getName(), Font.PLAIN, size));
-		else if (size == 50) newLabel.setFont(new Font(newLabel.getName(), Font.BOLD, size));
-		
-		panel.add(newLabel);
-		return newLabel;
-	}
-	
-	public JEditorPane drawJEditorPane(String text, int x, int y, int width, Color color, int size, JPanel panel) {
+	public JEditorPane drawSpecialJEditorPane(String text, int x, int y, int width, Color color, int size, JPanel panel) {
 		JEditorPane newPane;
 		newPane = new JEditorPane();
 		newPane.setText(text);
@@ -267,25 +201,25 @@ public class ShowConversationPanel extends JPanel {
 		int line = 0;
 		for (int i=1;i<30;i++) {
 			int xtra = (line%2==0 && line!=0) ? 46 : 0;
-			keyboard[i-1] = drawJButtonImage("keyAlpha"+(i-1)+".png",xtra+6+((i-1)%11)*23, 310+(line*36), 19, 30);
+			keyboard[i-1] = Ccollection.drawJButtonImage("keyAlpha"+(i-1)+".png",xtra+6+((i-1)%11)*23, 310+(line*36), 19, 30, buttonPress, this);
 			if (i%11 == 0) line++;
 		}
 		line = 0;
 		for (int i=1;i<=27;i++) {
 			int xtra = (line%2==0 && line!=0) ? 37 : 0;
-			numKeys[i-1] = drawJButtonImage("keyNum"+(i-1)+".png",xtra+7+((i-1)%10)*25, 310+(line*36), 24, 32);
+			numKeys[i-1] = Ccollection.drawJButtonImage("keyNum"+(i-1)+".png",xtra+7+((i-1)%10)*25, 310+(line*36), 24, 32, buttonPress, this);
 			if (i%10 == 0) line++;
 		}
 		
-		specialKeys[0] = drawJButtonImage("keyAlphaShift.png",6, 381, 32, 31);
-		specialKeys[1] = drawJButtonImage("keyAlphaBackspace.png",224, 382, 32, 31);
-		specialKeys[2] = drawJButtonImage("keyAlphaSymbols.png",4, 418, 40, 31);
-		specialKeys[3] = drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31);
-		specialKeys[4] = drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31);
-		specialKeys[5] = drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31);
-		specialKeys[6] = drawJButtonImage("keyEnter.png",218, 417, 40, 31);
+		specialKeys[0] = Ccollection.drawJButtonImage("keyAlphaShift.png",6, 381, 32, 31, buttonPress, this);
+		specialKeys[1] = Ccollection.drawJButtonImage("keyAlphaBackspace.png",224, 382, 32, 31, buttonPress, this);
+		specialKeys[2] = Ccollection.drawJButtonImage("keyAlphaSymbols.png",4, 418, 40, 31, buttonPress, this);
+		specialKeys[3] = Ccollection.drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31, buttonPress, this);
+		specialKeys[4] = Ccollection.drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31, buttonPress, this);
+		specialKeys[5] = Ccollection.drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31, buttonPress, this);
+		specialKeys[6] = Ccollection.drawJButtonImage("keySearch.png",218, 417, 40, 31, buttonPress, this);
 		
-		keyboardBackground = drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0, this);
+		keyboardBackground = Ccollection.drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0, 0, this);
 		hideKeyboard();
 	}
 	
