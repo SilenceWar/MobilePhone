@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 
 import service.Service;
 
@@ -80,6 +82,16 @@ public class LoggerPanel extends JPanel {
 		//printFormattedCalls();
 		
 		this.setVisible(true);
+	}
+	
+	public void addScrollPane(JPanel panel)
+	{
+		JScrollPane scrollPane = new JScrollPane(panel);
+		scrollPane.setLocation(panel.getX(), panel.getY());
+		scrollPane.setSize(panel.getWidth(), panel.getHeight());
+		Border border = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+		scrollPane.setBorder(border);
+		this.add(scrollPane);
 	}
 
 	public void printFormattedCalls() {
