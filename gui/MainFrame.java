@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
@@ -29,6 +31,9 @@ public class MainFrame extends JFrame {
 	public String chosenRecallNumber;
 	private String currentPage;	
 	
+	private Point start_drag;
+	private Point start_loc;
+	
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
 		chosenConversation = null;
@@ -53,10 +58,42 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
 		
+		
+		this.setResizable(false);
+        this.setUndecorated(true);
+        this.setBackground(new Color(0, 0, 0, 0));
+        
 		java.net.URL imageURL = MainFrame.class.getResource("/images/Phone.png");
 		ImageIcon image = new ImageIcon(imageURL);
 		JLabel imageLabel = new JLabel(image);
 		imageLabel.setSize(350,600);
+		
+		imageLabel.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        	if (evt.getX()>=139 && evt.getX()<=208 && evt.getY()>=546 && evt.getY()<=566) {
+		        		showPage("home"); // If clicked within the right coordinates of the Home-button of our phone.
+		        	}
+		        	else if (evt.getX()>=79 && evt.getX()<=104 && evt.getY()>=546 && evt.getY()<=566) {
+			        	recieveMessage();
+			        }
+		        	else if (evt.getX()>=253 && evt.getX()<=272 && evt.getY()>=35 && evt.getY()<=55) {
+			        	if (evt.getClickCount() == 2) {
+			        		System.exit(0); // If clicked twice on the frontCamera in the top-right-corner.
+			        	}
+			        }
+		    }
+		});
+		
+		imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
+		imageLabel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
 		
 		homePanel.setVisible(false);
 		this.add(homePanel);
@@ -75,20 +112,25 @@ public class MainFrame extends JFrame {
 		
 		this.add(imageLabel);
 		this.setVisible(true);
-		
-		
-		this.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent evt) {
-		        	if (evt.getX()>=148 && evt.getX()<=215 && evt.getY()>=577 && evt.getY()<=600) {
-		        		showPage("home"); // If clicked within the right coordinates of the Home-button of our phone.
-		        	}
-		        	else if (evt.getX()>=88 && evt.getX()<=111 && evt.getY()>=577 && evt.getY()<=593) {
-			        	recieveMessage();
-			        }
-		    }
-		});
-		
 	}
+	
+	private void formMousePressed(java.awt.event.MouseEvent evt) {
+        this.start_drag = this.getScreenLocation(evt);
+        this.start_loc = this.getLocation();
+    }
+	
+	private void formMouseDragged(java.awt.event.MouseEvent evt) {
+        Point current = this.getScreenLocation(evt);
+		Point offset = new Point((int) current.getX() - (int) start_drag.getX(),(int) current.getY() - (int) start_drag.getY());
+		Point new_location = new Point((int) (this.start_loc.getX() + offset.getX()), (int) (this.start_loc.getY() + offset.getY()));
+	    this.setLocation(new_location);
+	}
+	
+	private Point getScreenLocation(MouseEvent e) {
+        Point cursor = e.getPoint();
+        Point target_location = this.getLocationOnScreen();
+        return new Point((int) (target_location.getX() + cursor.getX()),(int) (target_location.getY() + cursor.getY()));
+      }
 	
 	public void recieveMessage() {
 		Random generator = new Random();
