@@ -9,6 +9,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Timer;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 
 
 import javax.swing.ImageIcon;
@@ -18,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
+import model.Call;
 import model.Phone;
 import service.Service;
 
@@ -31,12 +35,22 @@ public class CallPanel extends JPanel {
 	private int secs=0, hrs=0, mins=0;
 	private DecimalFormat dFormat = new DecimalFormat("00");
 	private final MainFrame parent;
-	private final Phone phone;
+	private final Phone thisPhone;
+
+	private TimeController timeController;
+	private Timer clockTimer;
+
+	private Call theCall;
 	
 	public CallPanel(MainFrame theParent, Phone thePhone) {
 		this.parent = theParent;
-		this.phone = thePhone;
+		this.thisPhone = thePhone;
 		buttonPress = new Controller();
+		timeController = new TimeController();
+		clockTimer = new Timer(1000, timeController);
+		clockTimer.start();
+		
+		theCall = null;
 		
 		this.setLayout(null);
 		this.setSize(261,452);
@@ -60,26 +74,35 @@ public class CallPanel extends JPanel {
 		    public void mouseClicked(MouseEvent evt) {
 	        	if (evt.getX()>=174 && evt.getX()<=258 && evt.getY()>=259 && evt.getY()<=347) {
 	        		endCall();
-					parent.showPage("logger");
+	        		parent.showPage("logger");
 	        	}
 		    }
 		});
 		
-		
+	
 		this.setVisible(true);
 	}
 	
 //	Starts a call
-	public void startCall(String number) {
-		Service.makeCall(this.phone,getNumber.getText(), true);
-		getNumber.setText(number);
+	public void startCall(String number) {  
 		countUpClock();
+		theCall = Service.makeCall(this.thisPhone,number, true); 
+		if (thisPhone.contactExists(number) != null) 
+			getNumber.setText(thisPhone.contactExists(number).getName());
+		else 
+			getNumber.setText(number);
 	}
+			
 	
 //	Ends a call
 	public void endCall() {
-		clock.stop();			
-	}
+		theCall.setDuration(((hrs*60)+(mins*60)+(secs))); 
+		hrs = 0;
+		mins = 0;
+		secs = 0;
+		clock.stop();
+		clockDisplay.setText("00:00:00");
+	} 
 	
 	
 // Draws a JButton	
@@ -128,11 +151,10 @@ public class CallPanel extends JPanel {
 	
 	private class Controller implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == clock)
-		    {
+			if (ae.getSource() == clock) 
+			{
 		      secs++;
 		    }
-		 
 		    if (secs == 60)
 		    {
 		      mins++;
@@ -155,8 +177,15 @@ public class CallPanel extends JPanel {
 		    clockDisplay.setText(
 		        dFormat.format(hrs) + ":" + 
 		        dFormat.format(mins) + ":" + 
-		        dFormat.format(secs));
-		  
+		        dFormat.format(secs));	  
 		}		
+	}
+	private class TimeController implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == clockTimer) {
+				SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
+				topBarClock.setText(""+stf.format(System.currentTimeMillis()));
+			}
+		}
 	}
 }

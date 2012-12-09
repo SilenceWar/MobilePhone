@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import javax.swing.JFrame;
 import javax.swing.border.Border;
@@ -34,10 +36,12 @@ public class MainFrame extends JFrame {
 	private ShowConversationPanel showConversationPanel;
 	private CreateContactPanel createContactPanel;
 	private ShowContactPanel showContactPanel;
+	private IncommingCallPanel incommingCallPanel;
 	private Phone thisPhone;
 	public Conversation chosenConversation;
 	public Contact chosenViewContact;
-	
+	public String chosenRecallNumber;
+		
 	public MainFrame() {
 		this.thisPhone = Service.createPhone("25798315");
 		chosenConversation = null;
@@ -55,6 +59,7 @@ public class MainFrame extends JFrame {
 		showConversationPanel = new ShowConversationPanel(this, this.thisPhone);
 		createContactPanel = new CreateContactPanel(this, this.thisPhone);
 		showContactPanel = new ShowContactPanel(this, this.thisPhone);
+		incommingCallPanel = new IncommingCallPanel(this, this.thisPhone);
 
 		
 		this.setSize(350,650);
@@ -79,6 +84,7 @@ public class MainFrame extends JFrame {
 		this.add(showConversationPanel);
 		this.add(createContactPanel);
 		this.add(showContactPanel);
+		this.add(incommingCallPanel);
 		
 		showPage("home");
 		
@@ -108,47 +114,70 @@ public class MainFrame extends JFrame {
 		showConversationPanel.setVisible(false);
 		createContactPanel.setVisible(false);
 		showContactPanel.setVisible(false);
-		
-		if (panel.equals("home")) homePanel.setVisible(true); // Her kan der også kaldes en refresh kode inde i homePanel! :-)
-		if (panel.equals("contacts")) {
+		incommingCallPanel.setVisible(false);
+				
+	switch (panel){
+		case "home":
+			homePanel.setVisible(true);
+			break;
+		case "settings":
+			settingsPanel.setVisible(true);
+			break;
+		case "contacts":
+			contactsPanel.clearAll();
 			contactsPanel.printContacts(this.thisPhone.getContacts());
 			contactsPanel.setVisible(true);
-		}
-
-		if (panel.equals("messages")) {
+			break;
+		case "messages":
 			messagesPanel.printFormattedConversations();
 			messagesPanel.setVisible(true);
-		}
-		
-		if (panel.equals("phone"))  {
-			phonePanel.setVisible(true);
-			phonePanel.clearScreen();
-		}
-		if (panel.equals("settings")) settingsPanel.setVisible(true);
-		if (panel.equals("newMessage")) newMessagePanel.setVisible(true);
-		if (panel.equals("newMessageContact")) {
+			break;
+		case "newMessage":
+			newMessagePanel.clearAll();
+			newMessagePanel.setVisible(true);
+			break;
+		case "newMessageContact":
+			newMessagePanel.clearAll();
 			newMessagePanel.toContact(chosenViewContact);
 			newMessagePanel.setVisible(true); 
-		}
-		if (panel.equals("call")) { 
-			callPanel.startCall(phonePanel.getNumber());
-			callPanel.setVisible(true);
-		}
-		if (panel.equals("logger")) {
-			loggerPanel.printFormattedCalls();
-			loggerPanel.setVisible(true);	
-		}
-		
-		if (panel.equals("showConversation")) {
+			break;
+		case "phone":
+			phonePanel.setVisible(true);
+			phonePanel.clearScreen();
+			break;
+		case "showConversation":
+			showConversationPanel.clearAll();
 			showConversationPanel.showConversation(chosenConversation);
 			showConversationPanel.setVisible(true);
-		}
-		if (panel.equals("createContact")) createContactPanel.setVisible(true);
-		if (panel.equals("showContact")) {
+			break;
+		case "call":
+			callPanel.startCall(phonePanel.getNumber());
+			callPanel.setVisible(true);
+			break;
+		case "callContact":
+			callPanel.startCall(chosenViewContact.getPhoneNumber());
+			callPanel.setVisible(true);
+			break;
+		case "reCallNumber":
+			callPanel.startCall(chosenRecallNumber);
+			callPanel.setVisible(true);
+			break;
+		case "logger":
+			loggerPanel.printFormattedCalls();
+			loggerPanel.setVisible(true);
+			break;
+		case "createContact":
+			createContactPanel.clearAll();
+			createContactPanel.setVisible(true);
+			break;
+		case "showContact":
 			showContactPanel.refreshPanel();
 			showContactPanel.setVisible(true);
-
-		}
+			break;
+		case "incommingCall":
+			incommingCallPanel.setVisible(true); 
+			break;
+	}
 	}
 }
 	 
