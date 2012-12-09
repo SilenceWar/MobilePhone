@@ -11,7 +11,7 @@ import model.Conversation;
 import model.Message;
 import model.Phone;
 
-public class Test {
+public class test {
 
 	/**
 	 * @param args

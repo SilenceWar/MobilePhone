@@ -12,16 +12,29 @@ import model.Phone;
 
 public abstract class Service
 {
-
-	public static Call makeCall(Phone phone, String phoneNumber, boolean incoming)
+	/**
+	 * Adds a call to the phone record
+	 * @param phone
+	 * @param phoneNumber
+	 * @param outgoing if true, incoming if false
+	 * @return
+	 */
+	public static Call makeCall(Phone phone, String phoneNumber, boolean outgoing)
 	{
 		if (phone == null) {
 			System.out.println("[2] Phone points to null.");
 			return null;
 		}
-		Call call = phone.createCall(phoneNumber, incoming);
+		Call call = phone.createCall(phoneNumber, outgoing);
 		return call;
 	}
+	/**
+	 * Adds a call to the phone record
+	 * @param phone
+	 * @param contact
+	 * @param outgoing
+	 * @return
+	 */
 	public static Call makeCall(Phone phone, Contact contact, boolean outgoing)
 	{
 		if (phone == null) {
@@ -100,13 +113,18 @@ public abstract class Service
 				result.add(contact);
 		return result;
 	}
-	
-	public static Contact searchContactsWithNumber(Phone phone, String searchPhrase)
+	/**
+	 * Searches contact list of the phone for a given phone number
+	 * @param phone to search
+	 * @param number to search for
+	 * @return list of matches found
+	 */
+	public static Contact searchContactsWithNumber(Phone phone, String number)
 	{
 		ArrayList<Contact> searchVolume = phone.getContacts();
 				
 		for (Contact contact: searchVolume)
-			if (contact.getPhoneNumber().contains(searchPhrase) || contact.getPhoneNumber().toLowerCase().contains(searchPhrase.toLowerCase()))
+			if (contact.getPhoneNumber().contains(number) || contact.getPhoneNumber().toLowerCase().contains(number.toLowerCase()))
 				return contact;
 		return null;
 	}
@@ -143,6 +161,7 @@ public abstract class Service
 		else
 			conversation.createMessage(content, number, outgoing);
 	}
+	
 	/**
 	 * Sends message to phone with contact association
 	 * @param phone
@@ -169,14 +188,6 @@ public abstract class Service
 		conversation.createMessage(content, contact.getPhoneNumber(), outgoing);
 	}
 	
-	public static void changeScreenLock (boolean status)
-	{
-		// TODO Ikke helt sikker på om den her metode skal bruges? -- Henrik
-	}
-	public static void callNumber (String number)
-	{
-		// TODO Heller ikke helt sikker her -- Henrik
-	}
 	public static Phone createPhone(String number) {
 		Phone newPhone = new Phone(number);
 		Dao.addPhone(newPhone);
