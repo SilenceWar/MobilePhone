@@ -100,6 +100,22 @@ public class CallPanel extends JPanel {
 		else 
 			getNumber.setText(number);
 	}
+	
+//	Starts a call
+	public void startCallIncomming(String number) {  
+		
+		if (thisPhone.unReadConversation()) 
+			topBarNewMessage.setVisible(true);
+		else 
+			topBarNewMessage.setVisible(false);
+		
+		countUpClock();
+		theCall = Service.makeCall(this.thisPhone,number, false); 
+		if (thisPhone.contactExists(number) != null) 
+			getNumber.setText(thisPhone.contactExists(number).getName());
+		else 
+			getNumber.setText(number);
+	}
 			
 	
 //	Ends a call

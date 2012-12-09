@@ -67,7 +67,7 @@ public class IncommingCallPanel extends JPanel {
 //		    	System.out.println(evt.getX()+"|"+evt.getY()); 
 	        	if (evt.getX()>=18 && evt.getX()<=62 && evt.getY()>=311 && evt.getY()<=363) {
 	        		parent.chosenRecallNumber = getNumber.getText();
-	        		parent.showPage("reCallNumber");
+	        		parent.showPage("callNumber");
 	        	}
 	        	else if (evt.getX()>=198 && evt.getX()<=240 && evt.getY()>=309 && evt.getY()<=363) {
 	        		parent.showPage("home");

@@ -215,6 +215,10 @@ public class MainFrame extends JFrame {
 			callPanel.startCall(chosenRecallNumber);
 			callPanel.setVisible(true);
 			break;
+		case "callNumber":
+			callPanel.startCallIncomming(chosenRecallNumber);
+			callPanel.setVisible(true);
+			break;
 		case "logger":
 			loggerPanel.clearAll();
 			loggerPanel.printFormattedCalls();
