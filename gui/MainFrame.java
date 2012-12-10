@@ -134,7 +134,7 @@ public class MainFrame extends JFrame {
 	
 	public void recieveMessage() {
 		Random generator = new Random();
-		int randMessage = generator.nextInt(5)+1;
+		int randMessage = generator.nextInt(6)+1;
 		int randPhoneNumber = generator.nextInt(5)+1;
 		  
 		String message = "";
@@ -155,6 +155,9 @@ public class MainFrame extends JFrame {
 			break;
 		case 5:
 			message = "Det er sku godt :-D \nGlæder mig sku også til jul :-P";
+			break;
+		case 6:
+			message = "HA GAAAAAAAAAAAAAAYYYYY!!!";
 			break;
 		}
 		

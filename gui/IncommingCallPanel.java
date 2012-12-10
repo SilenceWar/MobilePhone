@@ -42,7 +42,7 @@ public class IncommingCallPanel extends JPanel {
 		topBarNewMessage = Ccollection.drawJLabel("topNewMessage.png",2,-3,20,25,true, Color.gray, 0, 0, this);
 		topBarNewMessage.setVisible(false);
 		
-		getNumber = Ccollection.drawJLabel("11223344", 20, 15, 100, 100, false, Color.white, 0,0,this);
+		getNumber = Ccollection.drawJLabel("", 20, 5, 100, 100, false, Color.white, 16,0,this);
 		
 
 		incCall = Ccollection.drawJLabel("IncomingCall.png",1,20,261,436,true, Color.gray, 0,0,this);

@@ -124,7 +124,7 @@ public class CreateContactPanel extends JPanel {
 		specialKeys[3] = Ccollection.drawJButtonImage("keyAlphaComma.png",36, 418, 40, 31, buttonPress, this);
 		specialKeys[4] = Ccollection.drawJButtonImage("keyAlphaSpace.png",72, 418, 120, 31, buttonPress, this);
 		specialKeys[5] = Ccollection.drawJButtonImage("keyAlphaPunct.png",187, 417, 40, 31, buttonPress, this);
-		specialKeys[6] = Ccollection.drawJButtonImage("keySearch.png",218, 417, 40, 31, buttonPress, this);
+		specialKeys[6] = Ccollection.drawJButtonImage("keyEnter.png",218, 417, 40, 31, buttonPress, this);
 		
 		keyboardBackground = Ccollection.drawJLabel("keyBackground.png", 1, 300, 261, 180, true, Color.gray, 0, 0, this);
 		hideKeyboard();
